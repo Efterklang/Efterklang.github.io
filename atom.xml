@@ -39,11 +39,11 @@
     
     <category term="VSCode" scheme="https://efterklang.github.io/tags/VSCode/"/>
     
-    <category term="Productivity" scheme="https://efterklang.github.io/tags/Productivity/"/>
-    
     <category term="Extensions" scheme="https://efterklang.github.io/tags/Extensions/"/>
     
     <category term="Beautification" scheme="https://efterklang.github.io/tags/Beautification/"/>
+    
+    <category term="Productivity" scheme="https://efterklang.github.io/tags/Productivity/"/>
     
   </entry>
   
@@ -107,9 +107,9 @@
     
     <category term="VSCode" scheme="https://efterklang.github.io/tags/VSCode/"/>
     
-    <category term="Shortcuts" scheme="https://efterklang.github.io/tags/Shortcuts/"/>
-    
     <category term="Productivity" scheme="https://efterklang.github.io/tags/Productivity/"/>
+    
+    <category term="Shortcuts" scheme="https://efterklang.github.io/tags/Shortcuts/"/>
     
   </entry>
   
@@ -203,8 +203,6 @@
     <category term="FrontEnd" scheme="https://efterklang.github.io/categories/Tech/FrontEnd/"/>
     
     
-    <category term="VSCode" scheme="https://efterklang.github.io/tags/VSCode/"/>
-    
     <category term="Web" scheme="https://efterklang.github.io/tags/Web/"/>
     
     <category term="Markdown" scheme="https://efterklang.github.io/tags/Markdown/"/>
@@ -212,6 +210,8 @@
     <category term="Image Hosting Service" scheme="https://efterklang.github.io/tags/Image-Hosting-Service/"/>
     
     <category term="Typora" scheme="https://efterklang.github.io/tags/Typora/"/>
+    
+    <category term="VSCode" scheme="https://efterklang.github.io/tags/VSCode/"/>
     
     <category term="GitHub" scheme="https://efterklang.github.io/tags/GitHub/"/>
     
