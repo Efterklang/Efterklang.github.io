@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Computer networks and the Internet - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="计算机网络概述"><meta property="og:type" content="article"><meta property="og:title" content="Computer networks and the Internet"><meta property="og:url" content="https://efterklang.github.io/Tech/Network/ComputerNetwork01/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="计算机网络概述"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/network01.jpg"><meta property="article:published_time" content="2024-01-28T14:22:52.000Z"><meta property="article:modified_time" content="2024-02-01T15:31:21.354Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="Network"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/network01.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/Tech/Network/ComputerNetwork01/"},"headline":"Computer networks and the Internet","image":["https://efterklang.github.io/img/thumbnails/network01.jpg"],"datePublished":"2024-01-28T14:22:52.000Z","dateModified":"2024-02-01T15:31:21.354Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"计算机网络概述"}</script><link rel="canonical" href="https://efterklang.github.io/Tech/Network/ComputerNetwork01/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/network01.jpg" alt="Computer networks and the Internet" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-01-28T14:22:52.000Z" title="1/28/2024, 10:22:52 PM">2024-01-28</time></span><span class="level-item"><a class="link-muted" href="/categories/Tech/">Tech</a><span> / </span><a class="link-muted" href="/categories/Tech/Network/">Network</a></span><span class="level-item">28 minutes read (About 4146 words)</span><span class="level-item leancloud_visitors" id="/Tech/Network/ComputerNetwork01/" data-flag-title="Computer networks and the Internet"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Computer networks and the Internet</h1><div class="content"><h2 id="计算机网络在信息时代的作用"><a href="#计算机网络在信息时代的作用" class="headerlink" title="计算机网络在信息时代的作用"></a>计算机网络在信息时代的作用</h2><p>计算机网络已经由<strong>通信基础设施</strong>发展成为一种重要的<strong>信息服务基础设施</strong></p>
+<h2 id="因特网概述"><a href="#因特网概述" class="headerlink" title="因特网概述"></a>因特网概述</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01node-2024-01-29-23-35-08.png" alt="NetWork and Internet"></p>
+<ul>
+<li><strong>NetWork</strong> <strong>网络</strong>,由若干<strong>结点</strong>(Node)和<strong>链路</strong>(Link)组成</li>
+<li><strong>internet</strong> <strong>互联网&#x2F;互连网</strong>,多个网络可以通过<strong>路由器</strong>(Router)互联起来,形成一个覆盖范围更大的网络,互联网是由<strong>网络和网络之间</strong>互联而成的,是<strong>网络的网络</strong>(Network of Networks)</li>
+<li><strong>Internet</strong> <strong>因特网</strong>世界上最大的互联网络.</li>
+<li><strong>Host</strong> <strong>主机</strong>,连接到因特网上的计算机</li>
+</ul>
+<article class="message is-info"><div class="message-header">
+<p>internet 和 Internet 的区别</p>
+</div><div class="message-body">
+
+<ul>
+<li><strong>internet</strong>(互联网或互连网)是一个通用名词，它泛指多个计算机网络互连而成的网络。在这些网络之间的通信协议可以是任意的。</li>
+<li><strong>Internet</strong>（因特网）则是一个专用名词，它指当前全球最大的、开放的、由众多网络互连而成的特定计算机网络，它采用 TCP&#x2F;IP 协议族作为通信的规则，其前身是美国的 ARPANET。</li>
+</ul>
+<p>任意把几个计算机网络互连起来（不管采用什么协议），并能够相互通信，这样构成的是一个互连网(internet) ，而不是互联网(Internet)。</p>
+</div></article>
+
+<h3 id="Internet-发展的三个阶段"><a href="#Internet-发展的三个阶段" class="headerlink" title="Internet 发展的三个阶段"></a>Internet 发展的三个阶段</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Internet%E5%8F%91%E5%B1%95%E9%98%B6%E6%AE%B5.png" alt="Internet发展阶段"></p>
+<h4 id="ISP-互联网服务提供商"><a href="#ISP-互联网服务提供商" class="headerlink" title="ISP(互联网服务提供商)"></a><strong>ISP(互联网服务提供商)</strong></h4><p><strong>Internet</strong>上的主机通过<strong>ISP</strong>接入<strong>Internet</strong>,之后才能互相通信;<strong>ISP</strong>可以从因特网管理机构申请到成块的 IP 地址,同时拥有通信线路以及路由器等联网设备.<strong>机构&#x2F;个人</strong>缴纳一定的费用,就可以从<strong>ISP</strong>租用<strong>IP 地址</strong>,并通过<strong>ISP</strong>接入<strong>Internet</strong>.<br>中国的主流<strong>ISP</strong>有:中国电信、中国移动、中国联通等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-29-23-48-41.png" alt="ISP"></p>
+<blockquote>
+<p><strong>第一层 ISP</strong>（Tier 1 ISP）：这些是全球互联网的主干网络运营商，它们拥有遍布全球的网络基础设施。这些公司的网络通常覆盖了全球的主要地区和城市，包括北美、欧洲、亚洲、澳大利亚等。。第一层 ISP 之间通过免费的互联网络（Peering）协议进行数据交换，不需要向其他 ISP 支付费用。<br>以下是一些知名的第一层 ISP 及其总部所在地：</p>
+<ul>
+<li>AT&amp;T：总部位于美国德克萨斯州达拉斯。</li>
+<li>Verizon：总部位于美国纽约州纽约。</li>
+<li>Level 3 Communications：总部位于美国科罗拉多州布隆菲尔德，现已被 CenturyLink（现为 Lumen Technologies）收购。</li>
+<li>NTT Communications：总部位于日本东京。</li>
+<li>Telia Company：总部位于瑞典斯德哥尔摩。</li>
+</ul>
+<hr>
+<p><strong>第二层 ISP</strong>（Tier 2 ISP）：这些 ISP 拥有自己的网络基础设施，但是不足以覆盖全球，所以它们需要购买第一层 ISP 的服务，以便将数据传输到全球的其他地方。第二层 ISP 通常会向本地或区域的客户提供服务。</p>
+<hr>
+<p>er 3 ISP）：这些 ISP 通常没有自己的网络基础设施，而是购买第二层 ISP 的服务，然后将其转售给最终用户。第三层 ISP 通常会提供一些增值服务，如电子邮件、网页托管和虚拟专用网络（VPN）。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-30-00-00-56.png" alt="基于ISP的三层结构Internet示意图"></p>
+<h3 id="Internet-的标准化工作"><a href="#Internet-的标准化工作" class="headerlink" title="Internet 的标准化工作"></a>Internet 的标准化工作</h3><ul>
+<li>因特网的标准化工作对因特网的发展起到了非常重要的作用。</li>
+<li>因特网在指定其标准上的一个很大的特点是<strong>面向公众</strong>。<ul>
+<li>因特网所有的 RFC(Request For Comments)技术文档都可从因特网上<a target="_blank" rel="noopener" href="http://www.ietf.org/rfc.html">免费下载</a>；</li>
+<li>任何人都可以随时用电子邮件发表对某个文档的意见或建议。</li>
+</ul>
+</li>
+<li><strong>因特网协会 ISOC 是一个国际性组织</strong>，它负责对因特网进行全面管理，以及在世界范围内促进其发展和使用。<ul>
+<li><strong>因特网体系结构委员会 IAB</strong>，负责管理因特网有关协议的开发；</li>
+<li><strong>因特网工程部 IETF</strong>，负责研究中短期工程问题，主要针对协议的开发和标准化；</li>
+<li><strong>因特网研究部 IRTF</strong>，从事理论方面的研究和开发一些需要长期考虑的问题。</li>
+</ul>
+</li>
+<li>制定因特网的正式标准需要四个阶段:<ul>
+<li>因特网草案</li>
+<li>建议标准(该阶段的标准会开始写入 RFC 文档)</li>
+<li>草案标准</li>
+<li>因特网标准<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-30-18-53-28.png" alt="ISOC,IAB,IETF,IRTF"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Internet-的组成"><a href="#Internet-的组成" class="headerlink" title="Internet 的组成"></a>Internet 的组成</h3><p>主要可分为<strong>边缘部分</strong>和<strong>核心部分</strong><br><strong>边缘部分</strong> 由所有连接在因特网上的<strong>主机</strong>组成.这部分是用户直接使用的,用于通信和资源共享.<br><strong>核心部分</strong> 由<strong>大量网络</strong>和连接这些网络的<strong>路由器</strong>组成,这部分是为边缘部分提供服务的(提供连通性和交换).</p>
+<blockquote>
+<p><strong>路由器</strong>是一种专用计算机，但我们不称它为主机，路由器是实现分组交换的关键构建，其任务是转发收到的分组，这是网络核心最重要的部分。<br>处在互联网边缘的部分就是连接在互联网上的所有的主机。这些主机又称为<strong>端系统</strong>(end system)<br>端系统在功能上可能有很大的差别：</p>
+<ol>
+<li>小的端系统可以是一台普通个人电脑，具有上网功能的智能手机，甚至是一个很小的网络摄像头。</li>
+<li>大的端系统则可以是一台非常昂贵的大型计算机。</li>
+<li>端系统的拥有者可以是个人，也可以是单位（如学校、企业、政府机关等），当然也可以是某个 ISP。</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-13-58-21.png" alt="Internet的组成"></p>
+<h2 id="三种交换方式"><a href="#三种交换方式" class="headerlink" title="三种交换方式"></a>三种交换方式</h2><p>网络中的核心部分要向网络边缘中的大量主机提供连通性，使边缘部分中的任何一个主机都能够向其他主机通信（即传送或接收各种形式的数据）。</p>
+<p>在网络核心部分起特殊作用的是路由器(router)。</p>
+<p>路由器是实现分组交换 (packet switching) 的关键构件，其任务是转发收到的分组，这是网络核心部分最重要的功能。</p>
+<h3 id="电路交换-Circuit-Switching"><a href="#电路交换-Circuit-Switching" class="headerlink" title="电路交换 Circuit Switching"></a>电路交换 Circuit Switching</h3><p>传统的电话两两相连,但当用户很多时,这种方式就不可行了,因此引入中间设备(电话交换机),使用电话交换机接通电话线的方式称为电路交换.<br>从通信资源的分配角度来看,交换就是按照某种方式动态地分配传输线路的资源</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-17-18-53.png" alt="Circuit Switching"></p>
+<p>电路交换的三个步骤是:建立连接(分配通信资源),传输数据(一直占用通信资源),释放连接<br>(归还通信资源)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-19-41-51.png" alt="Circuit Switching"></p>
+<p>而当使用电路交换来传送计算机数据时，其线路的传输效率往往很低。这是因为计算机数据是突发式地出现在传输线路上的。所以计算机通常采用的是<strong>分组交换</strong>，而不是线路交换</p>
+<h3 id="分组交换-Packet-Switching"><a href="#分组交换-Packet-Switching" class="headerlink" title="分组交换 Packet Switching"></a>分组交换 Packet Switching</h3><p><strong>报文</strong>: 信息交换的基本单位,在网络中传输的信息单位<br><strong>分组</strong>: 为了传输方便,将报文划分为固定长度的数据块,称为分组.在每一个数据段前面,加上一些<strong>由必要的控制信息</strong>组成的首部,这样就构成了一个分组(packet),首部称为包头<br>在分组交换中，报文被分割成多个小的数据包（或称为分组），每个分组都独立地通过网络进行传输。这意味着分组可以通过不同的路径到达目的地，并且可能会在不同的时间到达。在接收端，这些分组会被重新组装成原始的报文。这种方式的优点是它可以更有效地使用网络资源，因为它允许多个报文的分组在同一时间通过网络进行传输。但是，它也更复杂，因为需要在接收端重新组装分组。</p>
+<p><strong>发送方</strong>:构造分组,发送分组<br><strong>路由器</strong>:缓存分组,转发分组(分组转发)<br><strong>接收方</strong>:接受分组,还原报文</p>
+<blockquote>
+<p>在路由器的输入和输出端口之间没有直接连线,路由器处理分组的过程是:把收到的分组先放入缓存,查找转发表,找出某个目的地址的最佳输出端口,然后从缓存中取出该分组,通过输出端口转发出去.</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-20-06-03.png" alt="Packet Switching"></p>
+<h3 id="报文交换-Message-Switching"><a href="#报文交换-Message-Switching" class="headerlink" title="报文交换 Message Switching"></a>报文交换 Message Switching</h3><p>在报文交换中，整个报文作为一个单元进行发送，并且在整个传输过程中保持其完整性。报文在发送前需要完全准备好，并且在传输过程中不会被分割。这种方式的优点是简单，但缺点是如果报文很大，那么它可能会占用网络资源一段很长的时间，导致网络拥塞。报文交换主要用于早期的电报通信网，现在较少使用，通常被较先进的分组交换方式所取代。</p>
+<h3 id="三种交换方式对比"><a href="#三种交换方式对比" class="headerlink" title="三种交换方式对比"></a>三种交换方式对比</h3><p>电路交换：</p>
+<ul>
+<li>通信之前首先要建立连接；连接建立好之后，就可以使用已建立好的连接进行数据传送；数据传送后，需释放连接，以归还之前建立连接所占用的通信线路资源。</li>
+<li>一旦建立连接，中间的各结点交换机就是直通形式的，比特流可以直达终点；</li>
+</ul>
+<p>报文交换：</p>
+<ul>
+<li>可以随时发送报文，而不需要事先建立连接；整个报文先传送到相邻结点交换机，全部存储下来后进行查表转发，转发到下一个结点交换机。</li>
+<li>整个报文需要在各结点交换机上进行存储转发，由于不限制报文大小，因此需要各结点交换机都具有较大的缓存空间。</li>
+</ul>
+<p>分组交换：</p>
+<ul>
+<li>可以随时发送分组，而不需要事先建立连接。构成原始报文的一个个分组，依次在各结点交换机上存储转发。各结点交换机在发送分组的同时，还缓存接收到的分组。</li>
+<li>构成原始报文的一个个分组，在各结点交换机上进行存储转发，相比报文交换，减少了转发时延，还可以避免过长的报文长时间占用链路，同时也有利于进行差错控制。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-20-29-36.png" alt="交换方式对比"></p>
+<p><em>A,B,C,D 为分组传输路径所经过的四个结点交换机,纵坐标为时间</em></p>
+<h2 id="计算机网络的定义和分类"><a href="#计算机网络的定义和分类" class="headerlink" title="计算机网络的定义和分类"></a>计算机网络的定义和分类</h2><h3 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h3><p><strong>计算机网络</strong>的精确定义并未统一</p>
+<ul>
+<li>计算机网络的最简单的定义是：一些<strong>互相连接的</strong>、<strong>自治</strong>的计算机的<strong>集合</strong></li>
+<li><strong>互联</strong> 计算机之间可以通过<strong>有线或无线</strong>的方式进行数据通信</li>
+<li><strong>自治</strong> 指计算机有独立性,有自己的软硬件,可以单独允许使用</li>
+<li><strong>集合</strong> 至少两台计算机组成</li>
+<li>计算机网络较好的定义是: 计算机网络主要是由一些<strong>通用的，可编程的硬件（一定包含有中央处理机 CPU）互连</strong>而成的，而这些硬件并非专门用来实现某一特定目的（例如，传送数据或视频信号）。这些可编程的硬件能够用来<strong>传送多种不同类型的数据</strong>，并能<strong>支持广泛的和日益增长的应用。</strong></li>
+<li>计算机网络所连接的硬件，并不限于一般的计算机，而是包括了智能手机等智能硬件。</li>
+<li>计算机网络并非专门用来传送数据，而是能够支持很多种的应用（包括今后可能出现的各种应用）。</li>
+</ul>
+<h3 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h3><p><strong>按交换技术分类</strong>: 电路交换网络 报文交换网络 分组交换网络<br><strong>按使用者分类</strong>: 公用网 专用网<br><strong>按传输介质分类</strong>: 有线网络 无线网络<br><strong>按覆盖范围分类</strong>: WAN MAN LAN PAN</p>
+<blockquote>
+<p><strong>广域网</strong> Wide Area Network<br>作用范围通常为几十到几千公里，因而有时也称为远程网（long haul network）。广域网是互联网的核心部分，其任务是通过长距离（例如，跨越不同的国家）运送主机所发送的数据。<br><strong>城域网</strong> Metropolitan Area Network<br>作用范围一般是一个城市，可跨越几个街区甚至整个城市<br><strong>局域网</strong> Local Area Network<br>一般用微型计算机或工作站通过高速通信线路相连（速率通常在 10 Mbit&#x2F;s 以上），但地理上范围较小（1 km 左右）<br><strong>个域网</strong> Personal Area Network<br>就是在个人工作的地方把个人使用的电子设备用无线技术连接起来的网络。</p>
+</blockquote>
+<p><strong>按拓扑结构分类</strong> 总线型 环型 星型 网状型</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-01-31-23-38-14.png" alt="拓扑结构分类"></p>
+<h2 id="计算机网络的性能指标"><a href="#计算机网络的性能指标" class="headerlink" title="计算机网络的性能指标"></a>计算机网络的性能指标</h2><h3 id="速率-Rate"><a href="#速率-Rate" class="headerlink" title="速率 Rate"></a>速率 Rate</h3><p><strong>bit</strong> 比特.计算机中数据量的单位,也是信息论中信息量的单位.一个 bit 即是一个二进制数字,它只能取 0 或 1 两个值.<br><code>8bit = 1Byte; KB=1024B,MB=1024KB,GB=1024MB,TB=1024GB</code><br><strong>rate</strong> 比特率,数据率.连接在计算机网络上的主机在数字信道上传送数据位数的速率,单位为 bit&#x2F;s,也称为 bps(bit per second)<br><code>kbs=1000bps,Mbps=1000kbs,Gbps=1000Mbps</code></p>
+<blockquote>
+<p>100MB 的数据块,网卡的发送速率为 100Mbps,求发送所需时间?</p>
+<div>
+$$
+\frac{100MB}{100Mbps}=\frac{MB}{Mbps}=\frac{2^{20}B}{10^6bps}=\frac{2^{20}\times8}{10^6s^{-1}}=8.388608s
+$$
+</div>
+</blockquote>
+<h3 id="带宽-Bandwidth"><a href="#带宽-Bandwidth" class="headerlink" title="带宽 Bandwidth"></a>带宽 Bandwidth</h3><p><strong>Bandwidth</strong>在模拟信号系统中,表示<strong>信号</strong>所包含的各种不同频率成分所占据的<strong>频率范围</strong>(即最高频率与最低频率之差),单位为 Hz;在计算机网络中,表示网络中的<strong>通信线路</strong>所能传输数据的能力,网络带宽表示在单位时间内从网络中的某一点到另一点所能通过的<strong>最高数据率</strong>(即网络设备所支持的最高速度),单位为 bps.<br>带宽的<br>带宽的这两种表述之间有着密切的联系,一条通信线路的频带宽度越宽，理论上所能传输的最高数据率也越高。(具体可自行查阅信号与系统相关知识,例如香农定理)</p>
+<h3 id="吞吐量-Throughput"><a href="#吞吐量-Throughput" class="headerlink" title="吞吐量 Throughput"></a>吞吐量 Throughput</h3><p>吞吐量是指单位时间内通过某个网络(或信道、接口)的数据量,单位为 bps.<br>吞吐量被经常用于对现实世界中的网络的一种测量，以便知道实际上到底有多少数据量能够通过网络。<br>吞吐量受网络的带宽或或额定速率的限制(吞吐量往往小于带宽),同时还受到网络中其他因素的影响,例如网络拥塞、路由器转发速率、主机处理速度等.<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ComputerNetwork01-2024-02-01-23-30-42.png" alt="Throughput"></p>
+<h3 id="时延-Delay"><a href="#时延-Delay" class="headerlink" title="时延 Delay"></a>时延 Delay</h3><h2 id="计算机网络体系结构"><a href="#计算机网络体系结构" class="headerlink" title="计算机网络体系结构"></a>计算机网络体系结构</h2></div><div class="article-licensing box"><div class="licensing-title"><p>Computer networks and the Internet</p><p><a href="https://efterklang.github.io/Tech/Network/ComputerNetwork01/">https://efterklang.github.io/Tech/Network/ComputerNetwork01/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-01-28</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-02-01</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Network/">Network</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Tech/Java/java%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Java Evaluation Strategy</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/Java/hashTable/"><span class="level-item">Hashtable如何插入键值对?</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://luminous-praline-90b359.netlify.app/.netlify/functions/twikoo',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#计算机网络在信息时代的作用"><span class="level-left"><span class="level-item">1</span><span class="level-item">计算机网络在信息时代的作用</span></span></a></li><li><a class="level is-mobile" href="#因特网概述"><span class="level-left"><span class="level-item">2</span><span class="level-item">因特网概述</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#基本概念"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">基本概念</span></span></a></li><li><a class="level is-mobile" href="#Internet-发展的三个阶段"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">Internet 发展的三个阶段</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ISP-互联网服务提供商"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">ISP(互联网服务提供商)</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Internet-的标准化工作"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">Internet 的标准化工作</span></span></a></li><li><a class="level is-mobile" href="#Internet-的组成"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">Internet 的组成</span></span></a></li></ul></li><li><a class="level is-mobile" href="#三种交换方式"><span class="level-left"><span class="level-item">3</span><span class="level-item">三种交换方式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#电路交换-Circuit-Switching"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">电路交换 Circuit Switching</span></span></a></li><li><a class="level is-mobile" href="#分组交换-Packet-Switching"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">分组交换 Packet Switching</span></span></a></li><li><a class="level is-mobile" href="#报文交换-Message-Switching"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">报文交换 Message Switching</span></span></a></li><li><a class="level is-mobile" href="#三种交换方式对比"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">三种交换方式对比</span></span></a></li></ul></li><li><a class="level is-mobile" href="#计算机网络的定义和分类"><span class="level-left"><span class="level-item">4</span><span class="level-item">计算机网络的定义和分类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#计算机网络的定义"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">计算机网络的定义</span></span></a></li><li><a class="level is-mobile" href="#计算机网络的分类"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">计算机网络的分类</span></span></a></li></ul></li><li><a class="level is-mobile" href="#计算机网络的性能指标"><span class="level-left"><span class="level-item">5</span><span class="level-item">计算机网络的性能指标</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#速率-Rate"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">速率 Rate</span></span></a></li><li><a class="level is-mobile" href="#带宽-Bandwidth"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">带宽 Bandwidth</span></span></a></li><li><a class="level is-mobile" href="#吞吐量-Throughput"><span class="level-left"><span class="level-item">5.3</span><span class="level-item">吞吐量 Throughput</span></span></a></li><li><a class="level is-mobile" href="#时延-Delay"><span class="level-left"><span class="level-item">5.4</span><span class="level-item">时延 Delay</span></span></a></li></ul></li><li><a class="level is-mobile" href="#计算机网络体系结构"><span class="level-left"><span class="level-item">6</span><span class="level-item">计算机网络体系结构</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Gaming/"><span class="level-start"><span class="level-item">Gaming</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Gaming/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Gaming/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading%EF%BC%8C-Poems/"><span class="level-start"><span class="level-item">Reading， Poems</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Network/"><span class="level-start"><span class="level-item">Network</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
