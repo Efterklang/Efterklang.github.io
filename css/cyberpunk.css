@@ -11907,6 +11907,9 @@ article .title:hover a {
 }
 body.night {
   background: #0e1225;
+  body: ,;
+  strong: ,;
+  time: ,;
 }
 body.night .content code {
   color: #cbba7d;
@@ -12065,9 +12068,6 @@ body.night .v code,
 body.night .v pre {
   background-color: transparent;
 }
-body.night body,
-body.night strong,
-body.night time,
 body.night .title,
 body.night .footer,
 body.night .card,
@@ -12208,6 +12208,9 @@ body.night .twikoo code {
 @media (prefers-color-scheme: dark) {
   body:not(.light) {
     background: #0e1225;
+    body: ,;
+    strong: ,;
+    time: ,;
   }
   body:not(.light) .content code {
     color: #cbba7d;
@@ -12366,9 +12369,6 @@ body.night .twikoo code {
   body:not(.light) .v pre {
     background-color: transparent;
   }
-  body:not(.light) body,
-  body:not(.light) strong,
-  body:not(.light) time,
   body:not(.light) .title,
   body:not(.light) .footer,
   body:not(.light) .card,

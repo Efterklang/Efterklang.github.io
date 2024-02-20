@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据链路层 DataLink Layer - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍数据链路层相关的知识点"><meta property="og:type" content="article"><meta property="og:title" content="数据链路层 DataLink Layer"><meta property="og:url" content="https://efterklang.github.io/Tech/Network/DataLinkLayer/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍数据链路层相关的知识点"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"><meta property="article:published_time" content="2024-02-19T15:33:45.000Z"><meta property="article:modified_time" content="2024-02-20T15:15:51.667Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="Network"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/Tech/Network/DataLinkLayer/"},"headline":"数据链路层 DataLink Layer","image":["https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"],"datePublished":"2024-02-19T15:33:45.000Z","dateModified":"2024-02-20T15:15:51.667Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍数据链路层相关的知识点"}</script><link rel="canonical" href="https://efterklang.github.io/Tech/Network/DataLinkLayer/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/datalinklayer.jpg" alt="数据链路层 DataLink Layer" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-02-19T15:33:45.000Z" title="2/19/2024, 11:33:45 PM">2024-02-19</time></span><span class="level-item"><a class="link-muted" href="/categories/Tech/">Tech</a><span> / </span><a class="link-muted" href="/categories/Tech/Network/">Network</a></span><span class="level-item">10 minutes read (About 1570 words)</span><span class="level-item leancloud_visitors" id="/Tech/Network/DataLinkLayer/" data-flag-title="数据链路层 DataLink Layer"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">数据链路层 DataLink Layer</h1><div class="content"><h2 id="数据链路层概述-Overview"><a href="#数据链路层概述-Overview" class="headerlink" title="数据链路层概述 Overview"></a>数据链路层概述 Overview</h2><p><strong>链路 Link</strong> 指从一个结点到相邻结点的一段物理线路，中间没有其他的交换结点<br><strong>数据链路 Data Link</strong> 把实现通信协议的硬件和软件加到链路上，就构成了数据链路<br><strong>帧 Frame</strong> 是数据链路层的传输单位，由数据部分和控制部分组成</p>
+<blockquote>
+<p>局域网属于数据链路层<br>局域网虽然是个网络。但我们并不把局域网放在网络层中讨论。这是因为在网络层要讨论的是多个网络互连的问题，是讨论分组怎么从一个网络，通过路由器，转发到另一个网络。<br>而在同一个局域网中，分组怎么从一台主机传送到另一台主机，但并不经过路由器转发。从整个互联网来看，局域网仍属于数据链路层的范围</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-39-51.png" alt="DataLinkLayer"><br><strong>从层次上来看数据的流动</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-50-50.pnge" alt="数据流动"><br><strong>仅从数据链路层观察帧的流动</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-50-57.pnge" alt="DataLinkLayer-2024-02-19-23-50-57"></p>
+<p>数据链路层使用的信道<br>数据链路层属于计算机网路的低层。数据链路层使用的信道主要有以下两种类型：</p>
+<ul>
+<li>点对点信道</li>
+<li>广播信道<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-56-10.pnge" alt="DataLinkLayer-Channel"></li>
+</ul>
+<p>数据链路层的三个重要问题</p>
+<ul>
+<li><strong>封装成帧</strong> 在数据前后添加帧头和帧尾，用于标识帧的开始和结束</li>
+<li><strong>差错检测</strong> 传输过程中可能会产生比特差错,通过帧尾中的检错码检测帧中是否有误码</li>
+<li><strong>可靠传输</strong> 如果接收方收到有误码的帧，会丢弃这个帧。如果数据链路层向其上层提供的是不可靠服务，那么丢弃后不会再有更多措施;如果是可靠服务则需要其他措施，来确保接收方主机重新收到帧的正确副本</li>
+</ul>
+<p>对于使用广播信道的数据链路层,还有以下问题需解决</p>
+<ul>
+<li><strong>确认帧的接收</strong> 主机如何确认帧是发送给自己的? 可以通过 MAC 地址来确认</li>
+<li><strong>数据碰撞</strong> 如果两个主机同时发送数据，可能会发生数据碰撞</li>
+</ul>
+<blockquote>
+<p>随着技术的发展，交换技术的成熟，在有线（局域网）领域使用<strong>点对点链路</strong>和<strong>链路层交换机</strong>的交换式局域网取代了共享式局域网;在无线局域网中仍然使用的是共享信道技术</p>
+</blockquote>
+<h2 id="封装成帧-Framing"><a href="#封装成帧-Framing" class="headerlink" title="封装成帧 Framing"></a>封装成帧 Framing</h2><h3 id="封装与解包-Encapsulation-De-encapsulation"><a href="#封装与解包-Encapsulation-De-encapsulation" class="headerlink" title="封装与解包 Encapsulation&amp;De-encapsulation"></a>封装与解包 Encapsulation&amp;De-encapsulation</h3><p><strong>封装</strong>(Encapsulation)是低层协议从高层协议接收数据，然后将数据放入其帧的数据部分的过程。因此，封装是把一种数据包封装另一种数据包的过程。<br><strong>解包</strong>(Decapsulation)与之相反,高层协议从低层协议接收数据，然后逐层将数据从帧的数据部分取出的过程。</p>
+<blockquote>
+<p>Generally, Encapsulation is a process by which a lower-layer protocol receives data from a higher-layer protocol and then places the data into the data portion of its frame. Thus, encapsulation is the process of enclosing one type of packet using another type of packet.</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-16-22-10.pnge" alt="Packet Encapsulation&amp;De-encapsulation"></p>
+<p><strong>封装成帧</strong>(Framing)指<strong>数据链路层</strong>接受上层交付的协议数据单元,并为其添加帧头和帧尾,使之成为帧的过程</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-16-49-51.pnge" alt="DataLinkLayer-2024-02-20-16-49-51"></p>
+<p>发送方的数据链路层将上层交付下来的协议数据单元封装成帧后，通过物理层将构成帧的 bits 转换成电信号交给传输媒体，接收方的数据链路层再从物理层交付的比特流中提取出 frames<br>解包过程如何提取 frames?</p>
+<ul>
+<li><strong>PPP 帧</strong> 依据帧头和帧尾的<strong>标志符</strong>确定帧的开始和结束(帧定界)从而提取出 frames</li>
+<li><strong>以太网 V2 的 MAC 帧</strong> 根据前导码(1 字节的帧开始定界符,7 字节的前同步码)来定界,帧间间隔为 96bit 的时间<ul>
+<li>前同步码:作用是使接收方的时钟与发送方的时钟同步</li>
+<li>帧开始定界符:标志帧的开始</li>
+<li>以太网规定帧间间隔为 96bit 的时间,因此 MAC 帧不需要帧结束定界符</li>
+</ul>
+</li>
+</ul>
+<h3 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a>透明传输</h3><p><strong>透明传输</strong>是指不管所传数据是什么样的比特组合，都应当能够在链路上传送。因此，链路层就“看不见”有什么妨碍数据传输的东西。</p>
+<p>当所传数据中的比特组合恰巧与某一个控制信息完全一样时，就必须采取适当的措施，使收方不会将这样的数据误认为是某种控制信息。这样才能保证数据链路层的传输是透明的。</p>
+<p><strong>解决办法</strong></p>
+<ol>
+<li><strong>字符填充&#x2F;字节填充</strong></li>
+</ol>
+<ul>
+<li>发送方扫描数据,当数据中出现与帧定界符相同的比特串时,在其前面插入转义字符ESC;</li>
+<li>接受方将遇到的第一个帧定界符认为是帧的开始</li>
+<li>遇到转义字符时,则知道后面的比特串虽与帧定界符相同,但并非帧定界符而是数据,因此剔除转义字符ESC然后将其后的字符作为数据处理</li>
+<li>当再次遇到帧定界符时,认为帧结束<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-22-26-20.pnge" alt="character stuffing"><br>ps:遇到与转移字符相同的比特串时,则在转义字符前面再插入转义字符</li>
+</ul>
+<ol>
+<li><strong>比特填充</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-22-42-11.pnge" alt="DataLinkLayer-2024-02-20-22-42-11"></li>
+</ol>
+<p>为了提高帧的传输效率，应当使帧的数据部分的长度尽可能大些。<br>考虑到差错控制等多种因素，每一种数据链路层协议都规定了帧的数据部分的长度上限，即最大传送单元MTU(Maximum Transfer Unit)</p>
+<h2 id="差错检测"><a href="#差错检测" class="headerlink" title="差错检测"></a>差错检测</h2></div><div class="article-licensing box"><div class="licensing-title"><p>数据链路层 DataLink Layer</p><p><a href="https://efterklang.github.io/Tech/Network/DataLinkLayer/">https://efterklang.github.io/Tech/Network/DataLinkLayer/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-02-19</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-02-20</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Network/">Network</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/Java/Java%20Stream/"><span class="level-item">Java Stream</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://luminous-praline-90b359.netlify.app/.netlify/functions/twikoo',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#数据链路层概述-Overview"><span class="level-left"><span class="level-item">1</span><span class="level-item">数据链路层概述 Overview</span></span></a></li><li><a class="level is-mobile" href="#封装成帧-Framing"><span class="level-left"><span class="level-item">2</span><span class="level-item">封装成帧 Framing</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#封装与解包-Encapsulation-De-encapsulation"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">封装与解包 Encapsulation&amp;De-encapsulation</span></span></a></li><li><a class="level is-mobile" href="#透明传输"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">透明传输</span></span></a></li></ul></li><li><a class="level is-mobile" href="#差错检测"><span class="level-left"><span class="level-item">3</span><span class="level-item">差错检测</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Network/"><span class="level-start"><span class="level-item">Network</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
