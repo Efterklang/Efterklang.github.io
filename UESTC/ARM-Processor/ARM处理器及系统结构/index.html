@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>ARM处理器及系统结构 - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="ARM处理器及系统结构"><meta property="og:type" content="article"><meta property="og:title" content="ARM处理器及系统结构"><meta property="og:url" content="https://efterklang.github.io/UESTC/ARM-Processor/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="ARM处理器及系统结构"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/arm-chapeter2.jpg"><meta property="article:published_time" content="2024-03-08T06:34:04.000Z"><meta property="article:modified_time" content="2024-03-08T14:17:50.019Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="ARM"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/arm-chapeter2.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/UESTC/ARM-Processor/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/"},"headline":"ARM处理器及系统结构","image":["https://efterklang.github.io/img/thumbnails/arm-chapeter2.jpg"],"datePublished":"2024-03-08T06:34:04.000Z","dateModified":"2024-03-08T14:17:50.019Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"ARM处理器及系统结构"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ARM-Processor/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/arm-chapeter2.jpg" alt="ARM处理器及系统结构" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-03-08T06:34:04.000Z" title="3/8/2024, 2:34:04 PM">2024-03-08</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/ARM-Processor/">ARM-Processor</a></span><span class="level-item">32 minutes read (About 4861 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ARM-Processor/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/" data-flag-title="ARM处理器及系统结构"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">ARM处理器及系统结构</h1><div class="content"><h2 id="ARM-介绍"><a href="#ARM-介绍" class="headerlink" title="ARM 介绍"></a>ARM 介绍</h2><p>ARM（Advanced RISC Machines）有 3 种含义：</p>
+<ul>
+<li>是一个公司的名称;</li>
+<li>是一种技术的名称</li>
+<li>是一类微处理器的通称;</li>
+</ul>
+<p>基于 ARM 技术 的微处理器应用约占据了 32 位 RISC 微处理器 80% 以上的市场份额，其中，在手机市场，ARM 占有绝对的垄断地位。</p>
+<p><strong>处理器 Processor</strong>（也称为中央处理单元或 CPU）是计算机的核心组件，它负责执行大部分的计算和逻辑操作。处理器不仅包括处理芯片，还有其他几个关键的部分:</p>
+<ul>
+<li><strong>内核</strong>（Cores）：现代处理器通常包含多个内核，每个内核都可以独立执行指令。多核处理器可以同时执行多个任务，提高了性能。</li>
+<li><strong>缓存</strong>（Cache）：缓存是一种快速存储器，用于存储处理器可能需要的数据和指令。通过使用缓存，处理器可以减少从主内存获取数据的时间，提高性能。</li>
+<li><strong>控制单元</strong>（Control Unit）：控制单元是处理器的一个部分，负责管理和协调处理器的操作。它解释和执行存储在内存中的指令。</li>
+<li><strong>算术逻辑单元</strong>（Arithmetic Logic Unit, ALU）：ALU 负责执行所有的算术和逻辑操作，包括加法、减法、乘法、除法以及比较操作。</li>
+<li><strong>寄存器</strong>（Registers）：寄存器是一种非常快速的存储器，用于临时存储和访问正在被处理器处理的数据和指令。</li>
+<li><strong>总线</strong>（Buses）：总线是连接处理器和其他系统组件（如内存、硬盘、输入&#x2F;输出设备等）的通道，用于数据传输。</li>
+</ul>
+<p><strong>ARM 公司</strong>是一家总部位于英国 Cambridge 的设计和许可证公司，专注于处理器核心的设计。ARM 并不直接生产和销售芯片，而是设计和开发处理器架构，然后向各种芯片制造商授权这些设计。这些芯片制造商，如高通（Qualcomm）、三星（Samsung）、苹果（Apple）等，会基于 ARM 的设计，制造出各自的处理器产品。</p>
+<p>ARM 的业务模式使得它可以专注于设计和优化处理器架构，而无需投入大量资金来建立和维护自己的制造设施。同时，芯片制造商可以利用 ARM 的设计来生产高效、低功耗的芯片，而无需自行从头开始设计处理器架构。</p>
+<p>采用 RISC 架构的 ARM 微处理器一般有如下<strong>特点</strong>：</p>
+<ul>
+<li>体积小、功耗低、低成本、高性能；</li>
+<li>支持 Thumb（16 位）&#x2F;ARM（32 位）双指令集，能很好地兼容 8 位&#x2F;16 位 器件；</li>
+<li>大量使用 寄存器，指令执行速度更快；</li>
+<li>大多数数据操作都在寄存器中完成；</li>
+<li>寻址方式灵活简单，执行效率高；</li>
+<li>指令长度固定。</li>
+</ul>
+<h2 id="ARM-Processor-系列介绍"><a href="#ARM-Processor-系列介绍" class="headerlink" title="ARM Processor 系列介绍"></a>ARM Processor 系列介绍</h2><p><strong>ARM 处理器指令集的特点</strong></p>
+<p>ARM 内核不是一个纯粹的 RISC 体系结构，ARM 指令集与纯粹的 RISC 的定义有以下几个不同。</p>
+<ul>
+<li>一些特定指令的周期数可变，并不是每条 ARM 指令都是单周期的。</li>
+<li>内嵌的桶形移位器(可以单个时钟周期内对二进制数进行多位的移位操作)产生了更为复杂的指令，扩展了指令的功能，因此改善了内核的性能。</li>
+<li>支持 16 位的 Thumb 指令集，提高了代码密度。</li>
+<li>支持条件执行：每条指令都可以设置一个执行条件，只有条件满足时才执行。</li>
+<li>增强指令：一些功能强大的数字信号处理指令被加入到 ARM 指令集中。</li>
+</ul>
+<p><strong>ARM 指令集体系结构的演变</strong>（了解）</p>
+<blockquote>
+<p>ARM 公司定义了不同版本的 ARM 指令集体系结构版本，用 vn 来标识（n 是版本号，目前是 1-8）。<br>ARM v1 ～ v3 版本的处理器未得到大量应用，ARM 处理器的大量广泛应用是从其 v4 版本开始的。<br>v7 系列 CPU 被称作 CoreTex 系列<br>到目前 v8 是最新的版本， 可以选择 64 或 32 执行状态。64 执行状态针对 64 位处理技术，引入了一个全新指令集 A64，可以存取大虚拟地址空间。</p>
+</blockquote>
+<p><code>ARMv4</code><br>ARMv4 是目前支持的最老的架构,是基于 32-bit 地址空间的 32-bit 指令集。ARMv4 除了支持 ARMv3 的指令外还扩展了：<br>支持 halfword 的存取<br>支持 byte 和 halfword 的符号扩展读<br>进一步的明确了会引起 Undefined 异常的指令<br>对以前的 26bits 体系结构的 CPU 不再兼容</p>
+<p><code>ARMv4T</code><br>ARMv4T 增加了 16-bit Thumb  指令集，这样使得编译器能产生紧凑代码(相对于 32-bit 代码，内存能节省到 35%以上)并保持 32-bit 系统的好处。<br>Thumb 在处理器中仍然要扩展为标准的 32 位 ARM 指令来运行。用户采用 16 位 Thumb 指令集最大的好处就是可以获得更高的代码密度和降低功耗。</p>
+<p><code>ARMv8</code><br>2011 年 11 月，ARM 公司发布了新一代处理器架构 ARM V8，<strong>ARM 的首个 64 位架构</strong>;ARM 2012 年十月发布了 Cortex-A53 and Cortex-A57 核心。2013 年苹果基于 V8 架构的 Apple 7 使用在了 iPhone 5S 上。</p>
+<p><strong>ARM9的5 级流水线</strong>(流水线的级数，代表的是指令周期被划分成的阶段数量)<br>5级流水线 是 ARM9TDMI 的主要特征之一，其设计减少了在每个时钟内必须完成的最大工作量，进而允许使用较高的时钟频率。<br>取指：指令从存储器中取出，放入指令流水线；<br>译码：指令译码，从寄存器堆中读取寄存器操作数； ；<br>执行：把一个操作数移位，产生ALU的结果。如果指令是Load或Store，在ALU中计算存储器的地址；<br>缓存&#x2F;数据：如果需要，则访问数据存储器；否则，ALU的结果只是简单地缓冲一个时钟周期，以便使所有指令具有同样的流水线流程；<br>回写：将指令产生的结果写回到寄存器堆，包括任何从寄存器读出的数据。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-15-19-42.png" alt="classic name"></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ARM 处理器命名</span><br><span class="line">规则：ARM&#123;x&#125;&#123;y&#125;&#123;z&#125;&#123;T&#125;&#123;D&#125;&#123;M&#125;&#123;I&#125;&#123;E&#125;&#123;J&#125;&#123;F&#125;&#123;-S&#125;</span><br><span class="line">x -- 处理器系列</span><br><span class="line">y -- 存储管理/保护单元</span><br><span class="line">z -- cache</span><br><span class="line">T -- 支持 Thumb 指令集</span><br><span class="line">D -- 支持片上调试</span><br><span class="line">M -- 支持快速乘法器</span><br><span class="line">I -- 支持 Embedded ICE，支持嵌入式跟踪调试</span><br><span class="line">E -- 支持增强型 DSP(Digital Signal Processor) 指令</span><br><span class="line">J -- 支持 Jazelle</span><br><span class="line">F -- 具备向量浮点单元 VFP</span><br><span class="line">-S -- 可综合版本</span><br></pre></td></tr></table></figure>
+
+<h2 id="ARM-Processor-工作状态"><a href="#ARM-Processor-工作状态" class="headerlink" title="ARM Processor 工作状态"></a>ARM Processor 工作状态</h2><h3 id="ARM-状态和-Thumb-状态"><a href="#ARM-状态和-Thumb-状态" class="headerlink" title="ARM 状态和 Thumb 状态"></a>ARM 状态和 Thumb 状态</h3><blockquote>
+<p><strong>Thumb 指令集</strong><br>嵌入式系统在某些应用场合对存储成本或空间要求比较苛刻，为了让用户更好地控制代码量，于是设计了 2 套指令系统，分别为 ARM 指令集和 Thumb 指令集。其中 ARM 指令集为 32 位（字）长度，具有最完整的功能；Thumb 指令集为 16 位（半字）长度，能实现 ARM 指令集的大部分功能<br>在功能上可以认为 Thumb 是 ARM 指令集的子集</p>
+</blockquote>
+<p>既然 ARM 处理器共存 2 种指令集，那么到底何时执行 ARM 指令集，何时执行 Thumb 指令集呢?<br>ARM 处理器有 2 个处理器状态与这 2 套指令集分别对应;ARM 处理器的两种状态可以通过相应的指令进行切换;</p>
+<p>ARM9TDMI 核是具有 T 变种的 ARM 处理器核，其<strong>工作状态一般有以下两种</strong>，并可在两种状态之间切换。</p>
+<ul>
+<li>ARM 状态:执行 32 位的字对齐的 ARM 指令。是系统上电默认的状态。</li>
+<li>Thumb 状态:执行 16 位的、半字对齐的 Thumb 指令。</li>
+</ul>
+<p><strong>Note</strong></p>
+<ul>
+<li>ARM 指令集与 Thumb 指令集不能同时混合使用</li>
+<li>ARM 和 Thumb 状态间的切换并不影响处理器模式或寄存器内容。</li>
+<li>从一个 ARM 例程调用另一个 Thumb 例程时，内核必须切换状态，反之亦然</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-15-34-34.png" alt="Work state"></p>
+<h3 id="指令长度和数据格式"><a href="#指令长度和数据格式" class="headerlink" title="指令长度和数据格式"></a>指令长度和数据格式</h3><p>ARM 微处理器的指令长度可以是 32 位（在 ARM 状态下），也可以为 16 位（在 Thumb 状态下）。<br>ARM 微处理器中支持字节<strong>Byte（8 位）、半字 Half-Word（16 位）、字 Word（32 位）</strong>三种数据类型。</p>
+<ul>
+<li>如果一个数据是以字方式存储的，那么它就是字对齐的；</li>
+<li>如果一个数据是以半字方式存储的，那么它就是半字对齐的。</li>
+</ul>
+<center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-15-39-05.png" alt="alignment"></p>
+</center>
+
+<p><em><code>0x4002</code> 和 <code>0x4004</code> 相差 2 个 Byte,即 16bit,所以为半字对齐 Half-Word Aligned</em></p>
+<h2 id="ARM-Processor-运行模式"><a href="#ARM-Processor-运行模式" class="headerlink" title="ARM Processor 运行模式"></a>ARM Processor 运行模式</h2><p>ARM 体系结构支持<strong>7 种</strong>运行模式：<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-15-49-18.png" alt="ARM Processor Mode"></p>
+<ul>
+<li><strong>用户模式</strong>（USR）正常程序执行模式，大部分任务执行在这种模式下。用户模式是用户程序的工作模式。该没有权限去操作其它硬件资源，也不能切换到其它模式下。</li>
+<li><strong>系统模式</strong>（SYS）系统模式是特权模式，不受用户模式的限制。用户模式和系统模式共用一套寄存器，但比用户模式有更高的权限，可以访问所有系统资源及进行模式切换。</li>
+<li><strong>一般中断模式</strong>（IRQ）一般中断模式也叫通用中断模式，用于处理一般的中断请求，通常在硬件产生中断信号之后自动进入该模式，该模式为特权模式，可以自由访问系统硬件资源。</li>
+<li><strong>快速中断模式</strong>（FIQ）快速中断模式是相对一般中断模式而言的，它是用来处理对时间要求比较紧急的中断请求，主要用于高速数据传输及通道处理中，其中断优先级相对普通中断更高</li>
+<li><strong>管理模式</strong>（Supervisor，SVC） 管理模式是 CPU 上电后默认模式，因此在该模式下主要用来做系统的初始化，软中断处理也在该模式下。系统复位或开机、软中断时进入到 SVC 模式下。</li>
+<li><strong>中止模式</strong>（ABT）中止模式用于支持虚拟内存或存储器保护，当用户程序访问非法地址，没有权限读取的内存地址时，会进入该模式。</li>
+<li><strong>未定义模式</strong>（UND）CPU 在指令的译码阶段不能识别该指令操作时，会进入未定义模式，进行未定义陷阱处理。</li>
+</ul>
+<blockquote>
+<p><strong>特权模式</strong>: 除用户模式外的其它 6 种处理器模式称为特权模式（Privileged Modes）。在特权模式下，程序可以访问所有的系统资源，也可以任意的进行处理器模式切换。只有在特权模式下才允许对当前程序状态寄存器（CPSR）的所有控制位直接进行读&#x2F;写访问，而在非特权模式下只允许对 CPSR 的控制位进行间接访问（SWI 方式）。<br>特权模式中除系统模式之外的其他 5 种模式又统称为<strong>异常模式</strong>。它们除了可以通过在特权下的程序切换进入外，也可以由特定的异常进入。其中管理模式也称为超级用户模式，是为操作系统提供软中断的特有模式。大多数的用户程序运行在用户模式下。当处理器工作在用户模式时，需要进行处理器模式切换时，应用程序可以产生异常处理，在异常处理过程中进行处理器模式切换。这种体系结构可以使操作系统控制整个系统资源的使用。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-15-53-32.png" alt="fix:快速中断为FIQ"></p>
+<h2 id="ARM-Register"><a href="#ARM-Register" class="headerlink" title="ARM Register"></a>ARM Register</h2><p>ARM 处理器有如下 37 个用户可见寄存器。<br>31 个通用寄存器：</p>
+<ul>
+<li><code>R0~R15</code></li>
+<li><code>R13_svc,R14_svc,</code></li>
+<li><code>R13_abt,R14_abt,</code></li>
+<li><code>R13_und、R14_und、</code></li>
+<li><code>R13_irq、 R14_irq </code></li>
+<li><code>R8_fiq~R14_fiq。</code></li>
+</ul>
+<p>6 个状态寄存器：</p>
+<ul>
+<li>1 个 CPSR</li>
+<li>5 个 SPSR（ SPSR_svr、 SPSR_abt 、 SPSR_und 、 SPSR_irq 、 SPSR_frq ）；</li>
+</ul>
+<p>ARM 处理器共有 7 种运行模式，在每一种处理器模式中都有一组相应的寄存器。</p>
+<p>在 ARM 状态下，任一时刻都可以访问到 16 个 通用寄存器和 1~2 个状态寄存器。各种模式下能访问的寄存器如下图所示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-16-06-15.png"></p>
+<h3 id="程序计数器-PC"><a href="#程序计数器-PC" class="headerlink" title="程序计数器 PC"></a>程序计数器 PC</h3><p>无论处理器处于何种状态，程序计数器 R15（即 PC）总是指向“正在取指”的指令，而不是指向“正在执行”的指令或正在“译码”的指令。<br>一般来说，人们习惯性约定将“正在执行的指令作为参考点”，称之为当前第 1 条指令。<br>因此，PC 总是指向第 3 条指令，或者说 PC 总是指向当前正在执行的指令地址再加 2 条指令的地址。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-16-13-50.png"></p>
+<blockquote>
+<p>MOV 执行时,LDR 在取值,相差 2 条指令的地址,如果为 ARM 指令,设三条指令地址分别为 <code>0x4000,0x4004,0x4008</code>,PC 值等于当前指令的地址+8Bytes,<code>0x4000 + 8 = 0x4008</code><br>当处理器处于 Thumb 状态时，每条指令长为 2 字节，所以 PC 的值为正在执行的指令地址加 4 字节，即：<code>PC值=当前程序执行位置+4字节</code></p>
+</blockquote>
+<h3 id="程序状态寄存器-PSR"><a href="#程序状态寄存器-PSR" class="headerlink" title="程序状态寄存器 PSR"></a>程序状态寄存器 PSR</h3><p><strong>当前程序状态寄存器</strong>（CPSR,Curren Program Status Register）可以在任何处理器模式下被访问，它包含下列内容：</p>
+<ul>
+<li>ALU 状态标志（条件码标志位）；</li>
+<li>当前的处理器模式；</li>
+<li>中断使能标志；</li>
+<li>设置处理器的状态。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-21-20-39.png"></p>
+<p>每一种异常器模式下，都有一个专用的物理寄存器做<strong>备份程序状态寄存器</strong>（SPSR,Saved Program Status Register ）。当特定的异常中断发生时，这个物理寄存器负责存放当前程序状态寄存器的内容。当异常处理程序返回时，再将其内容恢复到当前程序状态寄存器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-21-28-07.png"></p>
+<p>这些<strong>条件标志位</strong>会根据程序中的算数指令或逻辑指令的执行结果进行改变，而且这些条件标志位可由大多数指令检测以决定指令是否执行。</p>
+<ul>
+<li><code>N</code> 本位设置成当前指令执行结果的第 31 位。当两个由补码表示的有符号整数运算时，N&#x3D;1 表示结果为负数；否则结果为正数或零。</li>
+<li><code>Z</code> Z&#x3D;1 表示运算的结果为零，否则结果不为零。</li>
+<li><code>C</code> 分 4 种情况设置 C 的方法：<ul>
+<li>在加法指令中（包括比较指令 CMN），当结果产生了进位，则 C&#x3D;1，表示无符号数运算发生上溢出，其它情况下 C&#x3D;0;</li>
+<li>在减法指令中（包括比较指令 CMP），当运算中发生了借位，则 C&#x3D;0，其它情况下 C&#x3D;1;</li>
+<li>对于在操作数中包含移位操作的运算指令（非加&#x2F;减指令），C 被设置成被移位寄存器最后移出去的位;</li>
+<li>对于其它非加&#x2F;减法运算指令，C 的值通常不受影响。</li>
+</ul>
+</li>
+<li><code>V</code> 下面分两种情况讨论 V 的设置方法：<ul>
+<li>对于加&#x2F;减运算指令，当操作数和运算结果都是以二进制的补码表示的带符号的数时，且运算结果超出了有符号运算的范围时溢出。V&#x3D;1 表示符号位溢出；</li>
+<li>对于非加&#x2F;减法指令，通常不改变标志位 V 的值。</li>
+</ul>
+</li>
+<li><code>Q</code>（了解）在带 DSP 指令扩展的 ARMV5 及更高版本中，Q 标志位被指定用于指示增强 DSP 指令是否发生了溢出。在 ARMV5 以前的版本及 ARMV5 的非 E 系列处理器中，Q 标志位没有被定义，属于待扩展的位。</li>
+</ul>
+<p><strong>控制位</strong>:CPSR 的低 8 位属于控制位。</p>
+<ul>
+<li><code>I,F</code>中断禁止位（第 7、6 位） I&#x3D;1：IRQ 被禁止；F&#x3D;1：FIQ 被禁止。</li>
+<li><code>T</code>状态控制位（第 5 位）T 是处理器的状态控制位。T&#x3D;0：处理器处于 ARM 状态；T&#x3D;1：处理器处于 Thumb 状态。<br>注意：绝对不要强制改变 CPSR 寄存器中的控制位 T。如果这样做，处理器会进入一个无法预知的状态。</li>
+<li><code>MMMMM</code>模式控制位<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84-2024-03-08-21-37-07.png"></li>
+</ul>
+<p><strong>注意</strong><br>通过程序修改 CPSR 可以进入<strong>异常</strong>(除 SYS 以外的特权模式)。除此之外，也可以在内核对异常或者中断响应时由硬件切换到异常模式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 例：从系统模式切换到管理模式 --&gt;</span><br><span class="line">&lt;!-- MSR CPSR_c, #D3 是一条ARM汇编语言指令，用于修改当前程序状态寄存器（Current Program Status Register，CPSR）的特定字段。这条指令的具体含义如下：</span><br><span class="line">MSR：这是一个Move to Status Register的指令，用于将一个值移动到一个状态寄存器中。</span><br><span class="line">CPSR_c：这表示目标是CPSR的控制字段（control field）</span><br><span class="line">#D3：这是一个立即数，表示要将CPSR的控制字段设置为十六进制的D3。在二进制中，D3等于1101 0011。 --&gt;</span><br><span class="line"></span><br><span class="line">MSR CPSR_c,#D3;</span><br></pre></td></tr></table></figure>
+
+<p>用户模式与系统模式不能由异常进入，也就是说要想进入系统模式，必须通过修改 CPSR 才能实现。<br><code>MSR CPSR_c,#DF;</code></p>
+<h2 id="ARM-Storage"><a href="#ARM-Storage" class="headerlink" title="ARM Storage"></a>ARM Storage</h2></div><div class="article-licensing box"><div class="licensing-title"><p>ARM处理器及系统结构</p><p><a href="https://efterklang.github.io/UESTC/ARM-Processor/ARM处理器及系统结构/">https://efterklang.github.io/UESTC/ARM-Processor/ARM处理器及系统结构/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-03-08</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-03-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ARM/">ARM</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Reading/Articles/%E8%93%AC%E6%88%B7%E6%89%8B%E5%8D%B7/"><i class="level-item fas fa-chevron-left"></i><span class="level-item"> </span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/Others/GitforAndroid/"><span class="level-item">Git for Android</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://luminous-praline-90b359.netlify.app/.netlify/functions/twikoo',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#ARM-介绍"><span class="level-left"><span class="level-item">1</span><span class="level-item">ARM 介绍</span></span></a></li><li><a class="level is-mobile" href="#ARM-Processor-系列介绍"><span class="level-left"><span class="level-item">2</span><span class="level-item">ARM Processor 系列介绍</span></span></a></li><li><a class="level is-mobile" href="#ARM-Processor-工作状态"><span class="level-left"><span class="level-item">3</span><span class="level-item">ARM Processor 工作状态</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ARM-状态和-Thumb-状态"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">ARM 状态和 Thumb 状态</span></span></a></li><li><a class="level is-mobile" href="#指令长度和数据格式"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">指令长度和数据格式</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ARM-Processor-运行模式"><span class="level-left"><span class="level-item">4</span><span class="level-item">ARM Processor 运行模式</span></span></a></li><li><a class="level is-mobile" href="#ARM-Register"><span class="level-left"><span class="level-item">5</span><span class="level-item">ARM Register</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#程序计数器-PC"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">程序计数器 PC</span></span></a></li><li><a class="level is-mobile" href="#程序状态寄存器-PSR"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">程序状态寄存器 PSR</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ARM-Storage"><span class="level-left"><span class="level-item">6</span><span class="level-item">ARM Storage</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Network/"><span class="level-start"><span class="level-item">Network</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">6</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
