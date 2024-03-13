@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据链路层 DataLink Layer Ⅰ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍数据链路层相关的部分知识点:Overview,Framing,Error Detection,Reliable Transmission"><meta property="og:type" content="article"><meta property="og:title" content="数据链路层 DataLink Layer Ⅰ"><meta property="og:url" content="https://efterklang.github.io/Tech/Network/DataLinkLayerPart1/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍数据链路层相关的部分知识点:Overview,Framing,Error Detection,Reliable Transmission"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"><meta property="article:published_time" content="2024-02-20T15:33:45.000Z"><meta property="article:modified_time" content="2024-03-12T07:48:19.914Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="Network"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/Tech/Network/DataLinkLayerPart1/"},"headline":"数据链路层 DataLink Layer Ⅰ","image":["https://efterklang.github.io/img/thumbnails/datalinklayer.jpg"],"datePublished":"2024-02-20T15:33:45.000Z","dateModified":"2024-03-12T07:48:19.914Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍数据链路层相关的部分知识点:Overview,Framing,Error Detection,Reliable Transmission"}</script><link rel="canonical" href="https://efterklang.github.io/Tech/Network/DataLinkLayerPart1/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/datalinklayer.jpg" alt="数据链路层 DataLink Layer Ⅰ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-02-20T15:33:45.000Z" title="2/20/2024, 11:33:45 PM">2024-02-20</time></span><span class="level-item"><a class="link-muted" href="/categories/Tech/">Tech</a><span> / </span><a class="link-muted" href="/categories/Tech/Network/">Network</a></span><span class="level-item">32 minutes read (About 4835 words)</span><span class="level-item leancloud_visitors" id="/Tech/Network/DataLinkLayerPart1/" data-flag-title="数据链路层 DataLink Layer Ⅰ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">数据链路层 DataLink Layer Ⅰ</h1><div class="content"><h2 id="数据链路层概述-Overview"><a href="#数据链路层概述-Overview" class="headerlink" title="数据链路层概述 Overview"></a>数据链路层概述 Overview</h2><p><strong>节点 Node</strong> 运行链路层协议的任何设备<br><strong>链路 Link</strong> 指从一个结点到相邻结点的一段物理线路，中间没有其他的交换结点<br><strong>数据链路 Data Link</strong> 把实现通信协议的硬件和软件加到链路上，就构成了数据链路<br><strong>帧 Frame</strong> 是数据链路层的传输单位，由数据部分和控制部分组成</p>
+<p><strong>The Service Provide by the Link Layer</strong></p>
+<ul>
+<li><strong>Framing</strong> 封装成帧</li>
+<li><strong>Link access</strong> 链路接入</li>
+<li><strong>Reliable delivery</strong> 可靠交付</li>
+<li><strong>Error detection and correction</strong> 差错检测和纠正</li>
+</ul>
+<blockquote>
+<p>局域网属于数据链路层<br>局域网虽然是个网络。但我们并不把局域网放在网络层中讨论。这是因为在网络层要讨论的是多个网络互连的问题，是讨论分组怎么从一个网络，通过路由器，转发到另一个网络。<br>而在同一个局域网中，分组怎么从一台主机传送到另一台主机，但并不经过路由器转发。从整个互联网来看，局域网仍属于数据链路层的范围</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-39-51.png" alt="DataLinkLayer"><br><strong>从层次上来看数据的流动</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-50-50.pnge" alt="数据流动"><br><strong>仅从数据链路层观察帧的流动</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-50-57.pnge" alt="DataLinkLayer-2024-02-19-23-50-57"></p>
+<p>数据链路层使用的信道<br>数据链路层属于计算机网路的低层。数据链路层使用的信道主要有以下两种类型：</p>
+<ul>
+<li>点对点信道</li>
+<li>广播信道<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-19-23-56-10.pnge" alt="DataLinkLayer-Channel"></li>
+</ul>
+<p>数据链路层的三个重要问题</p>
+<ul>
+<li><strong>封装成帧</strong> 在数据前后添加帧头和帧尾，用于标识帧的开始和结束</li>
+<li><strong>差错检测</strong> 传输过程中可能会产生比特差错,通过帧尾中的检错码检测帧中是否有误码</li>
+<li><strong>可靠传输</strong> 如果接收方收到有误码的帧，会丢弃这个帧。如果数据链路层向其上层提供的是不可靠服务，那么丢弃后不会再有更多措施;如果是可靠服务则需要其他措施，来确保接收方主机重新收到帧的正确副本</li>
+</ul>
+<p>对于使用广播信道的数据链路层,还有以下问题需解决</p>
+<ul>
+<li><strong>确认帧的接收</strong> 主机如何确认帧是发送给自己的? 可以通过 MAC 地址来确认</li>
+<li><strong>数据碰撞</strong> 如果两个主机同时发送数据，可能会发生数据碰撞</li>
+</ul>
+<blockquote>
+<p>随着技术的发展，交换技术的成熟，在有线（局域网）领域使用<strong>点对点链路</strong>和<strong>链路层交换机</strong>的交换式局域网取代了共享式局域网;在无线局域网中仍然使用的是共享信道技术</p>
+</blockquote>
+<h2 id="封装成帧-Framing"><a href="#封装成帧-Framing" class="headerlink" title="封装成帧 Framing"></a>封装成帧 Framing</h2><h3 id="封装与解包-Encapsulation-De-encapsulation"><a href="#封装与解包-Encapsulation-De-encapsulation" class="headerlink" title="封装与解包 Encapsulation&amp;De-encapsulation"></a>封装与解包 Encapsulation&amp;De-encapsulation</h3><p><strong>封装</strong>(Encapsulation)是低层协议从高层协议接收数据，然后将数据放入其帧的数据部分的过程。因此，封装是把一种数据包封装另一种数据包的过程。<br><strong>解包</strong>(Decapsulation)与之相反,高层协议从低层协议接收数据，然后逐层将数据从帧的数据部分取出的过程。</p>
+<blockquote>
+<p>Generally, Encapsulation is a process by which a lower-layer protocol receives data from a higher-layer protocol and then places the data into the data portion of its frame. Thus, encapsulation is the process of enclosing one type of packet using another type of packet.</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-16-22-10.pnge" alt="Packet Encapsulation&amp;De-encapsulation"></p>
+<p><strong>封装成帧</strong>(Framing)指<strong>数据链路层</strong>接受上层交付的协议数据单元,并为其添加帧头和帧尾,使之成为帧的过程</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-16-49-51.pnge" alt="DataLinkLayer-2024-02-20-16-49-51"></p>
+<p>发送方的数据链路层将上层交付下来的协议数据单元封装成帧后，通过物理层将构成帧的 bits 转换成电信号交给传输媒体，接收方的数据链路层再从物理层交付的比特流中提取出 frames<br>解包过程如何提取 frames?</p>
+<ul>
+<li><strong>PPP 帧</strong> 依据帧头和帧尾的<strong>标志符</strong>确定帧的开始和结束(帧定界)从而提取出 frames</li>
+<li><strong>以太网 V2 的 MAC 帧</strong> 根据前导码(1 字节的帧开始定界符,7 字节的前同步码)来定界,帧间间隔为 96bit 的时间<ul>
+<li>前同步码:作用是使接收方的时钟与发送方的时钟同步</li>
+<li>帧开始定界符:标志帧的开始</li>
+<li>以太网规定帧间间隔为 96bit 的时间,因此 MAC 帧不需要帧结束定界符</li>
+</ul>
+</li>
+</ul>
+<h3 id="透明传输-Transparent-transmission"><a href="#透明传输-Transparent-transmission" class="headerlink" title="透明传输 Transparent transmission"></a>透明传输 Transparent transmission</h3><p><strong>透明传输</strong>是指不管所传数据是什么样的比特组合，都应当能够在链路上传送。因此，链路层就“看不见”有什么妨碍数据传输的东西。</p>
+<p>当所传数据中的比特组合恰巧与某一个控制信息完全一样时，就必须采取适当的措施，使收方不会将这样的数据误认为是某种控制信息。这样才能保证数据链路层的传输是透明的。</p>
+<p><strong>解决办法</strong></p>
+<ol>
+<li><strong>字符填充&#x2F;字节填充</strong></li>
+</ol>
+<ul>
+<li>发送方扫描数据,当数据中出现与帧定界符相同的比特串时,在其前面插入转义字符 ESC;</li>
+<li>接受方将遇到的第一个帧定界符认为是帧的开始</li>
+<li>遇到转义字符时,则知道后面的比特串虽与帧定界符相同,但并非帧定界符而是数据,因此剔除转义字符 ESC 然后将其后的字符作为数据处理</li>
+<li>当再次遇到帧定界符时,认为帧结束<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-22-26-20.pnge" alt="character stuffing"><br>ps:遇到与转移字符相同的比特串时,则在转义字符前面再插入转义字符</li>
+</ul>
+<ol>
+<li><strong>比特填充</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-20-22-42-11.pnge" alt="DataLinkLayer-2024-02-20-22-42-11"></li>
+</ol>
+<p>为了提高帧的传输效率，应当使帧的数据部分的长度尽可能大些。<br>考虑到差错控制等多种因素，每一种数据链路层协议都规定了帧的数据部分的长度上限，即最大传送单元 MTU(Maximum Transfer Unit)</p>
+<h2 id="差错检测-Error-Detection"><a href="#差错检测-Error-Detection" class="headerlink" title="差错检测 Error Detection"></a>差错检测 Error Detection</h2><h3 id="差错检测的基本概念"><a href="#差错检测的基本概念" class="headerlink" title="差错检测的基本概念"></a>差错检测的基本概念</h3><p>实际的通信链路都不是理想的，比特在传输过程中可能会产生差错：<code>1</code>可能会变成<code>0</code> ，而<code>0</code>也可能变成<code>1</code>,这称为<strong>比特差错</strong>。<br>在一段时间内，传输错误的比特占所传输比特总数的比率称为<strong>误码率</strong>BER(Bit Error Rate)<br>使用<strong>差错检测码</strong>来检测数据在传输过程中是否产生了比特差错，是数据链路层所要解决的重要问题之一<br><strong>帧校验序列 FCS</strong>(Frame Check Sequence)是差错检测码的一种，用于检测帧中是否有误码,通常使用<strong>循环冗余校验 CRC</strong>来计算 FCS</p>
+<h3 id="奇偶校验-Parity-Check"><a href="#奇偶校验-Parity-Check" class="headerlink" title="奇偶校验 Parity Check"></a>奇偶校验 Parity Check</h3><p>奇偶校验在待发送的数据后面<strong>添加 1 位奇偶校验位</strong>，使整个数据（包括所添加的校验位在内）中<code>1</code>的个数为奇数（奇校验）或偶数（偶校验）。<br>如果有<strong>奇数个</strong>bit 发生误码，则奇偶性发生变化，可以检查出误码；<br>如果有<strong>偶数个</strong>bit 发生误码，则奇偶性不发生变化，不能检查出误码（漏检）<br>由于漏检率高，奇偶校验在实际中很少使用<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-25-17-32-09.pnge" alt="Parity Check"></p>
+<h3 id="二维奇偶校验-Two-Dimensional-Parity-Check"><a href="#二维奇偶校验-Two-Dimensional-Parity-Check" class="headerlink" title="二维奇偶校验 Two-Dimensional Parity Check"></a>二维奇偶校验 Two-Dimensional Parity Check</h3><p>假设传输信息 D 有 d 位，在偶校验方案中，会增加一个附加的比特，使得这 d+1 个比特中 1 的总数是偶数。由于普通的奇偶校验方式检错能力有限，所以产生了二维的奇偶校验。D 中的 d 个比特被划分为 i 行 j 列，对每行每列计算奇偶值，产生的 i+j+1 个奇偶比特构成了链路层帧的差错检测比特。</p>
+<h3 id="校验和-Checksumming-Method"><a href="#校验和-Checksumming-Method" class="headerlink" title="校验和 Checksumming Method"></a>校验和 Checksumming Method</h3><p><strong>因特网检验和（Internet checksum）</strong>基于这种方法，即数据的字节作为 16 比特的整数对待并求和。</p>
+<h3 id="循环冗余校验-Cyclical-Redundancy-Check"><a href="#循环冗余校验-Cyclical-Redundancy-Check" class="headerlink" title="循环冗余校验 Cyclical Redundancy Check"></a>循环冗余校验 Cyclical Redundancy Check</h3><p>收发双方约定好一个生成多顶式<code>G(x)</code>;<br>发送方基于待发送的数据和生成多顶式计算出<strong>差错检测码</strong>(冗余码)，将其添加到待传输数据的后面一起传输<br>接收方通过生成多项式来计算收到的数据是否产生了误码；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-25-17-35-47.pnge" alt="CRC"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-25-17-36-46.pnge" alt="CRC Polynomial"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-25-17-42-02.pnge" alt="CRC Example"><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-25-17-43-07.pnge" alt="CRC Example"></p>
+<p>检错码只能检测出帧在传输过程中出现了差错，但井不能定位错误，因此<strong>无法纠正错误</strong><br>要想纠正传输中的差错，可以使用冗余信息更多的<strong>纠错码</strong>进行前向纠错,但纠错码的开销比较大，在计算机网络中较少使用。<br>循环冗余校验有很好的检错能力,漏检率非常低，虽然计算比较复杂，但非常易于用硬件实现，因此被广泛应用于数据链路层。<br>在计算机网络中通常采用<strong>检错重传方式来纠正传输中的差错，或者仅仅是丢弃检测到差错的帧</strong>，这取决于数据链路层向其上层提供的是可靠传输服务还是不可靠传输服务。</p>
+<h2 id="可靠传输-Reliable-Transmission"><a href="#可靠传输-Reliable-Transmission" class="headerlink" title="可靠传输 Reliable Transmission"></a>可靠传输 Reliable Transmission</h2><h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p><strong>可能发送的差错</strong></p>
+<ul>
+<li><strong>比特错误</strong> 使用差错检测技术（例如循环冗余校验 CRC，接收方的数据链路层就可检测出帧在传输过程中是否产生了误码（比特错误）。一般情况下，有线链路的误码率比较低，为了减小开销，井不要求数据链路层向上提供可靠传输服务。即使出现了误码，可靠传输的问题由其上层处理。无线链路易受干扰，误码率比较高，因此要求数据链路层必须向上层提供可靠传输服务。</li>
+<li><strong>分组丢失</strong> 路由器输入队列快满了，主动丢弃收到的分组</li>
+<li><strong>分组时序</strong> 数据并未按照发送顺序依次到达接收端</li>
+<li><strong>分组重复</strong> 由于某些原因，有些分组在网络中滞留了，没有及时到达接收端，这可能会造成发送端对该分组的超时重发，重发的分组到达接收端，但一段时间后，滞留在网络的分组也到达了接收端，这就造成分组重复的传输差错</li>
+</ul>
+<p><strong>三种可靠传输方式</strong></p>
+<ul>
+<li><strong>停止等待协议 SW</strong></li>
+<li><strong>回退 N 帧协议 GBN</strong></li>
+<li><strong>选择重传协议 SR</strong></li>
+</ul>
+<p><strong>Ref</strong><br><a target="_blank" rel="noopener" href="https://www.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/">https://www.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126312611">https://zhuanlan.zhihu.com/p/126312611</a></p>
+<h3 id="停止等待协议-Stop-and-Wait-Protocol"><a href="#停止等待协议-Stop-and-Wait-Protocol" class="headerlink" title="停止等待协议 Stop-and-Wait Protocol"></a>停止等待协议 Stop-and-Wait Protocol</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-27-17-07-37.pnge" alt="SW Protocol"></p>
+<p><strong>确认与否认</strong></p>
+<p>首先，每次发送方都只发一个数据分组，接收方对数据分组进行差错检测，检验是否有误码;</p>
+<p>如果没有误码，接收方发送<code>ACK</code>确认分组,发送方收到<code>ACK</code>确认分组后，发送方才能发送下一个数据分组。</p>
+<p>如果有误码,接收方发送<code>NAK</code>否认分组并丢弃当前分组,发送方收到<code>NAK</code>否认分组后，重发数据分组。</p>
+<p><strong>超时重传</strong></p>
+<p>接收方收不到数据分组，就不会发送<code>ACK</code>或<code>NAK</code>。如果不采取其他措施，发送方就会一直处于等待接收方<code>ACK</code>或<code>NAK</code>的状态。数据分组在传输过程中有可能遇到已经满了的路由器等情况，此时路由器会丢失该分组，如此便会产生数据分组被丢失，发送方等不到接收方的<code>ACK</code>或者<code>NAK</code>,导致发送方陷入等待状态。</p>
+<p>为解决该问题，可以在发送方发送完一个数据分组时，启动一个超时计时器。若到了超时计时器所设置的重传时间而发送方仍收不到接收方的任何<code>ACK</code>或<code>NAK</code>，则重传原来的数据分组，这就叫做<strong>超时重传</strong>。</p>
+<p>超时计时器设置的重传时间应仔细选择。一般可将重传时间选为<strong>略大于从发送方到接收方的平均往返时间</strong>;在数据链路层点对点的往返时间比较确定，重传时间比较容易设定。然而在运输层，由于端到端往返时间非常不确定，设置合适的重传时间有时并不容易。</p>
+<p><strong>确认丢失</strong></p>
+<p>实际过程中,接收方发送的<code>ACK</code>或<code>NAK</code>也可能会丢失,发送方收不到接收方的<code>ACK</code>或<code>NAK</code>，触发超时计时器,会重传数据分组。如果接收方成功接收了数据分组，但发送<code>ACK</code>的分组丢失了，发送方会重传数据分组，这样会导致接收方收到重复的数据分组。</p>
+<p>为解决该问题,我们用一个比特位给每个数据分组一个序号（0 或 1），当重新传输数据分组的时候，接收方检测到这个数据分组的序号,如果刚才的数据分组的序号相同就丢弃该数据分组，否则接收该数据分组。然后发送<code>ACK</code>确认分组。</p>
+<p>这里为什么可以只用<code>0</code>和<code>1</code>呢，主要还是因为停止等待协议的特性，即每发送完一个数据分组便等待发送方的<code>ACK</code>或<code>NAK</code>，只要保证每发送一个新的数据分组，其发送序号与上次发送的数居分组的序号不同就可以了，因比用一个比特来编号就够了。</p>
+<p><strong>确认迟到</strong></p>
+<p>为了让发送方能够判断所收到的<code>ACK</code>分组是否是重复的，需要给<code>ACK</code>分组编号，所用比特数量与数据分组编号所用比特数量一样。数据链路层一般不会出现<code>ACK</code>分组迟到的情况，因此在数据链路层实现停止．等待协议可以不用给<code>ACK</code>分组编号。</p>
+<p><strong>信道利用率</strong></p>
+<p>[[NetworkOverview#利用率 Utilization]]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-27-17-22-30.pnge" alt="DataLinkLayer-2024-02-27-17-22-30"></p>
+<h3 id="回退-N-帧协议-Go-Back-N-Protocol"><a href="#回退-N-帧协议-Go-Back-N-Protocol" class="headerlink" title="回退 N 帧协议 Go-Back-N Protocol"></a>回退 N 帧协议 Go-Back-N Protocol</h3><p>在停止-等待协议中，随着 RTT 的变大，信道的利用率也会变低（卫星通信），解决该问题的方法是：不以停等方式运行，允许发送方发送多个分组而无须等待确认。因为许多从发送方向接收方输送可以看成是填充到一条流水线中，故这种技术被称为<strong>流水线（pipeline）</strong>，下图为停等和流水线发送示意图：</p>
+<center>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-27-17-45-07.pnge" alt="pipeline" style="zoom:80%;" />
+</center>
+
+<p>在回退 N 步协议中，将基序号（base）定义为最早未确认分组的序号，将下一个序号（nextseqnum）定义为最小的未使用序号，则将序号范围分割成如下 4 段：<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-27-17-53-56.pnge"><br><strong>Notes</strong></p>
+<ul>
+<li>如果某个报文段没有被正确接收，则从这个报文段到后面的报文段都要重新发送。</li>
+<li>采用累计应答的方式。例如接收端返回 ACK&#x3D;3，则证明报文段 3 以及之前的报文段都被正确接收。(GBN如何保证3之前的数据被正确接收了呢？在GBN的接收窗口$W_{R}&#x3D;1$,即按顺序逐个接受数据,因此接收方只能<strong>按序接受</strong>正确到达的数据分组)</li>
+<li>接收端不对失序到达的分组进行缓存。</li>
+<li>回退帧协议在流水线传输的基础上利用发送窗口来限制发送方连续发送数据分组的数员，是一种连续 ARQ 协议，</li>
+<li>在协议的工作过程中发送窗囗和接收窗囗不断向前滑动，因此这类协议又称为滑动圊囗协议。</li>
+<li>缺点:如果发生错误，GBN 协议会<strong>丢弃后续的所有包</strong>，即使它们已经到达并且没有错误。这可能导致效率低下，特别是在通信线路质量不好的情况下</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-02-27-17-43-56.pnge"></p>
+<h3 id="选择重传协议-Selective-Repeat-Protocol"><a href="#选择重传协议-Selective-Repeat-Protocol" class="headerlink" title="选择重传协议 Selective Repeat Protocol"></a>选择重传协议 Selective Repeat Protocol</h3><p>GBN协议的接收窗口尺寸 WR 只能等于 1 ，因此接收方只能按序接收正确到达的数据分组。一个数据分组的误码会导致其后续多个数据分组不能被接收方按序接收而丢弃（尽管它们无乱序和误码）。这必然会造成发送方对这些数据分组的超时重传，显然这是对通信资源的极大浪费。为了进一步提高性能，可设法只重传出现误码的数据分组。因此，接收窗口的尺寸不应再等于 1 （而应大于 1 ）以便接收方先收下失序到达但无误码井且序号落在接收窗口内的那些数据分组，等到所缺分组收齐后再一井送交上层。这是选择重传协议。</p>
+<div>
+$$
+发送窗口尺寸W_{T}必须满足: 1 < W_{T} \lt 2^{n-1}; n为分组中的bit数 \\
+若W_{T} = 1,则退化为停止等待协议;若W_{T} \gt 2^{n-1},则会造成接收方无法辨别新旧数据分组的问题\\
+接收窗口尺寸W_{R}必须满足: 1 < W_{R} \leq W_{T}\\
+若W_{R} = 1,则退化为回退 N 帧协议;W_{R} \gt W_{T}没有意义
+$$
+</div>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DataLinkLayer-2024-03-12-14-22-54.png"></p>
+<h2 id="点对点协议-Point-to-Point-Protocol"><a href="#点对点协议-Point-to-Point-Protocol" class="headerlink" title="点对点协议 Point to Point Protocol"></a>点对点协议 Point to Point Protocol</h2><p>点对点协议PPP（Point-to-Point Protocol）是目前使用最广泛的点对点数据链路层协议</p>
+<p>PPP协议是因特网工程任务组IEIF在1992年制定的。经过1993年和1994年的修订，现在的PPP协议已成为因特网的正式标准[RFC1661，RFC1662]</p>
+<p>数据链路层使用的一种协议，它的特点是：简单；只检测差错，而不是纠正错；不使用序号，也不进行流量控制；可同时支持多种网络层协议</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>数据链路层 DataLink Layer Ⅰ</p><p><a href="https://efterklang.github.io/Tech/Network/DataLinkLayerPart1/">https://efterklang.github.io/Tech/Network/DataLinkLayerPart1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-02-20</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-03-12</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Network/">Network</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Tech/DataBase/StructedvsUnstructedData/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Structed vs Unstructed Data</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/Java/Java%20Stream/"><span class="level-item">Java Stream</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://luminous-praline-90b359.netlify.app/.netlify/functions/twikoo',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#数据链路层概述-Overview"><span class="level-left"><span class="level-item">1</span><span class="level-item">数据链路层概述 Overview</span></span></a></li><li><a class="level is-mobile" href="#封装成帧-Framing"><span class="level-left"><span class="level-item">2</span><span class="level-item">封装成帧 Framing</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#封装与解包-Encapsulation-De-encapsulation"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">封装与解包 Encapsulation&amp;De-encapsulation</span></span></a></li><li><a class="level is-mobile" href="#透明传输-Transparent-transmission"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">透明传输 Transparent transmission</span></span></a></li></ul></li><li><a class="level is-mobile" href="#差错检测-Error-Detection"><span class="level-left"><span class="level-item">3</span><span class="level-item">差错检测 Error Detection</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#差错检测的基本概念"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">差错检测的基本概念</span></span></a></li><li><a class="level is-mobile" href="#奇偶校验-Parity-Check"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">奇偶校验 Parity Check</span></span></a></li><li><a class="level is-mobile" href="#二维奇偶校验-Two-Dimensional-Parity-Check"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">二维奇偶校验 Two-Dimensional Parity Check</span></span></a></li><li><a class="level is-mobile" href="#校验和-Checksumming-Method"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">校验和 Checksumming Method</span></span></a></li><li><a class="level is-mobile" href="#循环冗余校验-Cyclical-Redundancy-Check"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">循环冗余校验 Cyclical Redundancy Check</span></span></a></li></ul></li><li><a class="level is-mobile" href="#可靠传输-Reliable-Transmission"><span class="level-left"><span class="level-item">4</span><span class="level-item">可靠传输 Reliable Transmission</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Overview"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">Overview</span></span></a></li><li><a class="level is-mobile" href="#停止等待协议-Stop-and-Wait-Protocol"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">停止等待协议 Stop-and-Wait Protocol</span></span></a></li><li><a class="level is-mobile" href="#回退-N-帧协议-Go-Back-N-Protocol"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">回退 N 帧协议 Go-Back-N Protocol</span></span></a></li><li><a class="level is-mobile" href="#选择重传协议-Selective-Repeat-Protocol"><span class="level-left"><span class="level-item">4.4</span><span class="level-item">选择重传协议 Selective Repeat Protocol</span></span></a></li></ul></li><li><a class="level is-mobile" href="#点对点协议-Point-to-Point-Protocol"><span class="level-left"><span class="level-item">5</span><span class="level-item">点对点协议 Point to Point Protocol</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Network/"><span class="level-start"><span class="level-item">Network</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>

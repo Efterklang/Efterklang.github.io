@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>ARM指令集 - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="ARM指令集"><meta property="og:type" content="article"><meta property="og:title" content="ARM指令集"><meta property="og:url" content="https://efterklang.github.io/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E9%9B%86/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="ARM指令集"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/og_image.png"><meta property="article:published_time" content="2024-03-12T11:41:28.000Z"><meta property="article:modified_time" content="2024-03-12T12:52:32.293Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="ARM"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E9%9B%86/"},"headline":"ARM指令集","image":["https://efterklang.github.io/img/og_image.png"],"datePublished":"2024-03-12T11:41:28.000Z","dateModified":"2024-03-12T12:52:32.293Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"ARM指令集"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E9%9B%86/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-03-12T11:41:28.000Z" title="3/12/2024, 7:41:28 PM">2024-03-12</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/ARM-Processor/">ARM-Processor</a></span><span class="level-item">7 minutes read (About 1108 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E9%9B%86/" data-flag-title="ARM指令集"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">ARM指令集</h1><div class="content"><h2 id="ARM-指令集简介"><a href="#ARM-指令集简介" class="headerlink" title="ARM 指令集简介"></a>ARM 指令集简介</h2><p>ARM 微处理器的 ARM 指令集 ，所有的指令长度都是 32 位 ，并且大多数指令都在一个单独指令周期内执行。<br><strong>主要特点包括</strong>：</p>
+<ul>
+<li>指令是条件执行的;</li>
+<li>ARM 微处理器的指令集是加载&#x2F;存储型的；</li>
+<li>在多寄存器操作指令中一次最多可以完成 16 个寄存器的数据传送。</li>
+</ul>
+<h3 id="ARM-指令格式"><a href="#ARM-指令格式" class="headerlink" title="ARM 指令格式"></a>ARM 指令格式</h3><h4 id="助记符表示"><a href="#助记符表示" class="headerlink" title="助记符表示"></a>助记符表示</h4><p>用助记符表示的 ARM 指令一般格式如下：<br><code>&lt;opcode&gt; &#123;&lt;cond&gt;&#125; &#123;S&#125; &#123;&lt;Rd&gt;&#125; &#123; ，&lt;Rn&gt;&#125; &#123;，&lt;OP2&gt;&#125;</code><br>格式中<code>&lt; &gt;</code>的内容必不可少，<code>&#123; &#125;</code>中的内容可省略。</p>
+<p><code>&lt;opcode&gt;</code>表示操作码，如 ADD 表示算术加法。<br><code>&#123;&lt;cond&gt;&#125;</code>表示指令执行的条件域，如 EQ、NE 等。<br><code>&#123;S&#125;</code>决定指令的执行结果是否影响 CPSR 的值，使用该后缀则指令执行的结将果影响 CPSR 的值，否则不影响。<br><code>&lt;Rd&gt;</code>表示目标或源寄存器。<br><code>&lt;Rn&gt;</code>表示第一个操作数，为寄存器。<br><code>&lt;op2&gt;</code>表示第二个操作数，可以是立即数、寄存器和寄存器移位操作数。<br>除了<code>&lt;opcode&gt;</code>其余域都可以选择使用</p>
+<blockquote>
+<p><strong>例如</strong>： 指令<code>ADDEQS R0,R1,#8；</code></p>
+<ul>
+<li>操作码为 ADD，</li>
+<li>条件域 cond 为 EQ，</li>
+<li>S 表示该指令的执行影响 CPSR 寄存器的值，</li>
+<li>目的寄存器 Rd 为 R0，</li>
+<li>第一个操作数寄存器 Rn 为 R1，</li>
+<li>第二个操作数 OP2 为立即数＃8。<br>执行结果：R0 &#x3D; R1+ 8</li>
+</ul>
+</blockquote>
+<h4 id="机器码表示"><a href="#机器码表示" class="headerlink" title="机器码表示"></a>机器码表示</h4><p>ARM 指令代码一般可以分为 5 个域：<br>第 1 个域是 4 位[31:28]的条件码域，4 位条件码共有 16 种组合；<br>第 2 个域是指令代码域[27:20],除了指令编码外，还包含几个很重要的指令特征和可选后缀的编码；<br>第 3 个域是第 1 个操作数寄存器 Rn，是 4 位[19:16],为 R0 ～ R15 共 16 个寄存器编码；<br>第 4 个域是目标或源寄存器 Rd，是 4 位[15:12],为 R0 ～ R15 共 16 个寄存器编码；<br>第 5 个域是第二个操作数[11:0]。</p>
+<h4 id="可选后缀"><a href="#可选后缀" class="headerlink" title="可选后缀"></a>可选后缀</h4><ol>
+<li><strong>S 后缀</strong></li>
+</ol>
+<p>指令中使用 S 后缀时，指令执行后程序状态寄存器的条件标志位将被刷新，不使用 S 后缀时，指令执行后程序状态寄存器 CPSR 的条件标志将不会发生变化。</p>
+<blockquote>
+<p>假设 R0&#x3D;0x1,R3&#x3D;0x3,指令执行之前 CPSR 部分标志位为 nZcv,分别执行如下指令 CPSR 的值有何变化？<br><code>SUB R1,R0,R3； R0的值减去R3的值，结果存入R1</code> &gt; <code>SUBS R1,R0,R3; R0的值减去R3的值，结果存入R1影响标志位。</code><br>分析：执行第 1 条指令对于标志寄存器的值没有任何影响，因此 CPSR 的值不变。执行第 2 条指令后 CPSR&#x3D;Nzcv。</p>
+</blockquote>
+<ol start="2">
+<li><strong>!后缀</strong></li>
+</ol>
+<p>如果指令地址表达式中不含！后缀，则基址寄存器中的地址值不会发生变化。<br>指令中的地址表达式中含有!后缀时，指令执行后，基址寄存器中的地址值将发生变化，变化的结果如下：<br>基址寄存器中的值（指令执行后）＝指令执行前的值＋地址偏移量<br>使用!后缀需要注意如下事项：</p>
+<pre><code>- ！后缀必须紧跟在地址表达式后面，而地址表达式要有明确的地址偏移量；
+- ! 后缀不能用于 R15(PC)的后面；
+- 当用在单个地址寄存器后面时，必须确信这个寄存器有隐性的偏移量，例如“STMIA R7!, &#123;R0 – R3&#125;”此时地址基址寄存器 R7 的隐性偏移量是 16 字节。如果 R7 的初始值为 0X40000000，则该语句结束后为 0X40000010
+</code></pre>
+<blockquote>
+<p>例 分别执行下面两条指令有何区别？<br><code>LDR R3,[R0,#4]</code> &gt; <code>LDR R3,[R0,#4]！</code><br>分析：在上述指令中，第 1 条指令没有后缀！，指令的结果是把 R0 加 4 作为地址指针，把这个指针所指向的地址单元所存储的数据读入 R3，R0 的值不变。第 2 条指令除了实现以上操作外，还把 R0 ＋ 4 的结果送到 R0 中。</p>
+</blockquote>
+<h3 id="ARM-指令的条件码"><a href="#ARM-指令的条件码" class="headerlink" title="ARM 指令的条件码"></a>ARM 指令的条件码</h3><h3 id="ARM-指令分类"><a href="#ARM-指令分类" class="headerlink" title="ARM 指令分类"></a>ARM 指令分类</h3><h2 id="ARM-指令的寻址方式"><a href="#ARM-指令的寻址方式" class="headerlink" title="ARM 指令的寻址方式"></a>ARM 指令的寻址方式</h2><h2 id="ARM-指令集"><a href="#ARM-指令集" class="headerlink" title="ARM 指令集"></a>ARM 指令集</h2></div><div class="article-licensing box"><div class="licensing-title"><p>ARM指令集</p><p><a href="https://efterklang.github.io/UESTC/ARM-Processor/Ch3-1ARM指令集/">https://efterklang.github.io/UESTC/ARM-Processor/Ch3-1ARM指令集/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-03-12</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-03-12</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ARM/">ARM</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/Network/DataLinkLayerPart2/"><span class="level-item">数据链路层 DataLink Layer Ⅱ</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://luminous-praline-90b359.netlify.app/.netlify/functions/twikoo',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#ARM-指令集简介"><span class="level-left"><span class="level-item">1</span><span class="level-item">ARM 指令集简介</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ARM-指令格式"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">ARM 指令格式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#助记符表示"><span class="level-left"><span class="level-item">1.1.1</span><span class="level-item">助记符表示</span></span></a></li><li><a class="level is-mobile" href="#机器码表示"><span class="level-left"><span class="level-item">1.1.2</span><span class="level-item">机器码表示</span></span></a></li><li><a class="level is-mobile" href="#可选后缀"><span class="level-left"><span class="level-item">1.1.3</span><span class="level-item">可选后缀</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ARM-指令的条件码"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">ARM 指令的条件码</span></span></a></li><li><a class="level is-mobile" href="#ARM-指令分类"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">ARM 指令分类</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ARM-指令的寻址方式"><span class="level-left"><span class="level-item">2</span><span class="level-item">ARM 指令的寻址方式</span></span></a></li><li><a class="level is-mobile" href="#ARM-指令集"><span class="level-left"><span class="level-item">3</span><span class="level-item">ARM 指令集</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Network/"><span class="level-start"><span class="level-item">Network</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.30/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
