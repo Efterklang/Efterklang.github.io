@@ -8,7 +8,6 @@
 body.night {
   background: #0e1225;
   body: ,;
-  strong: ,;
   time: ,;
 }
 body.night .content code {
@@ -197,6 +196,9 @@ body.night .link-muted,
 body.night .cc-window {
   color: #c0c0c0 !important;
 }
+body.night strong {
+  color: #9b95c9;
+}
 body.night a {
   color: #5299e0;
 }
@@ -309,7 +311,6 @@ body.night .twikoo code {
   body:not(.light) {
     background: #0e1225;
     body: ,;
-    strong: ,;
     time: ,;
   }
   body:not(.light) .content code {
@@ -497,6 +498,9 @@ body.night .twikoo code {
   body:not(.light) .link-muted,
   body:not(.light) .cc-window {
     color: #c0c0c0 !important;
+  }
+  body:not(.light) strong {
+    color: #9b95c9;
   }
   body:not(.light) a {
     color: #5299e0;
