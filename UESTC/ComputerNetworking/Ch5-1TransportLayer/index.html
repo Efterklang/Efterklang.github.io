@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>运输层 TransportLayer Part Ⅰ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Transport Layer Part Ⅰ"><meta property="og:type" content="article"><meta property="og:title" content="运输层 TransportLayer Part Ⅰ"><meta property="og:url" content="https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="Transport Layer Part Ⅰ"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/Networks/transportlayer.png"><meta property="article:published_time" content="2024-04-02T12:41:49.000Z"><meta property="article:modified_time" content="2024-04-02T09:05:52.676Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="Computer Networking"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/Networks/transportlayer.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/"},"headline":"运输层 TransportLayer Part Ⅰ","image":["https://efterklang.github.io/img/thumbnails/Networks/transportlayer.png"],"datePublished":"2024-04-02T12:41:49.000Z","dateModified":"2024-04-02T09:05:52.676Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"Transport Layer Part Ⅰ"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/Networks/transportlayer.png" alt="运输层 TransportLayer Part Ⅰ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-02T12:41:49.000Z" title="4/2/2024, 8:41:49 PM">2024-04-02</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/Computer-Networking/">Computer Networking</a></span><span class="level-item">7 minutes read (About 1055 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ComputerNetworking/Ch5-1TransportLayer/" data-flag-title="运输层 TransportLayer Part Ⅰ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">运输层 TransportLayer Part Ⅰ</h1><div class="content"><h2 id="Introduction-and-Transport-Layer-Services"><a href="#Introduction-and-Transport-Layer-Services" class="headerlink" title="Introduction and Transport-Layer Services"></a>Introduction and Transport-Layer Services</h2><h3 id="Relationship-Between-Transport-and-Network-Layers"><a href="#Relationship-Between-Transport-and-Network-Layers" class="headerlink" title="Relationship Between Transport and Network Layers"></a>Relationship Between Transport and Network Layers</h3><p>运输层协议为运行在不同的主机上的应用进程之间提供了<strong>逻辑通信（logic communication）</strong>功能<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch5-1TransportLayer-2024-04-02-14-43-16.png"><br>传输层协议运行在端系统而非路由器</p>
+<ul>
+<li>发送方: 将从发送应用程序接收到的报文转换成传输层分组(segment)传递给网络层 </li>
+<li>接受方: 将数据段重新组装成报文传递到应用层</li>
+</ul>
+<p>传输层: <strong>进程之间</strong>的逻辑通信;传输层建立在网络层之上，负责端到端的通信会话和数据的可靠传输。传输层使用端口号来区分主机上的不同应用程序，并确保数据被正确地发送到接收应用程序。<br>网络层: <strong>主机之间</strong>的逻辑通信; 网络层负责处理数据包的发送和路由，包括 IP 地址处理和路由选择。网络层的主要目标是确定如何将数据从源主机传输到目标主机，即使这两台主机在物理上可能相隔很远，并且在它们之间可能存在多个中间节点（路由器）。网络层的一个关键协议是互联网协议（IP），它定义了数据包的格式和地址。</p>
+<h3 id="Overview-of-the-Transport-Layer-in-the-Internet"><a href="#Overview-of-the-Transport-Layer-in-the-Internet" class="headerlink" title="Overview of the Transport Layer in the Internet"></a>Overview of the Transport Layer in the Internet</h3><p>Internet的传输层协议有两个:<br><strong>传输控制协议TCP,Transmission COntrol Protocol</strong>: 提供了一种可靠的、面向连接的服务。<br><strong>用户数据报协议UDP,User Datagram Protocol</strong>:提供不可靠、无连接的服务</p>
+<blockquote>
+<p>网络层的IP协议(Internet Protocol)提供了一种不可靠的、无连接的服务;IP 的服务模型是尽力而为交付服务（best-effort delivery service）</p>
+</blockquote>
+<p>UDP 和 TCP 最基本的责任是，将两个端系统间 IP 的交付服务扩展为运行在端系统上的两个进程之间的交付服务。将主机间交付扩展到进程间交付被称为<strong>运输层的多路复用（transport-layer multiplexing）</strong>与<strong>多路分解（demultiplexing）</strong>。</p>
+<h2 id="Multiplexing-and-Demultiplexing"><a href="#Multiplexing-and-Demultiplexing" class="headerlink" title="Multiplexing and Demultiplexing"></a>Multiplexing and Demultiplexing</h2><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch5-1TransportLayer-2024-04-02-15-57-37.png"></p>
+<p>运输层的多路复用与多路分解，也就是将由网络层提供的主机到主机的交付服务延伸到为运行在主机上的应用程序提供进程到进程的服务。一个进程（作为网络应用的一部分）有一个或多个<strong>套接字（socket）</strong>，它相当于从网络向进程传递数据和从进程向网络传递数据的门户。下图为进程交付过程：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch5-1TransportLayer-2024-04-02-15-48-45.png"></p>
+<ul>
+<li><strong>多路复用</strong>（Multiplexing）：在源主机从不同套接字中收集数据块，并为每个数据块封装上首部信息（这将在以后用于分解）从而生成报文段，然后将报文传递到网络层；</li>
+<li><strong>多路分解</strong>（Demultiplexing）：在接收端，运输层检查这些字段，标识出接收套接字，进而将报文段定向到该套接字，即将运输层报文段的数据交付到正确的套接字的工作；</li>
+</ul>
+<hr>
+<p>主机收到IP数据报(IP Datagram),每个IP数据报中有源IP地址和目的IP地址,每个数据报搬运一个数据段,数据段中有源端口号和目的端口号,这样就可以将数据段交付给正确的Socket。</p>
+<ol>
+<li>套接字由唯一标识符；</li>
+<li>每个报文段通过<strong>源端口号字段</strong>（source port number field）和<strong>目的端口号字段</strong>（destination port number field）来指示该报文段所要交付的套接字；<blockquote>
+<p>端口号是一个 16 比特的数，其大小在 <code>0~65535</code>之间。<code>0~1023</code>范围的端口号称为<strong>周知端口号（well-know port number）</strong>，是受限制的。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch5-1TransportLayer-2024-04-02-16-00-52.png" alt="Ch5-1TransportLayer-2024-04-02-16-00-52"></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Connectionless-Transport-UDP"><a href="#Connectionless-Transport-UDP" class="headerlink" title="Connectionless Transport: UDP"></a>Connectionless Transport: UDP</h2><h2 id="Principles-of-Reliable-Data-Transfer"><a href="#Principles-of-Reliable-Data-Transfer" class="headerlink" title="Principles of Reliable Data Transfer"></a>Principles of Reliable Data Transfer</h2><h2 id="Connection-Oriented-Transport-TCP"><a href="#Connection-Oriented-Transport-TCP" class="headerlink" title="Connection-Oriented Transport: TCP"></a>Connection-Oriented Transport: TCP</h2><h2 id="Principles-of-Congestion-Control"><a href="#Principles-of-Congestion-Control" class="headerlink" title="Principles of Congestion Control"></a>Principles of Congestion Control</h2><h2 id="TCP-Congestion-Control"><a href="#TCP-Congestion-Control" class="headerlink" title="TCP Congestion Control"></a>TCP Congestion Control</h2></div><div class="article-licensing box"><div class="licensing-title"><p>运输层 TransportLayer Part Ⅰ</p><p><a href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/">https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-04-02</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-04-02</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Computer-Networking/">Computer Networking</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/OS/Ch4-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Ch4-1</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/OS/Ch3-1TheProcessorScheduling/"><span class="level-item">The Processor Scheduling</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Introduction-and-Transport-Layer-Services"><span class="level-left"><span class="level-item">1</span><span class="level-item">Introduction and Transport-Layer Services</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Relationship-Between-Transport-and-Network-Layers"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">Relationship Between Transport and Network Layers</span></span></a></li><li><a class="level is-mobile" href="#Overview-of-the-Transport-Layer-in-the-Internet"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">Overview of the Transport Layer in the Internet</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Multiplexing-and-Demultiplexing"><span class="level-left"><span class="level-item">2</span><span class="level-item">Multiplexing and Demultiplexing</span></span></a></li><li><a class="level is-mobile" href="#Connectionless-Transport-UDP"><span class="level-left"><span class="level-item">3</span><span class="level-item">Connectionless Transport: UDP</span></span></a></li><li><a class="level is-mobile" href="#Principles-of-Reliable-Data-Transfer"><span class="level-left"><span class="level-item">4</span><span class="level-item">Principles of Reliable Data Transfer</span></span></a></li><li><a class="level is-mobile" href="#Connection-Oriented-Transport-TCP"><span class="level-left"><span class="level-item">5</span><span class="level-item">Connection-Oriented Transport: TCP</span></span></a></li><li><a class="level is-mobile" href="#Principles-of-Congestion-Control"><span class="level-left"><span class="level-item">6</span><span class="level-item">Principles of Congestion Control</span></span></a></li><li><a class="level is-mobile" href="#TCP-Congestion-Control"><span class="level-left"><span class="level-item">7</span><span class="level-item">TCP Congestion Control</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">19</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">21</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>

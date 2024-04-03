@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Ch4-1 - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="存储器的层次结构    为能更多的存放并更快地处理用户信息，目前许多计算机把存储器分为三级。  寄存器、高速缓存、主存储器和磁盘缓存均属于操作系统存储管理的管辖范畴，掉电后它们存储的信息不再存在。磁盘和可移动存储介质属于设备管理的管辖范畴，它们存储的信息将被长期保存。高速缓存 Cache：K 字节、高速、昂贵、易变的内存 RAM： M 或 G 字节、中速、中等价格、易变的磁盘：G 或 T 字节、低"><meta property="og:type" content="article"><meta property="og:title" content="Ch4-1"><meta property="og:url" content="https://efterklang.github.io/UESTC/OS/Ch4-1/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="存储器的层次结构    为能更多的存放并更快地处理用户信息，目前许多计算机把存储器分为三级。  寄存器、高速缓存、主存储器和磁盘缓存均属于操作系统存储管理的管辖范畴，掉电后它们存储的信息不再存在。磁盘和可移动存储介质属于设备管理的管辖范畴，它们存储的信息将被长期保存。高速缓存 Cache：K 字节、高速、昂贵、易变的内存 RAM： M 或 G 字节、中速、中等价格、易变的磁盘：G 或 T 字节、低"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/og_image.png"><meta property="article:published_time" content="2024-04-03T02:20:03.000Z"><meta property="article:modified_time" content="2024-04-03T03:52:47.774Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="OS"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/UESTC/OS/Ch4-1/"},"headline":"Ch4-1","image":["https://efterklang.github.io/img/og_image.png"],"datePublished":"2024-04-03T02:20:03.000Z","dateModified":"2024-04-03T03:52:47.774Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"存储器的层次结构    为能更多的存放并更快地处理用户信息，目前许多计算机把存储器分为三级。  寄存器、高速缓存、主存储器和磁盘缓存均属于操作系统存储管理的管辖范畴，掉电后它们存储的信息不再存在。磁盘和可移动存储介质属于设备管理的管辖范畴，它们存储的信息将被长期保存。高速缓存 Cache：K 字节、高速、昂贵、易变的内存 RAM： M 或 G 字节、中速、中等价格、易变的磁盘：G 或 T 字节、低"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/OS/Ch4-1/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-03T02:20:03.000Z" title="4/3/2024, 10:20:03 AM">2024-04-03</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/OS/">OS</a></span><span class="level-item">24 minutes read (About 3607 words)</span><span class="level-item leancloud_visitors" id="/UESTC/OS/Ch4-1/" data-flag-title="Ch4-1"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Ch4-1</h1><div class="content"><h2 id="存储器的层次结构"><a href="#存储器的层次结构" class="headerlink" title="存储器的层次结构"></a>存储器的层次结构</h2><pre><code>    为能更多的存放并更快地处理用户信息，目前许多计算机把存储器分为三级。
+</code></pre>
+<p>寄存器、高速缓存、主存储器和磁盘缓存均属于操作系统存储管理的管辖范畴，掉电后它们存储的信息不再存在。<br>磁盘和可移动存储介质属于设备管理的管辖范畴，它们存储的信息将被长期保存。<br>高速缓存 Cache：K 字节、高速、昂贵、易变的<br>内存 RAM： M 或 G 字节、中速、中等价格、易变的<br>磁盘：G 或 T 字节、低速、价廉、不易变的<br>主存储器与寄存器 1.主存储器（内存，主存，可执行存储器）<br>用于保存进程运行时的程序和数据。CPU 的控制部件只能从主存中取得指令和数据到 CPU 寄存器，同样，CPU 寄存器中的数据可存入主存。<br>CPU 与外设交换数据必须依托于主存。 2.寄存器<br>寄存器访问速度最快，与 CPU 协调工作。<br>高速缓存与磁盘缓存<br>CPU 对高速缓存的访问，其速度比访问主存快，比访问寄存器慢。<br>根据程序执行的<strong>局部性原理</strong>，将主存中一些经常访问的数据存放在高速缓存中，减少访问主存的次数，提高程序的执行速度。<br>有些计算机系统设置了两级高速缓存，即，一级高速缓存与二级高速缓存。</p>
+<blockquote>
+<p>要想更好地理解虚拟内存技术，必须要知道计算机中著名的 局部性原理（Locality Principle）。另外，局部性原理既适用于程序结构，也适用于数据结构，是非常重要的一个概念。局部性原理是指在程序执行过程中，数据和指令的访问存在一定的空间和时间上的局部性特点。其中，时间局部性是指一个数据项或指令在一段时间内被反复使用的特点，空间局部性是指一个数据项或指令在一段时间内与其相邻的数据项或指令被反复使用的特点。在分页机制中，页表的作用是将虚拟地址转换为物理地址，从而完成内存访问。在这个过程中，局部性原理的作用体现在两个方面：时间局部性：由于程序中存在一定的循环或者重复操作，因此会反复访问同一个页或一些特定的页，这就体现了时间局部性的特点。为了利用时间局部性，分页机制中通常采用缓存机制来提高页面的命中率，即将最近访问过的一些页放入缓存中，如果下一次访问的页已经在缓存中，就不需要再次访问内存，而是直接从缓存中读取。空间局部性：由于程序中数据和指令的访问通常是具有一定的空间连续性的，因此当访问某个页时，往往会顺带访问其相邻的一些页。为了利用空间局部性，分页机制中通常采用预取技术来预先将相邻的一些页读入内存缓存中，以便在未来访问时能够直接使用，从而提高访问速度。总之，局部性原理是计算机体系结构设计的重要原则之一，也是许多优化算法的基础。在分页机制中，利用时间局部性和空间局部性，采用缓存和预取技术，可以提高页面的命中率，从而提高内存访问效率</p>
+</blockquote>
+<hr>
+<p>著作权归 JavaGuide(javaguide.cn)所有<br>基于 MIT 协议<br>原文链接：<a target="_blank" rel="noopener" href="https://javaguide.cn/cs-basics/operating-system/operating-system-basic-questions-02.html">https://javaguide.cn/cs-basics/operating-system/operating-system-basic-questions-02.html</a><br>磁盘缓存<br>内存中一块存储区，对应于某固定磁盘，临时存储磁盘数据（如，数据预取）</p>
+<p>三级存储器，从缓存到内存到外存，其容量愈来愈大，而访问数据的速度则愈来愈慢，价格也愈来愈便宜。<br>如缓存的最大传输速度为几十分之一至几百分之一 ns，主存的传输速度为几 ns 级。<br>用户的程序在运行时应存放在主存中，以便处理机访问。<br>其中直接存取要求内存速度尽量快到与 CPU 取指速度相匹配，大到能装下当前运行的程序与数据，否则 CPU 执行速度就会受到内存速度和容量的影响而得不到充分发挥。<br>由于主存容量和速度有限。所以把那些不马上使用的程序、数据放在外部存储器(又称辅存)中。当用到时再把它们读入主存。<br>由操作系统协调这些存储器的使用</p>
+<h3 id="存储器管理的目的和功能"><a href="#存储器管理的目的和功能" class="headerlink" title="存储器管理的目的和功能"></a>存储器管理的目的和功能</h3><pre><code>   1.主存储器的分配和管理：按用户要求把适当的存储空间分配给相应的作业。一个有效的存储分配机制，应在用户请求时能作出快速的响应，分配相应的存储空间；在用户不再使用它时，应立即回收，以供其他用户使用。为此，这个存储分配机制应具有如下功能（3个）：
+   (1)记住每个存储区域的状态：哪些是已分配的，哪些是可以用作分配的。
+   (2)实施分配：在系统程序或用户提出申请时，按所需的量给予分配；修改相应的分配记录表。
+   (3)接受系统或用户释放的存储区域：并相应地修改分配记录表。
+   2.提高主存储器的利用率：使多道程序能动态地共享主存，最好能共享主存中的信息。
+   3.“扩充”主存容量：这是借助于提供虚拟存储器或其它自动覆盖技术来达到的。即为用户提供比主存的存储空间还大的地址空间。
+   4.存储保护：确保各道用户作业都在所分配的存储区内操作，互不干扰。即要防止一道作业由于发生错误而损害其它作业，特别需要防止破坏其中的系统程序。这个问题不能用特权指令来加以解决，而必须由硬件提供保护功能，并由软件配合实现。
+</code></pre>
+<h3 id="存储分配的三种方式"><a href="#存储分配的三种方式" class="headerlink" title="存储分配的三种方式"></a>存储分配的三种方式</h3><p>存储分配，解决多道作业之间共享主存的问题。<br>解决的问题：确定什么时候，以什么方式，把一个作业的全部信息或作业运行时首先需要的信息分配到主存中，并使这些问题对用户来说尽可能是“透明”的。</p>
+<blockquote>
+<p>“对用户透明”（User Transparency）是一种计算术语，它指的是用户在使用系统或服务时，不需要关心或理解其背后的复杂实现细节。换句话说，系统或服务的复杂性对用户是”透明”的。</p>
+</blockquote>
+<p>解决存储分配问题的三种方式：</p>
+<ol>
+<li><p>直接指定方式：程序员在编程序时，或编译程序(汇编程序)对源程序进行编译(汇编)时，使用实际存储地址。<br>在多道程序环境下，应保证各作业所用的地址互不重叠。<br>采用直接指定方式分配的前提是：存储器的可用容量(空间)已经给定或者可以指定，这对单用户计算机系统是不成问题的。<br> 在多道程序发展的初期，通常把存储空间划分成若干个固定的不同大小分区，并对不同的作业指定相应的分区。因此，对编程人员或对编译程序而言，存储器的可用空间是可知的。<br>这种分配方式的实质是：由编程人员在编写程序时，或由编译程序编译源程序时，对一个作业的所有信息确定在主存存储空间中的位置。因此，这种直接指定方式的存储分配方案，不仅用户感到不便，而且存储空间的利用也不那么有效。（缺点）</p>
+</li>
+<li><p>静态分配方式(Static Allocation)<br>用户在编程时，或由编译程序产生的目的程序，均可从其地址空间的零地址开始；当装配程序对其进行连接装入时才确定它们在主存中的相应位置，从而生成可执行程序。也就是说，存储分配是在装入时实现的。<br>这种静态存储分配方式的特点是：<br>(1)在一个作业装入时必须分配其要求的全部存储量；<br>(2)如果没有足够的存储空间，就不能装入该作业；<br>(3)一旦一个作业进入内存后，在其退出系统之前，它一直占用着分配给它的全部存储空间；<br>(4) 作业在整个运行过程中不能在内存中“搬家”、也不能再申请存储量。<br>静态分配策略的存储管理很简单，但在多道程序系统中不能有效地共享存储器资源。</p>
+</li>
+<li><p>动态分配方式(Dynamic Allocation)：<br>动态分配是一种更加有效的使用主存储器的方法。<br>这种动态存储分配方式的特点是：<br>(1)作业在存储空间中的位置，也是在其装入时确定的；<br>(2)在其执行过程中可根据需要申请附加的存储空间；<br>(3)一个作业已占用的部分存储区域不再需要时，可以要求归还给系统。<br>即：这种存储分配机制能接受不可预测的分配和释放存储区域的请求，实现个别存储区域的分配和回收；<br>(4)存储区域的大小是可变的；<br>(5)允许作业在内存中“搬家”。</p>
+<pre><code>目前，绝大多数计算机系统都采用静态或动态存储分配方式，所以，在本章只讨论这两种存储分配的实现技术，重点放在各种动态存储分配技术的实现上。
+</code></pre>
+</li>
+</ol>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>逻辑地址（相对地址，虚地址） logical address<br>用户的程序经过汇编或编译后形成目标代码，目标代码通常采用相对地址的形式，其首地址为 0，其余指令中的地址都相对于首地址而编址。不能用逻辑地址在内存中读取信息<br>物理地址（绝对地址，实地址）physical address<br>内存中存储单元的地址，可直接寻址<br>名空间 namespace<br>一个用高级语言编制的源程序，我们说它存在于由程序员建立的符号名字空间（简称名空间）。<br>地址空间<br>程序用来访问信息所用地址单元的集合，是逻辑（相对）地址的集合，由编译程序生成。<br>存储空间：主存中物理单元的集合。这些单元的编号称物理地址或绝对地址。存储空间的大小是由主存的实际容量决定的。<br>地址空间是逻辑地址的集合；存储空间是物理地址的集合。一个是“虚”的概念，一个是“实”的物体。<br>一个编译好的目标程序存在于它自己的地址空间中，当要它在计算机上运行时，才把它装入存储空间。<br>一个作业在编译、装入前后存在于不同的空间。</p>
+<h2 id="程序的装入和链接"><a href="#程序的装入和链接" class="headerlink" title="程序的装入和链接"></a>程序的装入和链接</h2><p>将一个用户源程序变为一个可在内存中执行的程序，通常要经过下列几步：<br>预处理Preprocessing<br>编译Compiliation：源程序模块是用高级语言或汇编语言写的一组程序语句。计算机不能直接执行源语句，它们要首先被编译程序或解释程序翻译成机器级代码。编译程序(Compiler)接受完整的源一级的程序，并以类似于成批的方式生成完整的目标一级的模块。<br>汇编Assembly<br>链接Linking：目标模块是纯二进制的机器级代码。计算机可以执行目标级代码，但是典型的目标模块是不完备的，它包含对其它目标模块（诸如存取方法或子例程）或库函数的引用。因此，目标模块通常是不能装入计算机并执行的。<br>大部份目标模块必须首先链接成一个装入模块，它是能被装入并执行的完备的机器级程序。这个使目标模块链接成装入模块的过程，是由链接程序（Linker）实现的。<br>装入Loading：由装入程序将装入模块装入内存并执行。</p>
+<h2 id="连续分配存储管理方式"><a href="#连续分配存储管理方式" class="headerlink" title="连续分配存储管理方式"></a>连续分配存储管理方式</h2><h2 id="基本分页存储管理方式"><a href="#基本分页存储管理方式" class="headerlink" title="基本分页存储管理方式"></a>基本分页存储管理方式</h2><h2 id="基本分段存储管理方式"><a href="#基本分段存储管理方式" class="headerlink" title="基本分段存储管理方式"></a>基本分段存储管理方式</h2><h2 id="虚拟存储器的基本概念"><a href="#虚拟存储器的基本概念" class="headerlink" title="虚拟存储器的基本概念"></a>虚拟存储器的基本概念</h2><h2 id="请求分页存储管理方式"><a href="#请求分页存储管理方式" class="headerlink" title="请求分页存储管理方式"></a>请求分页存储管理方式</h2><h2 id="抖动与工作集"><a href="#抖动与工作集" class="headerlink" title="抖动与工作集"></a>抖动与工作集</h2><h2 id="请求分段存储管理方式"><a href="#请求分段存储管理方式" class="headerlink" title="请求分段存储管理方式"></a>请求分段存储管理方式</h2></div><div class="article-licensing box"><div class="licensing-title"><p>Ch4-1</p><p><a href="https://efterklang.github.io/UESTC/OS/Ch4-1/">https://efterklang.github.io/UESTC/OS/Ch4-1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-04-03</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-04-03</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/OS/">OS</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/ComputerNetworking/Ch5-1TransportLayer/"><span class="level-item">运输层 TransportLayer Part Ⅰ</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#存储器的层次结构"><span class="level-left"><span class="level-item">1</span><span class="level-item">存储器的层次结构</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#存储器管理的目的和功能"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">存储器管理的目的和功能</span></span></a></li><li><a class="level is-mobile" href="#存储分配的三种方式"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">存储分配的三种方式</span></span></a></li><li><a class="level is-mobile" href="#基本概念"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">基本概念</span></span></a></li></ul></li><li><a class="level is-mobile" href="#程序的装入和链接"><span class="level-left"><span class="level-item">2</span><span class="level-item">程序的装入和链接</span></span></a></li><li><a class="level is-mobile" href="#连续分配存储管理方式"><span class="level-left"><span class="level-item">3</span><span class="level-item">连续分配存储管理方式</span></span></a></li><li><a class="level is-mobile" href="#基本分页存储管理方式"><span class="level-left"><span class="level-item">4</span><span class="level-item">基本分页存储管理方式</span></span></a></li><li><a class="level is-mobile" href="#基本分段存储管理方式"><span class="level-left"><span class="level-item">5</span><span class="level-item">基本分段存储管理方式</span></span></a></li><li><a class="level is-mobile" href="#虚拟存储器的基本概念"><span class="level-left"><span class="level-item">6</span><span class="level-item">虚拟存储器的基本概念</span></span></a></li><li><a class="level is-mobile" href="#请求分页存储管理方式"><span class="level-left"><span class="level-item">7</span><span class="level-item">请求分页存储管理方式</span></span></a></li><li><a class="level is-mobile" href="#抖动与工作集"><span class="level-left"><span class="level-item">8</span><span class="level-item">抖动与工作集</span></span></a></li><li><a class="level is-mobile" href="#请求分段存储管理方式"><span class="level-left"><span class="level-item">9</span><span class="level-item">请求分段存储管理方式</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">19</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">21</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>

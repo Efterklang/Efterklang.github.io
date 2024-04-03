@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>The Processor Scheduling - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍处理机调度的层次 调度队列模型和调度准则调度算法 实时调度"><meta property="og:type" content="article"><meta property="og:title" content="The Processor Scheduling"><meta property="og:url" content="https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍处理机调度的层次 调度队列模型和调度准则调度算法 实时调度"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/OS/Ch3-1ProcessScheduling.jpg"><meta property="article:published_time" content="2024-03-29T02:56:11.000Z"><meta property="article:modified_time" content="2024-04-02T13:49:39.677Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="OS"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/OS/Ch3-1ProcessScheduling.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/"},"headline":"The Processor Scheduling","image":["https://efterklang.github.io/img/thumbnails/OS/Ch3-1ProcessScheduling.jpg"],"datePublished":"2024-03-29T02:56:11.000Z","dateModified":"2024-04-02T13:49:39.677Z","author":{"@type":"Person","name":"Efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍处理机调度的层次 调度队列模型和调度准则调度算法 实时调度"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/OS/Ch3-1ProcessScheduling.jpg" alt="The Processor Scheduling" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-03-29T02:56:11.000Z" title="3/29/2024, 10:56:11 AM">2024-03-29</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/OS/">OS</a></span><span class="level-item">an hour read (About 7200 words)</span><span class="level-item leancloud_visitors" id="/UESTC/OS/Ch3-1TheProcessorScheduling/" data-flag-title="The Processor Scheduling"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">The Processor Scheduling</h1><div class="content"><h2 id="处理机调度的层次-Process-Scheduling-Levels"><a href="#处理机调度的层次-Process-Scheduling-Levels" class="headerlink" title="处理机调度的层次 Process Scheduling Levels"></a>处理机调度的层次 Process Scheduling Levels</h2><h3 id="概述-Overview"><a href="#概述-Overview" class="headerlink" title="概述 Overview"></a>概述 Overview</h3><p>处理机是计算机系统中的重要资源,在<strong>多道程序环境</strong>下[<a href="Ch1-1OSIntroduction.md" title="操作系统概论">Ch1-1OSIntroduction#操作系统的发展过程</a>]，进程数目通常多于处理机的数目,系统必须按一定方法动态地把处理机分配给就绪队列中的一个进程;处理机利用率和系统性能（吞吐量、响应时间）在很大程度上取决于处理机调度</p>
+<ul>
+<li>WHAT：按什么原则分配 CPU 调度算法</li>
+<li>WHEN：何时分配 CPU 调度的时机</li>
+<li>HOW：如何分配 CPU 调度过程及进程的上下文切换</li>
+</ul>
+<h3 id="作业-JOB"><a href="#作业-JOB" class="headerlink" title="作业 JOB"></a>作业 JOB</h3><p>作业是用户在一次算题过程中或一次事务处理中，要求计算机系统所做的工作的集合<br>作业是一个比程序更广泛的概念，可以包含多个程序和数据，还配有一份作业说明书，系统根据作业说明书来对作业中的程序进行控制。在批处理系统中，以作业为单位从外存调入内存<br>用户为了让计算机完成某个特定任务，首先编写成源程序，然后提交给计算机通过编译或汇编、连接、装配、运行等步骤，最终由计算机输出用户所需要的运行结果。从计算机管理的角度看，上述一系列的由计算机执行的任务的集合就是作业。</p>
+<blockquote>
+<p>Job and task are today vague, ambiguous terms, especially task. A “job” often means a set of processes, while a “task” may mean a process, a thread, a process or thread, or, distinctly, a unit of work done by a process or thread.<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3073948/job-task-and-process-whats-the-difference">job, task and process, what’s the difference</a></p>
+</blockquote>
+<h4 id="作业步-Job-Step"><a href="#作业步-Job-Step" class="headerlink" title="作业步 Job Step"></a>作业步 Job Step</h4><p>计算机完成作业是通过执行一系列有序的工作步骤进行的，每个步骤完成作业的一部分特定工作;把计算机系统完成一个作业所需的一系列有序的相对独立的工作步骤称为<strong>作业步</strong><br>作业的各个作业步虽然功能相对独立，但它们之间相互关联，往往是一个作业步的执行需要使用上一个作业步的执行结果。</p>
+<blockquote>
+<p>从用户把源程序提交给计算机系统到得出运算结果要经过若干个工作步骤，首先计算机系统要对用户的源程序进行编辑工作来进行语法检查，再由编译或汇编工作生成目标代码。由连接工作形成装入模块，然后通过装入工作将装入模块装入内存。最后由运行工作得出运行结果。5 个步骤，每步都完成一项相对独立的工作</p>
+<center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-03-29-15-12-12.png"></p>
+</center>
+</blockquote>
+<h4 id="作业状态转换-Job-State-Transition"><a href="#作业状态转换-Job-State-Transition" class="headerlink" title="作业状态转换 Job State Transition"></a>作业状态转换 Job State Transition</h4><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-03-29-15-26-26.png" alt="Ch3-1TheProcessorScheduling-2024-03-29-15-26-26"></p>
+<h4 id="JCB"><a href="#JCB" class="headerlink" title="JCB"></a>JCB</h4><p>作业提交给系统进入后备状态后，系统将为每个作业建立一个作业控制块 JCB。<br>JCB 在作业的整个运行过程中始终存在，并且其内容与作业的状态同步地动态变化。只有当作业完成并退出系统时，JCB 才被撤消。可以说，<strong>JCB 是一个作业在系统中存在的唯一标志</strong>，系统根据 JCB 才感知到作业的存在<br>作业控制块 JCB 中包含了对作业进行管理的必要信息，JCB 中的信息一部分是从用户提供的作业控制卡或作业说明书中得到，另一部分是记录作业运行过程中的动态信息<br>JCB 的具体内容因系统不同而异</p>
+<table>
+<thead>
+<tr>
+<th><strong>作业名</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>资源要求</td>
+<td>预估的运行时间 最迟完成时间 要求的内存量 要求外设类型、台数 要求的文件量和输出量</td>
+</tr>
+<tr>
+<td>资源使用情况</td>
+<td>进入系统时间 开始运行时间 已运行时间 内存地址 外设台号</td>
+</tr>
+<tr>
+<td>类型级别</td>
+<td>控制方式 作业类型 优先级</td>
+</tr>
+<tr>
+<td>状态</td>
+<td></td>
+</tr>
+<tr>
+<td>用户账户……</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="处理机调度的层次"><a href="#处理机调度的层次" class="headerlink" title="处理机调度的层次"></a>处理机调度的层次</h3><ul>
+<li>在多道程序系统中，一个作业从提交到执行，通常都要经历多级调度,如高级调度、低级调度、中级调度以及 I&#x2F;O 调度等</li>
+<li>系统的运行性能在很大程度上取决于调度,如吞吐量的大小、周转时间的长短、响应的及时性等</li>
+<li>调度是多道系统的关键</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">运行频率</th>
+<th align="center">运行时间</th>
+<th align="center">算法复杂性</th>
+<th>存储</th>
+<th>OS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">进程调度</td>
+<td align="center">高</td>
+<td align="center">短</td>
+<td align="center">低</td>
+<td>内存中</td>
+<td>批处理,实时,分时</td>
+</tr>
+<tr>
+<td align="center">中程调度</td>
+<td align="center">中</td>
+<td align="center">较短</td>
+<td align="center">中</td>
+<td>内外存互换</td>
+<td>批处理,实时,分时</td>
+</tr>
+<tr>
+<td align="center">作业调度</td>
+<td align="center">低</td>
+<td align="center">长</td>
+<td align="center">高</td>
+<td>外存到内存</td>
+<td>批处理</td>
+</tr>
+</tbody></table>
+<p>引起进程调度的事件：</p>
+<ol>
+<li>正在执行的进程正常终止或异常终止</li>
+<li>正在执行的进程因某事件而阻塞(如提出 IO 请求后阻塞,调用<code>wait()</code>后阻塞,在进程通信或同步过程中执行了某种原语操作，如 P、V 操作原语，Block 原语， Wakeup 原语等后阻塞)</li>
+<li>在引入时间片的系统中，时间片用完，进程被抢占</li>
+<li>在抢占式系统中，就绪队列中的某进程优先级高于当前进程,或有更高优先级的进程进入就绪队列</li>
+</ol>
+<h4 id="高级调度-High-Scheduling"><a href="#高级调度-High-Scheduling" class="headerlink" title="高级调度 High Scheduling"></a>高级调度 High Scheduling</h4><p><strong>高级调度 High Scheduling</strong>：又称<strong>作业调度、准入调度、长程调度或接纳调度</strong>，其主要功能是根据某种算法，把外存上处于后备队列中的那些作业调入内存;它发生在一批作业完成，重新调入一批作业到内存的时候，执行频率低。批处理系统需要有作业调度，<strong>分时和实时系统无需此调度</strong>。主要用于批处理系统。其设计目标是最大限度地发挥各种资源的利用率和保持系统内各种活动的充分并行;</p>
+<blockquote>
+<p>例：对资源需求不同的作业进行合理搭配<br>科学计算往往需要占用大量的 CPU 时间，属于 CPU 繁忙型作业，对于 I&#x2F;O 设备的使用少；<br>数据处理要求占用较少的 CPU 时间，但要求大量 I&#x2F;O 时间，属于 I&#x2F;O 繁忙型作业；<br>有些递归计算，产生大量中间结果，需要很多内存单元存放它们，这属于内存繁忙型作业。<br>如果能把它们搭配在一起，程序 A 在使用处理机，程序 B 在利用通道 l，而程序 C 恰好利用通道 2 等，这样一来，A、B 和 C 从来不在同一时间使用同一资源，每个程序就好像单独在一个机器上运行</p>
+</blockquote>
+<p>在每次执行作业调度时，都须做出以下两个决定：</p>
+<ol>
+<li>接纳多少个作业（取决于多道程序度）<ul>
+<li>作业太多 服务质量下降</li>
+<li>作业太少 资源利用率低</li>
+</ul>
+</li>
+<li>接纳哪些作业 （取决于采用的调度算法）</li>
+</ol>
+<h5 id="调度评价指标"><a href="#调度评价指标" class="headerlink" title="调度评价指标"></a>调度评价指标</h5><blockquote>
+<p>多道程序度 Degree Of Multiprogramming：即允许多少个作业同时在内存中运行。<br>周转时间 Turnaround Time：指从作业被提交给系统开始，到作业完成为止的这段时间间隔,也称为作业周转时间<br>吞吐量 Throughput：是指在单位时间内系统所完成的作业数<br>服务时间 Service Time：作业的预计运行时间<br>响应比 Response Ratio：$RR&#x3D;\frac{T_{等待时间} + T_{预计运行时间}}{T_{预计运行时间}}&#x3D;\frac{T_{响应时间}}{T_{预计运行时间}}$,注意 <code>RR&gt;=1</code><br>带权周转时间 Weighted Turnaround Time：作业的周转时间 T 与系统为它提供服务的时间 TS 之比,称为带权周转世界,$WTT&#x3D;\frac{T_{周转时间}}{T_{预计运行时间}}$</p>
+</blockquote>
+<h4 id="低级调度-Low-Scheduling"><a href="#低级调度-Low-Scheduling" class="headerlink" title="低级调度 Low Scheduling"></a>低级调度 Low Scheduling</h4><p><strong>低级调度又称为进程调度或短程调度</strong>，它所调度的对象是进程。三种类型 OS 都必须配置这级调度(最基本调度);低级调度用于决定就绪队列中的哪个进程应获得处理机，然后由**分派进程(Dispatcher)**执行把分配处理机给相应进程的具体操作。其时间尺度通常是毫秒级的,且是系统中最频繁的调度,要求在实现时做到高效</p>
+<p><strong>低级调度基本机制</strong></p>
+<ol>
+<li><strong>排队器</strong>为了提高进程调度的效率，应事先将系统中所有的就绪进程按照一定的方式排成一个或多个队列。</li>
+<li><strong>分派器(调度程序)</strong> 分派器把由进程调度程序所选定的进程从就绪队列中取出，然后进行上下文切换，将处理机分配给它。</li>
+<li><strong>上下文切换机制</strong>当对处理机进行切换时，会发生两对上下文切换操作。</li>
+</ol>
+<p><strong>低级调度功能</strong></p>
+<ol>
+<li>按某种算法选取进程（调度）。</li>
+<li>保存处理机的现场信息（上下文切换第一步骤）</li>
+<li>恢复新进程的 CPU 现场,从而把处理器分配给新进程（上下文切换第二步骤）。</li>
+</ol>
+<p><strong>进程调度方式</strong></p>
+<p><strong>非抢占方式 Non-preemptive Mode</strong>：进程占用处理机直至自愿放弃或发生某事件被阻塞时，在把处理机分配给其他进程。</p>
+<p>进程正在处理机上执行时，新就绪的进程进入就绪队列，该进程仍继续执行，直到其完成或发生某种事件而进入完成或阻塞状态时，才转让处理机。</p>
+<p>优点：算法简单，系统开销小<br>缺点：紧急任务不能及时响应；短进程到达要等待长进程运行结束</p>
+<p><strong>抢占方式 Preemptive Mode</strong>：允许暂停某个正在执行的进程，将处理机重新分配给另一个进程。</p>
+<p>进程正在处理机上执行时，若有某个更为重要或紧迫的进程进入就绪队列，则立即暂停正在执行的进程，将处理机分配给这个更为重要或紧迫的进程</p>
+<p>优点：可以防止一个长进程长时间占用处理机，能为大多数进程提供更公平的服务，特别是能满足对响应时间有着较严格要求的实时任务的需求。<br>缺点：抢占方式比非抢占方式调度所需付出的开销较大，且调度算法复杂。</p>
+<p>抢占方式 Preemptive Mode</p>
+<ul>
+<li>时间片原则:适用于分时、大多数实时以及要求较高的批处理系统</li>
+<li>优先权原则:重要紧急作业优先权高</li>
+<li>短作业(进程)优先原则。</li>
+</ul>
+<h4 id="中级调度-Intermediate-Level-Scheduling"><a href="#中级调度-Intermediate-Level-Scheduling" class="headerlink" title="中级调度 Intermediate-Level Scheduling"></a>中级调度 Intermediate-Level Scheduling</h4><p>中级调度 Intermediate-Level Scheduling,又称中程调度(Medium-Term Scheduling);<br>主要目的：为了提高内存利用率和系统吞吐量。<br>具体实现：</p>
+<ul>
+<li>使那些暂时不能运行的进程不再占用宝贵的内存资源，而将其调至外存的交换区(swap space)去等待，把此时的进程状态称为就绪驻外存状态或挂起状态。</li>
+<li>当这些进程重又具备运行条件、且内存又稍有空闲时，由中级调度来决定把外存上的那些又具备运行条件的就绪进程，重新调入内存，并修改其状态为就绪状态，挂在就绪队列上等待进程调度。</li>
+</ul>
+<h2 id="调度队列模型和调度准则"><a href="#调度队列模型和调度准则" class="headerlink" title="调度队列模型和调度准则"></a>调度队列模型和调度准则</h2><h3 id="调度模型-Scheduling-Model"><a href="#调度模型-Scheduling-Model" class="headerlink" title="调度模型 Scheduling Model"></a>调度模型 Scheduling Model</h3><p>三级调度都涉及进程的队列。可以形成以下三种调度队列模型</p>
+<ul>
+<li>仅有进程调度(低级调度)</li>
+<li>具有高级和低级调度</li>
+<li>具有三级调度</li>
+</ul>
+<h4 id="仅有进程调度"><a href="#仅有进程调度" class="headerlink" title="仅有进程调度"></a>仅有进程调度</h4><p>在分时系统中，通常仅设有进程调度,系统把这些进程组织成一个就绪队列,每个进程在执行时，可能有以下几种情况</p>
+<ul>
+<li>进程获得 CPU 正在执行；</li>
+<li>任务在给定时间片内已完成，释放处理机后为完成状态；</li>
+<li>任务在时间片内未完成，进入就绪队列末尾；</li>
+<li>在执行期间因某事件而阻塞。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-03-31-18-02-37.png" alt="仅有进程调度的调度队列模型(分时系统)"><blockquote>
+<p>就绪队列时间片轮转，常采用 FCFS(FIFO)算法， FCFS(FIFO)队列。<br>进程执行时三种情况：完成、时间片到、阻塞</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="具有高级和低级调度"><a href="#具有高级和低级调度" class="headerlink" title="具有高级和低级调度"></a>具有高级和低级调度</h4><p>在批处理系统中，不仅需要进程调度，而且还要有作业调度<br>就绪队列的形式:在批处理系统中，常用高优先权队列。进程进入就绪队列时，按优先权高低插入相应位置，调度程序总是把处理机分配给就绪队列首进程<br>设置多个阻塞队列:根据事件的不同设置多个队列提高效率<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-03-31-18-04-45.png" alt="具有高级和低级调度的调度队列模型"></p>
+<blockquote>
+<p>常采用高优先权优先调度算法<br>可采用优先队列，进程来时按优先权插队，从队首调度 （效率高）<br>可采用无序列表，每次调度时，先比较优先权<br>多个阻塞队列</p>
+</blockquote>
+<h4 id="同时具有三级调度的调度队列模型"><a href="#同时具有三级调度的调度队列模型" class="headerlink" title="同时具有三级调度的调度队列模型"></a>同时具有三级调度的调度队列模型</h4><p>在 OS 中引入中级调度后，进程的就绪状态分为内存就绪(表示进程在内存中就绪)和外存就绪(进程在外存中就绪)。同样，阻塞状态进一步分成内存阻塞和外存阻塞两种状态。<br>在调出操作的作用下，可使进程状态由内存就绪转为外存就绪，由内存阻塞转为外存阻塞；<br>在中级调度的作用下，又可使外存就绪转为内存就绪。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-03-31-18-11-01.png" alt="同时具有三级调度的调度队列模型"></p>
+<h3 id="选择调度方式和调度算法的若干准则"><a href="#选择调度方式和调度算法的若干准则" class="headerlink" title="选择调度方式和调度算法的若干准则"></a>选择调度方式和调度算法的若干准则</h3><p>在不同的系统中通常采用不同的调度方式和算法。</p>
+<p><strong>调度的目标</strong></p>
+<ul>
+<li>提高处理机的利用率</li>
+<li>提高系统吞吐量</li>
+<li>尽量减少进程的响应时间</li>
+<li>防止进程长期得不到运行</li>
+</ul>
+<h4 id="系统选择调度方式和算法的准则"><a href="#系统选择调度方式和算法的准则" class="headerlink" title="系统选择调度方式和算法的准则"></a>系统选择调度方式和算法的准则</h4><p><a href="#调度评价指标">调度评价指标术语</a></p>
+<ol>
+<li>面向用户的准则<ul>
+<li><strong>周转时间短</strong>:用来评价批处理系统的性能、选择作业调度方式与算法的重要准则之一<ul>
+<li>作业在外存后备队列上等待调度的时间。</li>
+<li>进程在就绪队列等待调度的时间。</li>
+<li>进程在 CPU 上的执行时间。</li>
+<li>等待 I&#x2F;O 操作完成的时间。</li>
+</ul>
+</li>
+<li><strong>响应时间快</strong>:用来评价分时系统的性能、选择进程调度算法的重要准则之一<br>这里的响应时间，是指从用户通过键盘提交一个请求开始，直至系统首次产生响应为止的时间。<ul>
+<li>从键盘输入的请求信息传送到处理机的时间。</li>
+<li>处理机对请求信息进行处理的时间。</li>
+<li>将所形成的响应回送到终端显示器的时间。</li>
+</ul>
+</li>
+<li><strong>截止时间的保证</strong>:用来评价实时系统的性能、选择实时调度算法的重要准则之一<br>截止时间，是指某任务必须开始执行的最迟时间，或必须完成的最迟时间。（也叫做时限，即 deadline）<ul>
+<li>开始截止时间。</li>
+<li>终止&#x2F;完成截止时间。</li>
+</ul>
+</li>
+<li><strong>优先权准则</strong>:适合批处理、分时和实时系统<ul>
+<li>让某些紧急的作业能得到及时处理。</li>
+<li>往往还需选择抢占式调度方式，才能保证紧急作业得到及时处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>面向系统的准则<ul>
+<li><strong>系统吞吐量高</strong>:评价批处理系统<ul>
+<li>吞吐量是指在单位时间内，系统所完成的作业数</li>
+<li>与批处理作业的平均长度有关</li>
+</ul>
+</li>
+<li><strong>处理机利用率高</strong>。主要对大、中型多用户系统，对单用户或实时系统不重要。<br>$CPU利用率 &#x3D; \frac{CPU有效工作时间}{CPU有效工作时间+CPU空闲等待时间}$</li>
+<li><strong>各类资源的平衡利用</strong>:如内存、外存、I&#x2F;O 设备等;主要对大、中型系统，对微型机或实时系统不重要。</li>
+</ul>
+</li>
+</ol>
+<h4 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h4><p><strong>进程切换</strong>:当一个进程占用处理机执行完(或不能继续执行)，则切换另一个进程占用处理机执行，称为进程切换。<br><strong>进程调度</strong>:把处理机分配给不同的进程占用执行，称为进程调度。实现分配处理机的程序称为<strong>调度程序</strong><br>在进程切换时，要保护执行现场。执行现场称为进程的<strong>上下文 context</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-04-01-14-10-26.png" alt="Process Switch"></p>
+<p><strong>进程切换基本步骤</strong></p>
+<ol>
+<li>保存当前进程的上下文</li>
+<li>更新当前运行进程的 PCB，将其状态改为就绪 Ready 或阻塞 Blocked</li>
+<li>将 PCB 插入就绪队列或阻塞队列</li>
+<li>改变需要投入运行的进程的 PCB，将其状态改为运行 Running</li>
+<li>恢复新进程的上下文</li>
+</ol>
+<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-04-01-20-52-59.png"></p>
+<h3 id="FCFS"><a href="#FCFS" class="headerlink" title="FCFS"></a>FCFS</h3><p><strong>先到先服务调度算法</strong>(FCFS，First Come First Served) 按照作业&#x2F;进程进入系统的<strong>先后次序</strong>进行调度，先进入系统者先调度；适合于作业调度和进程调度;用于批处理系统，不适于分时系统</p>
+<ul>
+<li>优点：<ul>
+<li>有利于长作业（进程）</li>
+<li>有利于 CPU 繁忙型作业（进程）</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>不利用短作业（进程），特别是来的较晚的短作业（进程）。</li>
+<li>不利于 I&#x2F;O 繁忙型作业（进程）</li>
+</ul>
+</li>
+</ul>
+<h3 id="SJF"><a href="#SJF" class="headerlink" title="SJF"></a>SJF</h3><p><strong>短作业优先的调度算法</strong>(SJF，Shortest Job First) 以要求运行时间长短进行调度，即启动要求运行时间最短的作业;可以分别用于作业调度和进程调度</p>
+<ul>
+<li>短作业优先(SJF)的调度算法，是从后备队列中选择一个或若干个估计运行时间最短的作业，将它们调入内存运行；</li>
+<li>短进程优先(SPF)调度算法，则是从就绪队列中选出一个估计运行时间最短的进程，将处理机分配给它，使它立即执行并一直执行到完成，或发生某事件而被阻塞放弃处理机时，再重新调度。</li>
+<li>优点<ul>
+<li>能有效降低作业&#x2F;进程的平均等待时间</li>
+<li>提高系统的吞吐量。</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>该算法对长作业不利，更严重的是可能将导致长作业(进程)长期不被调度</li>
+<li>该算法完全未考虑作业的紧迫程度，因而不能保证紧迫性作业(进程)会被及时处理</li>
+<li>由于作业(进程)的长短只是根据用户所提供的估计执行时间而定的，而用户又可能会有意或无意地缩短其作业的估计运行时间，致使该算法不一定能真正做到短作业优先调度</li>
+<li>无法实现人机交互</li>
+</ul>
+</li>
+</ul>
+<h3 id="SRT"><a href="#SRT" class="headerlink" title="SRT"></a>SRT</h3><p><strong>最短剩余时间优先调度算法</strong>(SRT,Shortest Remaining Time) 调度时选择预期剩余时间最短的进程。当一个新进程加入到就绪队列时，它可能比当前运行的进程具有更短的剩余时间。因此，只要新进程就绪，调度器可能抢占当前正在运行的进程。可能存在长进程被饿死的危险。</p>
+<h3 id="PSA"><a href="#PSA" class="headerlink" title="PSA"></a>PSA</h3><p><strong>优先权调度算法</strong>(PSA,Priority) 适合于作业调度和进程调度</p>
+<ul>
+<li><strong>优先权类型</strong><ul>
+<li><strong>静态优先权</strong>:静态优先权是在创建进程时确定的，且在进程的整个运行期间保持不变。优点是简单易行、系统开销小。缺点：不够精确，可能出现优先权低的作业或进程长期得不到调度的情况。</li>
+<li><strong>动态优先权</strong>:动态优先权随进程的推进或随其等待时间的增加而改变，以获得更好的调度性能</li>
+</ul>
+</li>
+<li><strong>确定进程优先权的依据有</strong><ul>
+<li>进程类型: 系统进程高，一般用户进程低。</li>
+<li>进程对资源的需求:进程的估计执行时间、内存需求量等。要求少的进程赋予较高的优先权。</li>
+<li>用户要求:紧迫程度、所付费用。</li>
+</ul>
+</li>
+<li><strong>非抢占式优先权算法</strong>（用于批处理、要求不严的实时 OS）系统一旦把处理机分配给就绪队列中优先权最高的进程后，该进程便一直执行下去，直至完成；或因发生某事件使该进程放弃处理机时，系统方可再将处理机重新分配给另一优先权最高的进程。</li>
+<li><strong>抢占式优先权调度算法</strong>（用于要求严格的实时、性能要求较高的批处理和分时 OS）系统把处理机分配给优先权最高的进程，使之执行。但在其执行期间，只要又出现了另一个优先权更高的进程，进程调度程序就立即停止当前进程(原优先权最高的进程)的执行，重新将处理机分配给新到的优先权最高的进程。这种抢占式的优先权调度算法，能更好地满足<strong>紧迫作业</strong>的要求<br><strong>Note: 只要新的进程到达并加入到就绪队列中，就进行优先权比较</strong><ul>
+<li><strong>高响应比优先调度算法</strong>(HRRN,High Response Ratio Next),优先权的变化规律可描述为：$优先权 &#x3D; \frac{等待时间+预计运行时间}{预计运行时间}$ 由于等待时间与预计运行时间之和，就是系统对该作业的响应时间，故该优先权又相当于响应比 RP。据此，又可表示为$R_p &#x3D; \frac{等待时间+预计运行时间}{预计运行时间} &#x3D; \frac{响应时间}{预计运行时间}$<blockquote>
+<p>HRRN 是介于 FCFS 和 SJ(P)F 之间的一种折中算法,HRRN 调度算法的优点是能够较好地平衡服务时间短和等待时间长的进程，避免了“饥饿”现象。由于长作业也有机会投入运行，在同一时间内处理的作业数显然要少于 SJ(P)F 算法，从而采用 HRRN 方式时其吞吐量将小于采用 SJF 算法时的吞吐量。另外，由于每次调度前要计算响应比，系统开销也要相应增加。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Round-Robin"><a href="#Round-Robin" class="headerlink" title="Round-Robin"></a>Round-Robin</h3><p><strong>时间片轮转调度算法</strong>(RR，Round-Robin):时间片轮转调度是一种最古老，最简单，最公平且使用最广的算法,适合于进程调度。</p>
+<ul>
+<li><strong>基本原理</strong><br>系统将所有就绪进程按 FCFS 原则，排成一个队列，每次调度时，把 CPU 分配给队首进程，并令其执行一个<strong>时间片</strong>(Time Slice)。当时间片用完时，由一个计时器发出时钟中断请求，调度程序便根据此信号来停止该进程的执行，并将它送往就绪队列的末尾；然后，再把处理机分配给就绪队列中新的队首进程，同时也让它执行一个时间片。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-04-02-21-04-08.png"></li>
+<li><strong>Time Slice 大小确定</strong><br>需考虑系统对响应时间的要求,就绪队列中进程的数量,系统的处理能力(保证用户键入的命令能在一个时间片内处理完毕)<ul>
+<li>时间片太短，会增加进程切换的开销，降低系统吞吐量</li>
+<li>时间片太长，退化成 FCFS</li>
+</ul>
+</li>
+<li><strong>优缺点</strong><br>时间片的大小对计算机性能的影响。<br>存在的问题：未有效利用系统资源。<br>对于短的、计算密集型任务(CPU-bound)比较有利，因为该进程充分利用时间片，而 I&#x2F;O 密集型(I&#x2F;O-bound)任务却不利(虽然进程大部分时间都在等待 I&#x2F;O，它仍然会被分配到 CPU 时间片。这可能导致 CPU 资源的浪费)<br>常用于分时系统及事务处理系统。</li>
+</ul>
+<h3 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h3><p><strong>多级队列调度算法</strong> (MQ,Multilevel Queue):就绪队列被分解为多个独立的队列，每个队列具有自己的调度算法。前台的就绪队列是交互性作业(Interactive Job)的进程，采用时间片轮转。后台的就绪队列是批处理作业(Batch Job)的进程，采用优先权或短作业优先算法。<br>调度方式有两种：① 优先调度前台，若前台无可运行进程，才调度后台 ② 分配占用 CPU 的时间比例，如：前台 80%，后台 20%</p>
+<blockquote>
+<p>什么是交互性作业(Interactive Job)和批处理作业(Batch Job)？<br>Interact Job: 与用户交互的作业,在执行这类作业时，用户可以输入命令，系统立即响应并返回结果;例如 UNIX shell 的<code>ls</code><br>Batch Job:批处理作业是在没有用户交互的情况下自动执行的一组命令或程序;些作业通常被组织成批次，一次性提交给系统，然后按照预定的顺序或优先级执行</p>
+</blockquote>
+<h3 id="MFQ"><a href="#MFQ" class="headerlink" title="MFQ"></a>MFQ</h3><p><strong>多级反馈队列调度算法</strong>(MFQ，Multilevel Feedback Queue):最通用的调度算法，多数 OS 都使用该方法或其变形，如 UNIX、Windows 等。它可以看作是更成熟的多级队列调度,其任务可以在队列之间移动,从而更细致的区分任务</p>
+<blockquote>
+<p>Note:MFQ均为为抢占式;高优先级队列中有进程进入时，会抢占低优先级队列中进程的CPU。被抢占的进程不降级，回到原级队列中，下次仍然执行该级队列的时间片。</p>
+</blockquote>
+<p><strong>调度算法</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-1TheProcessorScheduling-2024-04-02-21-45-44.png"></p>
+<ul>
+<li>设置多个就绪队列,记作RQ0，RQ1 … RQn，并为各个队列赋予不同的优先级队列。 第一个队列的优先级最高，第二个次之，其余各队列的优先级逐个降低。规定高优先级队列时间片小</li>
+<li>一个新进程进入内存后，首先将它放入第一队列的末尾，按 FCFS 原则排队等待调度。当轮到该进程执行时，如它能在该时间片内完成，便可撤离系统；进程一次时间片没执行完，就降至下一级队列，以此类推，降至最低优先级队列后，一直在此队列中不再下降。</li>
+<li>系统优先调度高优先级队列中的进程，仅当RQ0空闲时才调度RQ1队列进程，以此类推</li>
+</ul>
+<h2 id="实时调度"><a href="#实时调度" class="headerlink" title="实时调度"></a>实时调度</h2></div><div class="article-licensing box"><div class="licensing-title"><p>The Processor Scheduling</p><p><a href="https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/">https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-03-29</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-04-02</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/OS/">OS</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ComputerNetworking/Ch5-1TransportLayer/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">运输层 TransportLayer Part Ⅰ</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/ComputerNetworking/Ch6-2ApplicationLayer/"><span class="level-item">应用层 ApplicationLayer Part Ⅱ</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#处理机调度的层次-Process-Scheduling-Levels"><span class="level-left"><span class="level-item">1</span><span class="level-item">处理机调度的层次 Process Scheduling Levels</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#概述-Overview"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">概述 Overview</span></span></a></li><li><a class="level is-mobile" href="#作业-JOB"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">作业 JOB</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#作业步-Job-Step"><span class="level-left"><span class="level-item">1.2.1</span><span class="level-item">作业步 Job Step</span></span></a></li><li><a class="level is-mobile" href="#作业状态转换-Job-State-Transition"><span class="level-left"><span class="level-item">1.2.2</span><span class="level-item">作业状态转换 Job State Transition</span></span></a></li><li><a class="level is-mobile" href="#JCB"><span class="level-left"><span class="level-item">1.2.3</span><span class="level-item">JCB</span></span></a></li></ul></li><li><a class="level is-mobile" href="#处理机调度的层次"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">处理机调度的层次</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#高级调度-High-Scheduling"><span class="level-left"><span class="level-item">1.3.1</span><span class="level-item">高级调度 High Scheduling</span></span></a></li><li><a class="level is-mobile" href="#低级调度-Low-Scheduling"><span class="level-left"><span class="level-item">1.3.2</span><span class="level-item">低级调度 Low Scheduling</span></span></a></li><li><a class="level is-mobile" href="#中级调度-Intermediate-Level-Scheduling"><span class="level-left"><span class="level-item">1.3.3</span><span class="level-item">中级调度 Intermediate-Level Scheduling</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#调度队列模型和调度准则"><span class="level-left"><span class="level-item">2</span><span class="level-item">调度队列模型和调度准则</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#调度模型-Scheduling-Model"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">调度模型 Scheduling Model</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#仅有进程调度"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">仅有进程调度</span></span></a></li><li><a class="level is-mobile" href="#具有高级和低级调度"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">具有高级和低级调度</span></span></a></li><li><a class="level is-mobile" href="#同时具有三级调度的调度队列模型"><span class="level-left"><span class="level-item">2.1.3</span><span class="level-item">同时具有三级调度的调度队列模型</span></span></a></li></ul></li><li><a class="level is-mobile" href="#选择调度方式和调度算法的若干准则"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">选择调度方式和调度算法的若干准则</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#系统选择调度方式和算法的准则"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">系统选择调度方式和算法的准则</span></span></a></li><li><a class="level is-mobile" href="#进程切换"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">进程切换</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#调度算法"><span class="level-left"><span class="level-item">3</span><span class="level-item">调度算法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#FCFS"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">FCFS</span></span></a></li><li><a class="level is-mobile" href="#SJF"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">SJF</span></span></a></li><li><a class="level is-mobile" href="#SRT"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">SRT</span></span></a></li><li><a class="level is-mobile" href="#PSA"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">PSA</span></span></a></li><li><a class="level is-mobile" href="#Round-Robin"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">Round-Robin</span></span></a></li><li><a class="level is-mobile" href="#MQ"><span class="level-left"><span class="level-item">3.6</span><span class="level-item">MQ</span></span></a></li><li><a class="level is-mobile" href="#MFQ"><span class="level-left"><span class="level-item">3.7</span><span class="level-item">MFQ</span></span></a></li></ul></li><li><a class="level is-mobile" href="#实时调度"><span class="level-left"><span class="level-item">4</span><span class="level-item">实时调度</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Game/CyberPunk2077/"><span class="level-start"><span class="level-item">CyberPunk2077</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Game/The-Witcher-3/"><span class="level-start"><span class="level-item">The Witcher 3</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">19</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">21</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
