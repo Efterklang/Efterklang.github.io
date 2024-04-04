@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://efterklang.github.io/404.html</loc>
-    
-    <lastmod>2024-04-04</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://efterklang.github.io/about/index.html</loc>
     
     <lastmod>2024-04-04</lastmod>
@@ -655,7 +646,7 @@
   </url>
   
   <url>
-    <loc>https://efterklang.github.io/categories/Reading/</loc>
+    <loc>https://efterklang.github.io/categories/Game/</loc>
     <lastmod>2024-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -669,28 +660,14 @@
   </url>
   
   <url>
+    <loc>https://efterklang.github.io/categories/Reading/</loc>
+    <lastmod>2024-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://efterklang.github.io/categories/Dev/Git/</loc>
-    <lastmod>2024-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://efterklang.github.io/categories/Game/</loc>
-    <lastmod>2024-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://efterklang.github.io/categories/Reading/Poems/</loc>
-    <lastmod>2024-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://efterklang.github.io/categories/Tech/</loc>
     <lastmod>2024-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -704,7 +681,21 @@
   </url>
   
   <url>
+    <loc>https://efterklang.github.io/categories/Tech/</loc>
+    <lastmod>2024-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://efterklang.github.io/categories/Game/The-Witcher-3/</loc>
+    <lastmod>2024-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://efterklang.github.io/categories/Reading/Poems/</loc>
     <lastmod>2024-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

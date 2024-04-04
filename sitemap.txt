@@ -1,4 +1,3 @@
-https://efterklang.github.io/404.html
 https://efterklang.github.io/about/index.html
 https://efterklang.github.io/UESTC/OS/Ch3-1TheProcessorScheduling/
 https://efterklang.github.io/UESTC/OS/Ch4-1/
@@ -75,14 +74,14 @@ https://efterklang.github.io/tags/ARM/
 https://efterklang.github.io/tags/Computer-Networking/
 https://efterklang.github.io/tags/OS/
 https://efterklang.github.io/categories/Dev/
-https://efterklang.github.io/categories/Reading/
-https://efterklang.github.io/categories/Dev/Linux/
-https://efterklang.github.io/categories/Dev/Git/
 https://efterklang.github.io/categories/Game/
-https://efterklang.github.io/categories/Reading/Poems/
-https://efterklang.github.io/categories/Tech/
+https://efterklang.github.io/categories/Dev/Linux/
+https://efterklang.github.io/categories/Reading/
+https://efterklang.github.io/categories/Dev/Git/
 https://efterklang.github.io/categories/Game/CyberPunk2077/
+https://efterklang.github.io/categories/Tech/
 https://efterklang.github.io/categories/Game/The-Witcher-3/
+https://efterklang.github.io/categories/Reading/Poems/
 https://efterklang.github.io/categories/Tech/VSCode/
 https://efterklang.github.io/categories/Tech/DataBase/
 https://efterklang.github.io/categories/UESTC/
