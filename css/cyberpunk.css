@@ -5214,33 +5214,33 @@ fieldset[disabled] .button {
 }
 .container.is-fluid {
   max-width: none;
-  padding-left: 64px;
-  padding-right: 64px;
+  padding-left: 62px;
+  padding-right: 62px;
   width: 100%;
 }
 @media screen and (min-width: 1088px) {
   .container {
-    max-width: 960px;
+    max-width: 964px;
   }
 }
 @media screen and (max-width: 1279px) {
   .container.is-widescreen {
-    max-width: 1152px;
+    max-width: 1156px;
   }
 }
 @media screen and (max-width: 1471px) {
   .container.is-fullhd {
-    max-width: 1344px;
+    max-width: 1348px;
   }
 }
 @media screen and (min-width: 1280px) {
   .container {
-    max-width: 1152px;
+    max-width: 1156px;
   }
 }
 @media screen and (min-width: 1472px) {
   .container {
-    max-width: 1344px;
+    max-width: 1348px;
   }
 }
 .content li + li {
@@ -10761,7 +10761,7 @@ body > .section {
 }
 .card {
   overflow: visible;
-  border-radius: 0;
+  border-radius: 15px;
 }
 .card + .card,
 .card + .column-right-shadow {
@@ -10769,8 +10769,8 @@ body > .section {
 }
 .card .card-image {
   overflow: hidden;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 .card .media + .media {
   border: none;
@@ -11424,7 +11424,7 @@ figure.highlight.foldable div.level-left {
   line-height: 0;
   overflow: hidden;
   box-shadow: none, 0 0 1px rgba(0,0,0,0.1);
-  border-radius: 0;
+  border-radius: 15px;
 }
 .donate .qrcode img {
   max-width: 280px;
@@ -11528,7 +11528,7 @@ figure.highlight.foldable div.level-left {
   outline: none;
   padding: 8px 0;
   line-height: 24px;
-  border-radius: 0;
+  border-radius: 15px;
   transform: translateY(120px);
   transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
 }
@@ -11608,7 +11608,7 @@ figure.highlight.foldable div.level-left {
   background-color: #000 !important;
 }
 .cc-window.cc-floating {
-  border-radius: 0;
+  border-radius: 15px;
   box-shadow: none, 0 0 1px rgba(0,0,0,0.1);
 }
 .cc-window.cc-banner {
@@ -11644,18 +11644,18 @@ figure.highlight.foldable div.level-left {
 @media screen and (min-width: 1280px) {
   .is-1-column .container,
   .is-2-column .container {
-    max-width: 960px;
-    width: 960px;
+    max-width: 964px;
+    width: 964px;
   }
 }
 @media screen and (min-width: 1472px) {
   .is-2-column .container {
-    max-width: 1152px;
-    width: 1152px;
+    max-width: 1156px;
+    width: 1156px;
   }
   .is-1-column .container {
-    max-width: 960px;
-    width: 960px;
+    max-width: 964px;
+    width: 964px;
   }
 }
 @media screen and (min-width: 769px), print {
@@ -11702,12 +11702,14 @@ body:before {
   bottom: 0;
   left: 0;
   opacity: 0.3;
-  background: url("/img/cute.webp") repeat;
+  background: url("/img/cute.webp");
+  background-size: cover;
 }
 .navbar {
   background-color: rgba(255,255,255,0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  font-family: 'Arial Rounded MT';
 }
 .navbar-main .navbar-menu {
   background-color: transparent;
@@ -11772,6 +11774,10 @@ body:before {
 }
 .article .content {
   overflow: auto;
+}
+.article .content a img {
+  margin: auto;
+  display: block;
 }
 footer.footer {
   background-color: transparent;

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据库设计与实现 - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Database design and implementation"><meta property="og:type" content="article"><meta property="og:title" content="数据库设计与实现"><meta property="og:url" content="https://efterklang.github.io/Tech/DataBase/Ch4-DbDesign/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="Database design and implementation"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/DataBase/DataBaseDesignAndImplementation.png"><meta property="article:published_time" content="2024-04-06T08:06:27.000Z"><meta property="article:modified_time" content="2024-04-07T03:30:44.936Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="DataBase"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/DataBase/DataBaseDesignAndImplementation.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"数据库设计与实现","image":["https://efterklang.github.io/img/thumbnails/DataBase/DataBaseDesignAndImplementation.png"],"datePublished":"2024-04-06T08:06:27.000Z","dateModified":"2024-04-07T03:30:44.936Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"Database design and implementation"}</script><link rel="canonical" href="https://efterklang.github.io/Tech/DataBase/Ch4-DbDesign/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-HKYTDLW5FP');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/DataBase/DataBaseDesignAndImplementation.png" alt="数据库设计与实现" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-06T08:06:27.000Z" title="4/6/2024, 4:06:27 PM">2024-04-06</time></span><span class="level-item"><a class="link-muted" href="/categories/Tech/">Tech</a><span> / </span><a class="link-muted" href="/categories/Tech/DataBase/">DataBase</a></span><span class="level-item">24 minutes read (About 3570 words)</span><span class="level-item leancloud_visitors" id="/Tech/DataBase/Ch4-DbDesign/" data-flag-title="数据库设计与实现"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">数据库设计与实现</h1><div class="content"><h2 id="数据集设计方案"><a href="#数据集设计方案" class="headerlink" title="数据集设计方案"></a>数据集设计方案</h2><p>包括:</p>
+<ol>
+<li><strong>数据库应用架构设计</strong><ul>
+<li>在不同应用需求场景中，数据库的应用架构方式是不同的。数据库应用架构可分为<strong>单用户结构、集中式结构、客户／服务器结构和分布式结构</strong></li>
+</ul>
+</li>
+<li><strong>数据库结构模型设计</strong><ul>
+<li>数据库结构模型设计一般分为概念层、逻辑层、物理层设计，它们的设计模型分别为<strong>概念数据模型 CDM、逻辑数据模型 LDM 和物理数据模型 PDM</strong></li>
+</ul>
+</li>
+<li><strong>数据库应用访问方式设计</strong><ul>
+<li>数据库应用对数据库访问可以有多种方式，如<strong>直接本地接口连接访问</strong>、<strong>基于标准接口连接访问</strong>、<strong>基于数据访问层框架连接访问</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="数据库结构模型"><a href="#数据库结构模型" class="headerlink" title="数据库结构模型"></a>数据库结构模型</h2><ul>
+<li><strong>概念数据模型</strong>（Concept Data Model，CDM）是一种面向用户的系统数据模型，它用来描述现实世界的系统概念化数据结构。使数据库设计人员在系统设计的初始阶段，摆脱计算机系统及 DBMS 的具体技术问题，集中精力分析业务数据以及数据之间的联系等，描述系统的数据对象及其组成关系。</li>
+<li><strong>逻辑数据模型</strong> (Logic Data Model，LDM)是在概念数据模型基础上，从系统设计角度描述系统的数据对象组成及其关联结构，并考虑这些数据对象符合数据库对象的逻辑表示。</li>
+<li><strong>物理数据模型</strong>（Physical Data Model，PDM）是在逻辑数据模型基础上，针对具体 DBMS 所设计的数据模型。它用于描述系统数据模型在具体 DBMS 中的数据对象组织、存储方式、索引方式、访问路径等实现信息。</li>
+</ul>
+<center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-17-30-46.png" alt="数据库开发过程"></p>
+</center>
+
+<ol>
+<li><strong>数据需求分析阶段</strong>:从现实业务中获取数据表单、报表、查询、业务规则、数据更新的说明;分析系统的数据特征、数据类型、数据取值约束;描述系统的数据关系、数据处理要求;建立系统的数据字典</li>
+<li><strong>数据库设计阶段</strong>:数据库内部结构设计（概念数据模型、逻辑数据模型、物理数据模型）;数据库索引、视图、查询设计;数据库表约束设计;数据库触发器、存储过程设计;文件组织方式</li>
+<li><strong>数据库实现阶段</strong>:数据库创建;数据模型的 SQL 程序创建、数据库对象物理实现</li>
+<li><strong>数据库测试阶段</strong>:数据库数据上线;数据库系统测试<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CDM</td>
+<td>从用户角度所建模的系统数据对象及其关系，它帮助用户分析信息系统的数据结构关系</td>
+</tr>
+<tr>
+<td>LDM</td>
+<td>从系统分析员角度所建模的系统数据对象逻辑结构关系，它帮助开发人员分析信息系统的逻辑数据结构</td>
+</tr>
+<tr>
+<td>PDM</td>
+<td>从系统设计人员角度所建模的系统数据物理存储及结构关系，它针对设计者具体定义信息系统的数据库表结构</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h2 id="E-R-模型方法"><a href="#E-R-模型方法" class="headerlink" title="E-R 模型方法"></a>E-R 模型方法</h2><h3 id="E-R-模型基本元素"><a href="#E-R-模型基本元素" class="headerlink" title="E-R 模型基本元素"></a>E-R 模型基本元素</h3><p><strong>E-R 模型</strong>是“实体-联系模型”（Entity-Relationship Model）的简称。它是一种描述现实世界概念数据模型、逻辑数据模型的有效方法。</p>
+<p>在 E-R 模型中，基本元素包括实体、属性、标识符和联系:</p>
+<ul>
+<li><strong>实体</strong>Entity 是指问题域中存在的人、事、物、地点等客观事物在逻辑层面的数据抽象。它用于描述事物的数据对象，如客户、交易、产品、订单等</li>
+<li><strong>属性</strong>Attribute 是指描述实体特征的数据项。每个实体都具有 1 个或多个属性</li>
+<li><strong>标识符</strong>Identifier 是指标识不同实体实例的属性。标识符可以是 1 个或多个属性<br>标识符与主键的区别是标识符是一个逻辑概念，主键是物理概念</li>
+<li><strong>联系</strong>Relationship 是指实体之间的联系，如“学生”与“成绩”的联系、“孩子”与“父亲”、“母亲”的联系等。<br>联系中关联的实体数目称为联系度数</li>
+</ul>
+<h3 id="实体-联系类型"><a href="#实体-联系类型" class="headerlink" title="实体-联系类型"></a>实体-联系类型</h3><h4 id="二元实体联系类型"><a href="#二元实体联系类型" class="headerlink" title="二元实体联系类型"></a>二元实体联系类型</h4><ul>
+<li>一对一联系 1:1</li>
+<li>一对多联系 1:N</li>
+<li>多对多联系 M:N<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-17-42-55.png"></li>
+</ul>
+<p>上述实体之间的联系反映了一个给定实体有多少实例与另一实体实例存在的数量对应关系。术语<strong>基数</strong>Cardinality 表示实体联系的实例数量。在实体之间除了需要反映了数量对应关系，有时还需要反映实体参与关系的必要性，即<strong>可选</strong>optional 或<strong>强制</strong>mandatory</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-18-32-27.png"></p>
+<h4 id="继承联系"><a href="#继承联系" class="headerlink" title="继承联系"></a>继承联系</h4><p>在 E-R 模型中，实体之间除了基本联系外，还存在继承联系。继承联系用于表示实体之间的相似性关系。在实体继承联系中，一端是具有公共属性的实体，称为父实体；另一端是与父实体具有相似属性，同时也具有特殊性的一个或多个实体，称为子实体。</p>
+<center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-18-33-31.png"></p>
+</center>
+
+<p>在继承联系中，还可以分为:</p>
+<ul>
+<li><strong>互斥性继承联系</strong>Mutual Exclusive Inheritance Relationship：在这种类型的继承中，子类只能从一个父类继承，不能同时从多个父类继承</li>
+<li><strong>非互斥性继承联系</strong>Non-Mutual Exclusive Inheritance Relationship：这种类型的继承中，子类可以从多个父类继承，即一个子类可以属于多个父类</li>
+</ul>
+<hr>
+<ul>
+<li><strong>完整继承联系</strong> Total Inheritance Relationship：在这种继承中，父实体的每一个实例都必须是一个或多个子实体的实例。换句话说，父实体中的每个 instance 都必须在子实体中有对应。例如，如果我们有一个“人”实体，它有两个子实体：“学生”和“教师”，那么在完整继承关系中，每个“人”都必须是“学生”或“教师”。</li>
+<li><strong>不完整继承联系</strong> Partial Inheritance Relationship：在这种类型的继承中，子类的 instance 可以不属于父类的任何子类；在上述的例子中，非完整继承允许存在一些“人”，他们既不是“学生”也不是“教师”。</li>
+</ul>
+<center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-19-54-38.png"></p>
+</center>
+
+<h4 id="强弱实体联系"><a href="#强弱实体联系" class="headerlink" title="强弱实体联系"></a>强弱实体联系</h4><p>在 E-R 模型中，按照实体之间的语义关系，可以将实体分为<strong>弱实体 Weak Entity 和强实体 Strong Entity</strong>; 弱实体是指那些对于另外实体有依赖关系的实体，即一个实体的存在必须以另一实体的存在为前提。而被依赖的实体称为强实体; 例如在学校与学生之间的联系中，学生是弱实体，学校是强实体。</p>
+<ul>
+<li><strong>强实体</strong>Strong Entity</li>
+<li><strong>弱实体</strong>Weak Entity<ul>
+<li><strong>标识符依赖弱实体</strong> Identifier Dependent Weak Entity<br>如果弱实体的标识符中，包含了强实体的标识符，那么这种弱实体称为标识符依赖弱实体</li>
+<li><strong>非标识符依赖弱实体</strong> Non-Identifier Dependent Weak Entity<br>如果弱实体的标识符中，不包含强实体的标识符，那么这种弱实体称为非标识符依赖弱实体</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据库建模设计"><a href="#数据库建模设计" class="headerlink" title="数据库建模设计"></a>数据库建模设计</h2><p>概念数据模型设计是通过对现实世界中数据实体进行抽取、分类、聚集和概括等处理，建立反映系统业务数据组成结构的过程。<br><strong>步骤</strong></p>
+<ul>
+<li>业务数据分析，抽取数据实体</li>
+<li>定义实体属性及其标识</li>
+<li>建立实体联系，构建局部 E-R 模型图</li>
+<li>分类、聚集和概括各个部分 E-R 模型图</li>
+<li>完善全局 E-R 模型图，建立系统业务数据组成结构</li>
+</ul>
+<p><strong>数据模型 DM 元素对应关系表</strong></p>
+<table>
+<thead>
+<tr>
+<th>CDM</th>
+<th>LDM</th>
+<th>PDM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Entity</td>
+<td>Entity</td>
+<td>Table</td>
+</tr>
+<tr>
+<td>Attribute</td>
+<td>Attribute</td>
+<td>Column</td>
+</tr>
+<tr>
+<td>Identifier</td>
+<td>Primary Identifier&#x2F;Foreign Identifer</td>
+<td>Primary Key&#x2F;Foreign Key</td>
+</tr>
+<tr>
+<td>Relationship</td>
+<td>Relationship</td>
+<td>Reference(参照完整性约束)</td>
+</tr>
+</tbody></table>
+<p><strong>1:1</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-20-16-28.png"><br><strong>1:N</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-20-17-38.png"><br><strong>M:N</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-20-38-36.png"></p>
+<h2 id="规范化设计"><a href="#规范化设计" class="headerlink" title="规范化设计"></a>规范化设计</h2><p>为什么需要规范化数据库设计？</p>
+<ul>
+<li>减少数据库中的冗余数据，尽量使同一数据在数据库中仅保存一份，有效降低维护数据一致性的工作量。</li>
+<li>设计合理的表间依赖关系和约束关系，便于实现数据完整性和一致性。</li>
+<li>设计合理的数据库结构，便于系统对数据高效访问处理。</li>
+</ul>
+<h3 id="函数依赖"><a href="#函数依赖" class="headerlink" title="函数依赖"></a>函数依赖</h3><p>定义：设有一关系模式<code>R(U)</code>，<code>U</code> 为关系 R 的属性集合，<code>X</code>和<code>Y</code>为属性<code>U</code>的子集。设 t，s 是关系 R 中的任意两个元组，如果 t<code>[X] = s[X]</code>，则<code>t[Y] = s[Y]</code>。那么称 Y 函数依赖于 X，表示为<code>X→Y</code>。<br>函数依赖的左部称为决定因子，右部称为依赖函数。决定因子和依赖函数都是属性的集合。</p>
+<blockquote>
+<p>假设我们有一个关系模式<code>R</code>，代表一个学生注册系统，其中<code>U</code>是关系<code>R</code>的属性集合，包括 <code>&#123;学生ID, 姓名, 课程ID, 课程名, 教师&#125;</code><br>任意给定两个元组<code>t</code>和<code>s</code>，例如<br>元组<code>t:&#123;学生ID: 001, 姓名: &quot;小明&quot;, 课程ID: C101, 课程名: &quot;数学&quot;, 教师: &quot;李老师&quot;&#125;</code><br>元组<code>s:&#123;学生ID: 001, 姓名: &quot;小明&quot;, 课程ID: C102, 课程名: &quot;英语&quot;, 教师: &quot;王老师&quot;&#125;</code><br>都有<code>t[学生ID] = s[学生ID] 则 t[姓名] = s[姓名]</code><br>可以得出学生 ID 决定姓名，即<code>学生ID→姓名</code></p>
+</blockquote>
+<p><strong>函数依赖的类型</strong>:</p>
+<ul>
+<li>完全函数依赖 Total Functional Dependency<br>若<code>X→Y</code>，对于<code>X</code>的任何一个真子集<code>X&#39;</code>，<code>X&#39;→Y</code>都不成立，则称<code>X→Y</code>是完全函数依赖</li>
+<li>部分函数依赖 Partial Functional Dependency<br>若<code>X→Y</code>，<code>X</code>存在一个真子集<code>X&#39;</code>，使得<code>X&#39;→Y</code>，则称<code>X→Y</code>是部分函数依赖</li>
+<li>属性传递依赖 Transitive Dependency<br>若满足<code>X→Y</code>，<code>Y→Z</code>，则有<code>X→Z</code>是，则称为属性传递依赖</li>
+<li>多值函数依赖 Multivalued Dependency<br>设 U 是关系模式 R 的属性集，X 和 Y 是 U 的子集，<code>Z=U-X-Y</code>，<code>xyz</code>表示属性集 XYZ 的值。对于 R 的关系 r，在 r 中存在元组<code>（x, y1, z1）</code>和<code>（x, y2, z2）</code>时，也存在元组<code>（x, y1, z2）</code>和<code>（x, y2, z1）</code>，那么在模式 R 上存在多值函数依赖。<blockquote>
+<p>(数据结构，李老师，《数据结构与算法-初级》)<br>(数据结构，王老师，《数据结构与算法-高级》)</p>
+<hr>
+<p>(数据结构，李老师，《数据结构与算法-高级》)<br>(数据结构，王老师，《数据结构与算法-初级》)</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="关系规范化范式"><a href="#关系规范化范式" class="headerlink" title="关系规范化范式"></a>关系规范化范式</h2><p>关系规范化是把一个有访问异常的关系分解成结构良好的关系的过程，使得这些关系有最小的冗余或没有冗余。<br><strong>规范化范式</strong>（Normal Form，NF）是指关系表符合特定规范化程度的模式。</p>
+<ol>
+<li>第 1 范式（1NF）<br>如果关系表中的属性不可再细分，该关系满足第 1 范式。反之，该表就不是关系表。<blockquote>
+<p>如果联系方式是一个关系表的属性，那么联系方式还可细分为电话号码、邮箱等属性；消除联系方式这类属性，将联系方式细分为电话号码、邮箱等属性，就满足了第 1 范式。</p>
+</blockquote>
+</li>
+<li>第 2 范式（2NF）<br>如果关系满足第 1 范式，并消除了关系中的属性部分函数依赖，该关系满足第 2 范式。有一个关系<code>(A,B,N, 0,P)</code>其复合主键为<code>(A,B)</code>那么 <code>N,O,P</code> 这三个非键属性都不存在只依赖 A 或只依赖 B 情况，则该关系满足第 2 范式，反之，不满足第 2 范式。<blockquote>
+<p>我们有一个关系模式 R，它的属性集 U 包括 {学生 ID, 课程 ID, 学生姓名, 课程名, 教师}，复合主键为(学生 ID,课程 ID)，然而学生姓名只依赖于学生 ID，课程名和教师只依赖于课程 ID，那么学生姓名和课程名、教师之间存在部分函数依赖，不满足第 2 范式。</p>
+</blockquote>
+</li>
+<li>第 3 范式（3NF）<br>如果关系满足第 2 范式，并切断了关系中的属性传递函数依赖，该关系满足第 3 范式。<blockquote>
+<p>{学号，姓名，系名，住址(宿舍地址)，电话，电子邮件}，其中学号决定系名，系名决定宿舍地址，故学号决定宿舍地址，存在传递依赖，不满足第 3 范式;可以对学生关系表再次分解为学生和系信息关系表<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/DatabaseDesignAndImplementation-2024-04-06-21-44-39.png"></p>
+</blockquote>
+</li>
+<li>Boyce-Codd 范式（BCNF）<br>在关系中，所有函数依赖的决定因子都是候选键，该关系满足 BCNF 范式</li>
+<li>第 4 范式（4NF）<br>如果关系满足 BCNF 范式，并消除了多值函数依赖，该关系满足第 4 范式。</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>数据库设计与实现</p><p><a href="https://efterklang.github.io/Tech/DataBase/Ch4-DbDesign/">https://efterklang.github.io/Tech/DataBase/Ch4-DbDesign/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-04-06</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-04-07</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/DataBase/">DataBase</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ARM-Processor/Ch4-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ARM伪指令</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/OS/Ch3-2TheDeadLock/"><span class="level-item">The Dead Lock</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#数据集设计方案"><span class="level-left"><span class="level-item">1</span><span class="level-item">数据集设计方案</span></span></a></li><li><a class="level is-mobile" href="#数据库结构模型"><span class="level-left"><span class="level-item">2</span><span class="level-item">数据库结构模型</span></span></a></li><li><a class="level is-mobile" href="#E-R-模型方法"><span class="level-left"><span class="level-item">3</span><span class="level-item">E-R 模型方法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#E-R-模型基本元素"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">E-R 模型基本元素</span></span></a></li><li><a class="level is-mobile" href="#实体-联系类型"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">实体-联系类型</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#二元实体联系类型"><span class="level-left"><span class="level-item">3.2.1</span><span class="level-item">二元实体联系类型</span></span></a></li><li><a class="level is-mobile" href="#继承联系"><span class="level-left"><span class="level-item">3.2.2</span><span class="level-item">继承联系</span></span></a></li><li><a class="level is-mobile" href="#强弱实体联系"><span class="level-left"><span class="level-item">3.2.3</span><span class="level-item">强弱实体联系</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#数据库建模设计"><span class="level-left"><span class="level-item">4</span><span class="level-item">数据库建模设计</span></span></a></li><li><a class="level is-mobile" href="#规范化设计"><span class="level-left"><span class="level-item">5</span><span class="level-item">规范化设计</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#函数依赖"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">函数依赖</span></span></a></li></ul></li><li><a class="level is-mobile" href="#关系规范化范式"><span class="level-left"><span class="level-item">6</span><span class="level-item">关系规范化范式</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">21</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
