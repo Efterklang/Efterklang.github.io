@@ -533,13 +533,6 @@
 
   
     <url>
-        <loc>https://efterklang.github.io/tags/%E4%B8%AD%E5%9B%BD%E5%8F%A4%E4%BB%A3%E8%AF%97%E8%AF%8D/</loc>
-        <lastmod>2024-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/tags/CyberPunk2077/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
@@ -561,7 +554,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/Linux/</loc>
+        <loc>https://efterklang.github.io/tags/%E4%B8%AD%E5%9B%BD%E5%8F%A4%E4%BB%A3%E8%AF%97%E8%AF%8D/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -575,7 +568,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/Others/</loc>
+        <loc>https://efterklang.github.io/tags/Linux/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -596,6 +589,13 @@
     </url>
   
     <url>
+        <loc>https://efterklang.github.io/tags/Java/</loc>
+        <lastmod>2024-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
         <loc>https://efterklang.github.io/tags/Glossary/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
@@ -603,14 +603,14 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/VSCode/</loc>
+        <loc>https://efterklang.github.io/tags/Hashtable/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/Java/</loc>
+        <loc>https://efterklang.github.io/tags/VSCode/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -638,7 +638,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/Hashtable/</loc>
+        <loc>https://efterklang.github.io/tags/Others/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -689,7 +689,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/categories/Tech/</loc>
+        <loc>https://efterklang.github.io/categories/Dev/Git/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -703,6 +703,13 @@
     </url>
   
     <url>
+        <loc>https://efterklang.github.io/categories/Tech/</loc>
+        <lastmod>2024-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
         <loc>https://efterklang.github.io/categories/Reading/Poems/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
@@ -710,7 +717,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/categories/Dev/Git/</loc>
+        <loc>https://efterklang.github.io/categories/Tech/Java/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -724,13 +731,6 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/categories/Tech/FrontEnd/</loc>
-        <lastmod>2024-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/categories/Tech/VSCode/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
@@ -738,7 +738,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/categories/Tech/Java/</loc>
+        <loc>https://efterklang.github.io/categories/Tech/FrontEnd/</loc>
         <lastmod>2024-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
