@@ -2,9 +2,144 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
+        <loc>https://efterklang.github.io/UESTC/OS/Ch4-2StorageManagement/</loc>
+    
+        <lastmod>2024-05-10</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch4-1NetworkLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/GlossaryOfNetwork/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch6-2ApplicationLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch6-1ApplicationLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-1DataLinkLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch1-NetworkOverview/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch2-PhysicalLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/</loc>
+    
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
         <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-2TransportLayer/</loc>
     
-        <lastmod>2024-04-30</lastmod>
+        <lastmod>2024-05-09</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/ARM-Processor/Ch2-2ARM%E5%BC%82%E5%B8%B8%E5%92%8C%E4%B8%AD%E6%96%AD/</loc>
+    
+        <lastmod>2024-05-08</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/UESTC/OS/Ch4-1StorageManagement/</loc>
+    
+        <lastmod>2024-05-06</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/Dev/Git/reset-and-revert/</loc>
+    
+        <lastmod>2024-05-06</lastmod>
+    
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/Dev/Git/rebase-and-quash/</loc>
+    
+        <lastmod>2024-05-05</lastmod>
     
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -38,25 +173,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/Dev/Git/GitRebase/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/Dev/Git/GitForAndroid/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/OS/Ch4-2StorageManagement/</loc>
     
         <lastmod>2024-04-27</lastmod>
     
@@ -83,25 +200,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/UESTC/OS/Ch4-1StorageManagement/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/UESTC/OS/Ch2-1ProcessContorl/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch5-1TransportLayer/</loc>
     
         <lastmod>2024-04-27</lastmod>
     
@@ -164,24 +263,6 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-1DataLinkLayer/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/</loc>
-    
-        <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/Tech/Others/CopilotGPT4Service/</loc>
     
         <lastmod>2024-04-27</lastmod>
@@ -200,7 +281,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/UESTC/OS/ConcurrencyvsParallelism/</loc>
+        <loc>https://efterklang.github.io/UESTC/OS/Ch3-2TheDeadLock/</loc>
     
         <lastmod>2024-04-27</lastmod>
     
@@ -209,7 +290,7 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/UESTC/OS/Ch3-2TheDeadLock/</loc>
+        <loc>https://efterklang.github.io/UESTC/OS/ConcurrencyvsParallelism/</loc>
     
         <lastmod>2024-04-27</lastmod>
     
@@ -248,15 +329,6 @@
         <loc>https://efterklang.github.io/Tech/Others/Base64Encoding/</loc>
     
         <lastmod>2024-04-27</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch6-2ApplicationLayer/</loc>
-    
-        <lastmod>2024-04-26</lastmod>
     
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -344,42 +416,6 @@
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch2-PhysicalLayer/</loc>
-    
-        <lastmod>2024-04-02</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch6-1ApplicationLayer/</loc>
-    
-        <lastmod>2024-04-02</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/Ch1-NetworkOverview/</loc>
-    
-        <lastmod>2024-04-02</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ComputerNetworking/GlossaryOfNetwork/</loc>
-    
-        <lastmod>2024-04-02</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
         <loc>https://efterklang.github.io/UESTC/OS/ProcessvsThread/</loc>
     
         <lastmod>2024-03-29</lastmod>
@@ -435,15 +471,6 @@
   
     <url>
         <loc>https://efterklang.github.io/UESTC/ARM-Processor/Ch2-1ARM%E5%A4%84%E7%90%86%E5%99%A8%E5%8F%8A%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</loc>
-    
-        <lastmod>2024-03-24</lastmod>
-    
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/UESTC/ARM-Processor/Ch2-2ARM%E5%BC%82%E5%B8%B8%E5%92%8C%E4%B8%AD%E6%96%AD/</loc>
     
         <lastmod>2024-03-24</lastmod>
     
@@ -571,7 +598,7 @@
 
     <url>
         <loc>https://efterklang.github.io/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -579,133 +606,133 @@
   
     <url>
         <loc>https://efterklang.github.io/tags/Music/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Games/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/CyberPunk2077/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/Linux/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/%E4%B8%AD%E5%9B%BD%E5%8F%A4%E4%BB%A3%E8%AF%97%E8%AF%8D/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/Git/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/DataBase/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/SQL/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Glossary/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Java/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Hashtable/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Others/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/ARM/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/OS/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/VSCode/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/Productivity/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/tags/Extensions/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/tags/Shortcuts/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/tags/Computer-Networking/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <loc>https://efterklang.github.io/tags/VSCode/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/Productivity/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/Extensions/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/Git/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/ARM/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/Linux/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/OS/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/tags/ComputerNetworking/</loc>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -714,112 +741,112 @@
   
     <url>
         <loc>https://efterklang.github.io/categories/Game/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Dev/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Reading/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Dev/Git/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Dev/Linux/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/Tech/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Reading/Poems/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/Tech/DataBase/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/Tech/Java/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/Tech/FrontEnd/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/UESTC/</loc>
-        <lastmod>2024-05-03</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-  
-    <url>
-        <loc>https://efterklang.github.io/categories/Tech/VSCode/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/Tech/Others/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/Tech/VSCode/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/Dev/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/UESTC/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/Reading/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/Dev/Git/</loc>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/UESTC/ARM-Processor/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
-        <loc>https://efterklang.github.io/categories/UESTC/OS/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <loc>https://efterklang.github.io/categories/Dev/Linux/</loc>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
   
     <url>
         <loc>https://efterklang.github.io/categories/UESTC/Computer-Networking/</loc>
-        <lastmod>2024-05-03</lastmod>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/UESTC/OS/</loc>
+        <lastmod>2024-05-10</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+  
+    <url>
+        <loc>https://efterklang.github.io/categories/Reading/Poems/</loc>
+        <lastmod>2024-05-10</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

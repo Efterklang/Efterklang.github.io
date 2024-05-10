@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Storage Management PartⅢ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="虚拟存储器的基本概念，请求分页存储管理方式"><meta property="og:type" content="article"><meta property="og:title" content="Storage Management PartⅢ"><meta property="og:url" content="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="虚拟存储器的基本概念，请求分页存储管理方式"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><meta property="article:published_time" content="2024-05-03T13:44:20.000Z"><meta property="article:modified_time" content="2024-05-09T13:08:46.473Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="OS"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"Storage Management PartⅢ","image":["https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"],"datePublished":"2024-05-03T13:44:20.000Z","dateModified":"2024-05-09T13:08:46.473Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"虚拟存储器的基本概念，请求分页存储管理方式"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-HKYTDLW5FP');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/OS/Ch4-3Storage.png" alt="Storage Management PartⅢ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-05-03T13:44:20.000Z" title="5/3/2024, 9:44:20 PM">2024-05-03</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/OS/">OS</a></span><span class="level-item">11 minutes read (About 1603 words)</span><span class="level-item leancloud_visitors" id="/UESTC/OS/Ch4-3StorageManagement/" data-flag-title="Storage Management PartⅢ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Storage Management PartⅢ</h1><div class="content"><h2 id="虚拟存储器的基本概念"><a href="#虚拟存储器的基本概念" class="headerlink" title="虚拟存储器的基本概念"></a>虚拟存储器的基本概念</h2><h2 id="请求分页存储管理方式"><a href="#请求分页存储管理方式" class="headerlink" title="请求分页存储管理方式"></a>请求分页存储管理方式</h2><h3 id="3-调页策略"><a href="#3-调页策略" class="headerlink" title="3 调页策略"></a>3 调页策略</h3><h3 id="4-页面置换算法"><a href="#4-页面置换算法" class="headerlink" title="4 页面置换算法"></a>4 页面置换算法</h3><p>页面置换算法的选择，是虚拟存储器管理系统的核心问题。<br>它的实质是，为系统提供一种方法，当从主存中需要换出页面时，应避免选择那些不久将再次要求访问的页面。<br>置换算法的选择在一定程度上取决于可用的硬件设施。</p>
+<h4 id="最优置换算法-Optimal-Replacement-Algorithm"><a href="#最优置换算法-Optimal-Replacement-Algorithm" class="headerlink" title="最优置换算法 Optimal Replacement Algorithm"></a>最优置换算法 Optimal Replacement Algorithm</h4><p>最理想的页面置换策略是：从主存中移出永远不再需要的页面；如无这样的页面存在，则应选择最长时间不需要访问的页面。<br>最佳置换策略首先是由Belady于1966年提出的。<br>最佳置换策略本身不是一种实际的方法，因为页面访问的未来顺序是不知道的，但是，可将其它的实用方法与之比较来评价这些方法的优劣。所以，这种最佳策略具有理论上的意义。        </p>
+<blockquote>
+<p>例 设页面请求次序 7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1<br>存储块为3(驻留集为3)，假定最初存储块为空，采用OPT。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-17-43-04.png" style="zoom:80%;"><br>第一行为要请求访问的页面，第二行为存储块(内存)中存储的页，第三行为被移出内存的页。<br>从上面的演示知，利用OPT，发生了6次页面置换,发生了9次缺页中断(前3次没有置换,但内存中未装入页面,发生中断)<br>缺页率&#x3D;缺页次数&#x2F;访问次数&#x3D;9&#x2F;20&#x3D;0.45</p>
+</blockquote>
+<h4 id="先进先出页面置换算法-FIFO"><a href="#先进先出页面置换算法-FIFO" class="headerlink" title="先进先出页面置换算法 FIFO"></a>先进先出页面置换算法 FIFO</h4><p>该算法的实质是：总是选择作业中驻留时间最长的一页淘汰。即先进入主存的页面先退出主存。<br>算法实现比较容易，如分配给一个作业的存储块数为m，只需建立一个m个元素的队列表Q(0)、Q(1)、…、Q(m-1)和一个替换指针。该队列是按页面调入主存的先后顺序排列的，而指针始终指向最早调入主存的一页。</p>
+<blockquote>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-17-51-10.png" style="zoom:80%;">
+发生了12次页面置换,发生了15次缺页中断，缺页率=缺页次数/访问次数=15/20=0.75
+</blockquote>
+<h4 id="最近最久未使用置换算法-LRU"><a href="#最近最久未使用置换算法-LRU" class="headerlink" title="最近最久未使用置换算法 LRU"></a>最近最久未使用置换算法 LRU</h4><p>LRU(least Recently Used)算法的基本思想是，利用局部性原理，根据一个作业在执行过程中过去的页面访问踪迹来推测未来的行为。它认为过去一段时间里不曾被访问过的页面，在最近的将来可能也不会再被访问。<br>算法的实质是：当需要置换一页面时，选择在最近一段时间内最久不用的页面予以淘汰。<br>实现这种技术，是通过周期性地对“页面访问”位进行检查，并利用它来记录一个页面自上次访问以来所经历的时间t，并选择 t 为最大的页予以淘汰。</p>
+<blockquote>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-18-00-02.png" style="zoom:100%;">        
+发生了9次页面置换,发生了12次缺页中断，缺页率=缺页次数/访问次数=12/20=0.60
+</blockquote>
+<h4 id="Clock-置换算法"><a href="#Clock-置换算法" class="headerlink" title="Clock 置换算法"></a>Clock 置换算法</h4><p>简单的Clock置换算法（NRU）当采用简单clock算法时，为每页设置一位访问位，再将内存中的所有页面都通过链接指针链接成一个循环队列。</p>
+<p>某页被访问时，其访问位被置1。<br>置换程序从上次停止位置开始检查页面的访问位。<br>如果是0，就选择该页换出；<br>若为1，则重新将它置0，暂不换出，而给该页第二次驻留内存的机会。<br>由于该算法是循环地检查各页面的使用情况，故称为clock算法。置换时是将未使用过的页面换出去，故又把该算法称为最近未用算法NRU。</p>
+<h4 id="改进型-Clock-置换算法"><a href="#改进型-Clock-置换算法" class="headerlink" title="改进型 Clock 置换算法"></a>改进型 Clock 置换算法</h4><p>系统把一个页面移出内存时，如果该页面驻留内存期间没有被修改过，那么不必把它写回辅存，否则系统必须把它写回辅存。这表明，换出未修改过的页面比换出被修改过的页面开销小。<br>显然，我们可以依据上述结论改进CLOCK算法。改进后的CLOCK算法将在置换范围内首选符合下面条件的作为被置换页面</p>
+<ol>
+<li>在最近没有被使用过；</li>
+<li>在驻留内存期间没有被修改过的页面</li>
+</ol>
+<p>由访问位A(Access)和修改位M(Modify)可以组合成下面四种类型的页面：<br>1类（A&#x3D;0，M&#x3D;0）：表示该页最近既未彼访问，又未被修改，是最佳淘汰页。<br>2类（A&#x3D;0，M&#x3D;1）：表示该页最近未被访问，但已被修改，并不是很好的淘汰页。<br>3类（A&#x3D;1，M&#x3D;0）：最近已被访问，但未被修改：该页有可能再被访问。<br>4类（A&#x3D;1，M&#x3D;1）：最近已被访问且被修改，该页可能再被访问。 </p>
+<p>执行过程可分成以下三步：<br>（1）从指针所指示的当前位置开始，扫描循环队列，寻找A&#x3D;0且M&#x3D;0的第一类页面，将所遇到的第一个页面作为所选中的淘汰页。在第一次扫描期间不改变访问位A。<br>（2）如果第一步失败，即查找一周后未遇到第一类页面，则开始第二轮扫描，寻找A&#x3D;0且M＝1的第二类页面，将所遇到的第一个这类页面作为淘汰页。在第二轮扫描期间，将所有扫描过的页面的访问位A都置0。<br>（3）如果第二步也失败，亦即未找到第二类页面，则将指针返回到开始的位置，并将所有的访问位复0。然后重复第一步，如果仍失败，必要时再重复第二步，此时就一定能找到被淘汰的页 .</p>
+<h4 id="其它置换算法"><a href="#其它置换算法" class="headerlink" title="其它置换算法"></a>其它置换算法</h4></div><div class="article-licensing box"><div class="licensing-title"><p>Storage Management PartⅢ</p><p><a href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/">https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-05-03</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-05-09</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/OS/">OS</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/OS/Ch4-2StorageManagement/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Storage Management PartⅡ</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/DataBase/Ch6-DbPrograming/"><span class="level-item">The Database Application Programming</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#虚拟存储器的基本概念"><span class="level-left"><span class="level-item">1</span><span class="level-item">虚拟存储器的基本概念</span></span></a></li><li><a class="level is-mobile" href="#请求分页存储管理方式"><span class="level-left"><span class="level-item">2</span><span class="level-item">请求分页存储管理方式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#3-调页策略"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">3 调页策略</span></span></a></li><li><a class="level is-mobile" href="#4-页面置换算法"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">4 页面置换算法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#最优置换算法-Optimal-Replacement-Algorithm"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">最优置换算法 Optimal Replacement Algorithm</span></span></a></li><li><a class="level is-mobile" href="#先进先出页面置换算法-FIFO"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">先进先出页面置换算法 FIFO</span></span></a></li><li><a class="level is-mobile" href="#最近最久未使用置换算法-LRU"><span class="level-left"><span class="level-item">2.2.3</span><span class="level-item">最近最久未使用置换算法 LRU</span></span></a></li><li><a class="level is-mobile" href="#Clock-置换算法"><span class="level-left"><span class="level-item">2.2.4</span><span class="level-item">Clock 置换算法</span></span></a></li><li><a class="level is-mobile" href="#改进型-Clock-置换算法"><span class="level-left"><span class="level-item">2.2.5</span><span class="level-item">改进型 Clock 置换算法</span></span></a></li><li><a class="level is-mobile" href="#其它置换算法"><span class="level-left"><span class="level-item">2.2.6</span><span class="level-item">其它置换算法</span></span></a></li></ul></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/live2d-widget/autoload.js"></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
