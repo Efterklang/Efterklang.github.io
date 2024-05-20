@@ -170,12 +170,6 @@ body.night .v pre {
 body.night .title,
 body.night .footer,
 body.night .card,
-body.night .content h1,
-body.night .content h2,
-body.night .content h3,
-body.night .content h4,
-body.night .content h5,
-body.night .content h6,
 body.night .navbar-item,
 body.night .navbar-item.is-active,
 body.night .navbar-link,
@@ -197,7 +191,7 @@ body.night .cc-window {
   color: #c0c0c0 !important;
 }
 body.night strong {
-  color: #9b95c9;
+  color: #86e1fc;
 }
 body.night a {
   color: #5299e0;
@@ -214,6 +208,15 @@ body.night .timeline a:hover,
 body.night .twikoo-new-container a:hover,
 body.night [data-type="recent-posts"] a:hover {
   color: #fff;
+}
+body.night .content h1,
+body.night .content h2,
+body.night .content h3,
+body.night .content h4,
+body.night .content h5,
+body.night .content h6 {
+  color: #7ba1f1;
+  font-weight: bold;
 }
 body.night .content blockquote,
 body.night .article-licensing {
@@ -473,12 +476,6 @@ body.night .twikoo code {
   body:not(.light) .title,
   body:not(.light) .footer,
   body:not(.light) .card,
-  body:not(.light) .content h1,
-  body:not(.light) .content h2,
-  body:not(.light) .content h3,
-  body:not(.light) .content h4,
-  body:not(.light) .content h5,
-  body:not(.light) .content h6,
   body:not(.light) .navbar-item,
   body:not(.light) .navbar-item.is-active,
   body:not(.light) .navbar-link,
@@ -500,7 +497,7 @@ body.night .twikoo code {
     color: #c0c0c0 !important;
   }
   body:not(.light) strong {
-    color: #9b95c9;
+    color: #86e1fc;
   }
   body:not(.light) a {
     color: #5299e0;
@@ -517,6 +514,15 @@ body.night .twikoo code {
   body:not(.light) .twikoo-new-container a:hover,
   body:not(.light) [data-type="recent-posts"] a:hover {
     color: #fff;
+  }
+  body:not(.light) .content h1,
+  body:not(.light) .content h2,
+  body:not(.light) .content h3,
+  body:not(.light) .content h4,
+  body:not(.light) .content h5,
+  body:not(.light) .content h6 {
+    color: #7ba1f1;
+    font-weight: bold;
   }
   body:not(.light) .content blockquote,
   body:not(.light) .article-licensing {

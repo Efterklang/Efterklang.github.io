@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Storage Management PartⅢ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="虚拟存储器的基本概念，请求分页存储管理方式"><meta property="og:type" content="article"><meta property="og:title" content="Storage Management PartⅢ"><meta property="og:url" content="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="虚拟存储器的基本概念，请求分页存储管理方式"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><meta property="article:published_time" content="2024-05-03T13:44:20.000Z"><meta property="article:modified_time" content="2024-05-09T13:08:46.473Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="OS"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"Storage Management PartⅢ","image":["https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"],"datePublished":"2024-05-03T13:44:20.000Z","dateModified":"2024-05-09T13:08:46.473Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"虚拟存储器的基本概念，请求分页存储管理方式"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Storage Management PartⅢ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="虚拟存储器的基本概念，请求分页存储管理方式,抖动与工作集合,请求分页存储管理方式"><meta property="og:type" content="article"><meta property="og:title" content="Storage Management PartⅢ"><meta property="og:url" content="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="虚拟存储器的基本概念，请求分页存储管理方式,抖动与工作集合,请求分页存储管理方式"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><meta property="article:published_time" content="2024-05-13T12:33:50.000Z"><meta property="article:modified_time" content="2024-05-14T01:40:37.239Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="OS"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"Storage Management PartⅢ","image":["https://efterklang.github.io/img/thumbnails/OS/Ch4-3Storage.png"],"datePublished":"2024-05-13T12:33:50.000Z","dateModified":"2024-05-14T01:40:37.239Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"虚拟存储器的基本概念，请求分页存储管理方式,抖动与工作集合,请求分页存储管理方式"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
     
@@ -34,31 +34,355 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
-</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/OS/Ch4-3Storage.png" alt="Storage Management PartⅢ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-05-03T13:44:20.000Z" title="5/3/2024, 9:44:20 PM">2024-05-03</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/OS/">OS</a></span><span class="level-item">11 minutes read (About 1603 words)</span><span class="level-item leancloud_visitors" id="/UESTC/OS/Ch4-3StorageManagement/" data-flag-title="Storage Management PartⅢ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Storage Management PartⅢ</h1><div class="content"><h2 id="虚拟存储器的基本概念"><a href="#虚拟存储器的基本概念" class="headerlink" title="虚拟存储器的基本概念"></a>虚拟存储器的基本概念</h2><h2 id="请求分页存储管理方式"><a href="#请求分页存储管理方式" class="headerlink" title="请求分页存储管理方式"></a>请求分页存储管理方式</h2><h3 id="3-调页策略"><a href="#3-调页策略" class="headerlink" title="3 调页策略"></a>3 调页策略</h3><h3 id="4-页面置换算法"><a href="#4-页面置换算法" class="headerlink" title="4 页面置换算法"></a>4 页面置换算法</h3><p>页面置换算法的选择，是虚拟存储器管理系统的核心问题。<br>它的实质是，为系统提供一种方法，当从主存中需要换出页面时，应避免选择那些不久将再次要求访问的页面。<br>置换算法的选择在一定程度上取决于可用的硬件设施。</p>
-<h4 id="最优置换算法-Optimal-Replacement-Algorithm"><a href="#最优置换算法-Optimal-Replacement-Algorithm" class="headerlink" title="最优置换算法 Optimal Replacement Algorithm"></a>最优置换算法 Optimal Replacement Algorithm</h4><p>最理想的页面置换策略是：从主存中移出永远不再需要的页面；如无这样的页面存在，则应选择最长时间不需要访问的页面。<br>最佳置换策略首先是由Belady于1966年提出的。<br>最佳置换策略本身不是一种实际的方法，因为页面访问的未来顺序是不知道的，但是，可将其它的实用方法与之比较来评价这些方法的优劣。所以，这种最佳策略具有理论上的意义。        </p>
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/OS/Ch4-3Storage.png" alt="Storage Management PartⅢ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-05-13T12:33:50.000Z" title="5/13/2024, 8:33:50 PM">2024-05-13</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/OS/">OS</a></span><span class="level-item">an hour read (About 11202 words)</span><span class="level-item leancloud_visitors" id="/UESTC/OS/Ch4-3StorageManagement/" data-flag-title="Storage Management PartⅢ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Storage Management PartⅢ</h1><div class="content"><h2 id="虚拟存储器-Virtual-Memory"><a href="#虚拟存储器-Virtual-Memory" class="headerlink" title="虚拟存储器 Virtual Memory"></a>虚拟存储器 Virtual Memory</h2><h3 id="虚拟存储器的引入"><a href="#虚拟存储器的引入" class="headerlink" title="虚拟存储器的引入"></a>虚拟存储器的引入</h3><p><strong>问题的提出</strong><br>一个程序要求的存储容量超过整个内存空间<br>有大量的作业需要装入内存运行而内存空间不足</p>
+<p><strong>解决方案</strong><br>从物理上增加内存容量。但这会增加系统成本，并且增加是有限的<br>从逻辑上增加内存容量。这正是虚拟存储技术所要解决的主要问题。</p>
+<hr>
+<p><strong>常规存储器管理方式的特征</strong><br>“一次性”: 要求将一个作业全部装入内存才能运行，<br>1）大作业无法运行。<br>2）限制作业并发执行的程度。<br>“驻留性”: 作业装入后一直驻留内存直到作业完成。<br>内存中存在一些已无用的、或暂时不用的程序或数据，浪费内存空间。<br>一次性和驻留性严重降低内存利用率，减少系统吞吐量。<br><strong>内存的扩充方法</strong></p>
+<ol>
+<li>物理扩充：<br>增加硬件投入，受机器自身和成本的限制。</li>
+<li>逻辑扩充：</li>
+</ol>
+<ul>
+<li>覆盖（overlay）应用程序手动把需要的指令和数据保存在内存中；解决了“一次性”问题。</li>
+<li>对换（swapping）操作系统自动把暂时不能执行的程序保存到外存中;解决了“驻留性”问题。</li>
+<li>虚拟存储 在有限容量的内存中，自动装入更多更大的程序</li>
+</ul>
+<h3 id="局部性原理-Principle-of-Locality"><a href="#局部性原理-Principle-of-Locality" class="headerlink" title="局部性原理 Principle of Locality"></a>局部性原理 Principle of Locality</h3><p>程序执行的局部性原理：程序的执行总是呈现局部性。即在一个较短的时间段内，程序的执行仅限于某个部分；相应的，它所访问的存储空间也局限于某个区域。<br>因此，只要保证进程执行所需的部分程序和数据驻留在内存，一段时间内进程都能顺利执行。</p>
+<p>局限性又表现在下述两个方面：</p>
+<ol>
+<li><strong>时间局限性</strong><br>如果程序中的某条指令一旦执行，则不久以后该指令可能再次执行；如果某数据被访问过， 则不久以后该数据可能再次被访问。<br>产生时间局限性的典型原因，是由于在程序中存在着大量的循环操作。</li>
+<li><strong>空间局限性</strong><br>一旦程序访问了某个存储单元，在不久之后，其附近的存储单元也将被访问。<br>程序在一段时间内所访问的地址，可能集中在一定的范围之内，其典型情况便是程序的顺序执行。</li>
+</ol>
+<p>不同程序编写方法的局部性特征</p>
+<p>页面大小为 4K，分配给每个进程的物理页框数为 1。在一个进程中，定义了如下的二维数组<code>int A[1024][1024]</code>，该数组<strong>按行</strong>存放在内存，每一行放在一个页面中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 程序编写方法1：</span></span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="number">1024</span>; j++)</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">1024</span>; i++)</span><br><span class="line">    A[i][j] = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 程序编写方法2：</span></span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">1024</span>; i++)</span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">1024</span>; j++)</span><br><span class="line">    A[i][j] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">页号    页内数据</span><br><span class="line">0000    a0,0         a0,1        a0,2   ……………………        a0,1023</span><br><span class="line">0001    a1,0         a1,1        a1,2   ……………………        a1,1023</span><br><span class="line">        ……………………………</span><br><span class="line">        ……………………………</span><br><span class="line">1023    a1023,0      a1023,1   ……………………....…......... a1023,1023</span><br></pre></td></tr></table></figure>
+
+<p>编写方式 1 发生了大量的缺页中断，因为程序按行存放，每次访问都会跨页，共计$1024 \times 1024 &#x3D; ^{24}$次缺页中断。<br>编写方式 2 发生了较少的缺页中断，共计$2^{10}$次缺页中断。</p>
 <blockquote>
-<p>例 设页面请求次序 7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1<br>存储块为3(驻留集为3)，假定最初存储块为空，采用OPT。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-17-43-04.png" style="zoom:80%;"><br>第一行为要请求访问的页面，第二行为存储块(内存)中存储的页，第三行为被移出内存的页。<br>从上面的演示知，利用OPT，发生了6次页面置换,发生了9次缺页中断(前3次没有置换,但内存中未装入页面,发生中断)<br>缺页率&#x3D;缺页次数&#x2F;访问次数&#x3D;9&#x2F;20&#x3D;0.45</p>
+<p><strong>缺页中断</strong>（Page Fault）是计算机操作系统中的一种中断或异常，当程序访问一个页面时，如果这个页面已经在物理内存中，那么就可以直接读取或者写入。但是，如果这个页面在虚拟内存中，而并没有加载到物理内存中，那么就会发生缺页中断。</p>
 </blockquote>
-<h4 id="先进先出页面置换算法-FIFO"><a href="#先进先出页面置换算法-FIFO" class="headerlink" title="先进先出页面置换算法 FIFO"></a>先进先出页面置换算法 FIFO</h4><p>该算法的实质是：总是选择作业中驻留时间最长的一页淘汰。即先进入主存的页面先退出主存。<br>算法实现比较容易，如分配给一个作业的存储块数为m，只需建立一个m个元素的队列表Q(0)、Q(1)、…、Q(m-1)和一个替换指针。该队列是按页面调入主存的先后顺序排列的，而指针始终指向最早调入主存的一页。</p>
+<h3 id="虚拟存储器概述"><a href="#虚拟存储器概述" class="headerlink" title="虚拟存储器概述"></a>虚拟存储器概述</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><strong>虚拟存储器</strong>（Virtual Memory）是指具有请求调入功能和置换功能，能从逻辑上对内存容量加以扩充的一种存储器系统。其逻辑容量由内存容量和外存容量之和所决定<br>其运行速度接近于内存速度，而成本却又接近于外存。<br>虚拟存储技术是一种性能非常优越的存储器管理技术，故被广泛地应用于大、中、小型机器和微型机中。</p>
+<ul>
+<li>当进程运行时，先将当前要运行的部分程序装入内存，其他部分暂留外存；</li>
+<li>当要执行的指令不在内存时，处理器发生中断，通知操作系统将所缺部分从外存调入内存，保证程序继续执行；</li>
+<li>当内存不足时，允许程序部分换入、换出。</li>
+</ul>
+<h4 id="虚拟存储器的基本工作情况"><a href="#虚拟存储器的基本工作情况" class="headerlink" title="虚拟存储器的基本工作情况"></a>虚拟存储器的基本工作情况</h4><ol>
+<li>基于局部性原理。一个作业运行前，仅将那些当前要运行的页面（段）装入内存启动运行，其余暂在外存。</li>
+<li>若运行所需页面（段）不在内存，则利用请求调页（段）功能将其调入内存。</li>
+<li>若此时内存满，则利用置换功能，将内存中暂时不用的部分页面（段）调至外存，再将所需页面（段）调入。</li>
+<li>这样，可实现大程序在小内存中运行，也可实现内存中同时装入更多的进程并发执行。</li>
+</ol>
+<h4 id="虚存容量"><a href="#虚存容量" class="headerlink" title="虚存容量"></a>虚存容量</h4><p>虚拟存储器虽然给用户提供了特大地址空间，但其容量不是无限大，主要受两个方面的限制：</p>
+<ol>
+<li>指令中表示地址的字长：这是由 CPU 的架构决定的。例如，如果 CPU 的有效地址长度为 32 位，那么它能够表示的地址空间最大为$2^{32}$，也就是 4GB。这意味着虚拟内存的最大容量为 4GB。这与物理内存的大小无关，即使物理内存小于 4GB，虚拟内存依然可以达到 4GB。但是，如果物理内存大于 4GB，那么超出 4GB 的部分将无法被 32 位的 CPU 编址。</li>
+<li>外存的容量（对换区）：虚拟内存的另一个部分存储在硬盘的交换区中。如果硬盘的空间有限，那么虚拟内存的容量也会受到限制。即使 CPU 可以支持更大的虚拟内存，如果硬盘空间不足，那么虚拟内存的实际可用空间也会受到限制。</li>
+</ol>
+<h4 id="虚拟存储器的特征"><a href="#虚拟存储器的特征" class="headerlink" title="虚拟存储器的特征"></a>虚拟存储器的特征</h4><p>虚拟存储器具有以下主要特征：</p>
+<ol>
+<li><strong>多次性</strong> 多次性是指一个作业被分成多次调入内存运行。</li>
+<li><strong>对换性</strong> 对换性是指作业的运行过程中进行换进、换出。换进和换出能有效地提高内存利用率。</li>
+<li><strong>虚拟性</strong> 虚拟性是指能够从逻辑上扩充内存容量，使用户所看到的内存容量远大于实际内存容量。</li>
+</ol>
+<blockquote>
+<p>虚拟性是以多次性和对换性为基础的；而多次性和对换性又必须建立在离散分配的基础上。</p>
+</blockquote>
+<h3 id="虚拟存储管理与对换技术的区别"><a href="#虚拟存储管理与对换技术的区别" class="headerlink" title="虚拟存储管理与对换技术的区别"></a>虚拟存储管理与对换技术的区别</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>处理单位</th>
+<th>主存容量大于系统空闲量时的处理方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>虚拟存储管理</td>
+<td>页或段</td>
+<td>进程仍能运行</td>
+</tr>
+<tr>
+<td>对换技术（中级调度，挂起和激活）</td>
+<td>进程</td>
+<td>无法解除挂起</td>
+</tr>
+</tbody></table>
+<h3 id="虚拟存储器的实现方法"><a href="#虚拟存储器的实现方法" class="headerlink" title="虚拟存储器的实现方法"></a>虚拟存储器的实现方法</h3><h4 id="请求分页系统"><a href="#请求分页系统" class="headerlink" title="请求分页系统"></a>请求分页系统</h4><p>它是在纯分页系统的基础上增加了请求调页、页面置换两大功能所形成的页式虚拟存储系统。为了实现请求调页、页面置换两大功能，系统必须提供如下的硬件支持：</p>
+<ol>
+<li>请求分页的页表机制。</li>
+<li>缺页中断机构。</li>
+<li>地址变换机构。</li>
+</ol>
+<p>此外，实现请求调页、页面置换两大功能还需得到 OS 的支持。</p>
+<h4 id="请求分段系统"><a href="#请求分段系统" class="headerlink" title="请求分段系统"></a>请求分段系统</h4><p>它是在纯分段系统的基础上增加了请求调段、分段置换两大功能所形成的段式虚拟存储系统。为了实现请求调段、分段置换两大功能，系统必须提供如下的硬件支持：</p>
+<ol>
+<li>请求分段的段表机制。</li>
+<li>缺段中断机构。</li>
+<li>地址变换机构。</li>
+</ol>
+<p>此外，实现请求调段、分段置换两大功能还需得到 OS 的支持。</p>
+<h4 id="段页式虚拟系统"><a href="#段页式虚拟系统" class="headerlink" title="段页式虚拟系统"></a>段页式虚拟系统</h4><p>目前，许多虚拟存储管理系统是建立在段页式系统的基础上的，通过增加了请求调页、页面置换两大功能所形成的段页式虚拟存储系统。<br>如：Intel 80386 处理机便支持段页式虚拟存储系统。</p>
+<h3 id="抖动-Thrashing"><a href="#抖动-Thrashing" class="headerlink" title="抖动 Thrashing"></a>抖动 Thrashing</h3><p>当进程要求装入新的页面或程序段时，如果当前没有足够的空闲空间，需要交换一些页面或段到外存。如果被交换出去的页面或段很快将被进程使用，则又需要将其换入内存。<br>如果系统花费大量的时间把程序和数据频繁地换入和换出内存而不是执行用户指令，那么，称系统出现了抖动。出现抖动现象时，系统显得非常繁忙，但是吞吐量很低，甚至产出为零。<br>根本原因：选择的页面或段不恰当。</p>
+<h2 id="请求分页存储管理方式-Demand-Paging"><a href="#请求分页存储管理方式-Demand-Paging" class="headerlink" title="请求分页存储管理方式 Demand Paging"></a>请求分页存储管理方式 Demand Paging</h2><h3 id="原理及实现"><a href="#原理及实现" class="headerlink" title="原理及实现"></a>原理及实现</h3><h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>作业运行时，只将当前的一部分装入内存其余的放在辅存，一旦发现访问的页不在主存中，则发出缺页中断，由 OS 将其从辅存调入主存，如果内存无空块，则根据某种算法选择一个页淘汰以便装入新的页面。<br>利用这种方法，可使更多的作业处于就绪状态，且能支持比主存容量大的作业在系统中运行。从而提高存储空间利用率。<br>为了实现请求调页、页面置换两大功能，系统必须提供如下的硬件支持：</p>
+<ol>
+<li>请求分页的页表机制。</li>
+<li>缺页中断机构。</li>
+<li>地址变换机构。</li>
+</ol>
+<h4 id="页表机制-Page-Table"><a href="#页表机制-Page-Table" class="headerlink" title="页表机制 Page Table"></a>页表机制 Page Table</h4><p>在虚拟存储系统中的所有的页表，其页描述子有了新的扩充，这是进行地址变换机构所必须的，增加四个信息标识位。</p>
+<table>
+<thead>
+<tr>
+<th>页号</th>
+<th>页框号 Q</th>
+<th>状态位 D</th>
+<th>访问位 A</th>
+<th>修改位 M</th>
+<th>外存地址</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>状态位&#x2F;存在位</strong>D：用于说明该页是否已调入内存，供程序访问时参考；<br><code>D=0，该页不在内存;D=1，该页在内存</code></li>
+<li><strong>访问位</strong>A：用于记录本页在一段时间内被访问的次数，或最近已有多长时间未被访问，提供给置换算法选择换出页面时参考。<br><code>A=0，该页未被访问;A=1，该页被访问</code></li>
+<li><strong>修改位</strong>M：用于表示该页在调入内存后是否被修改过，也是提供给置换算法在换出页面时是否将该页面写回外存作参考。<br><code>M=0，该页在内存中未被修改;M=1，该页在内存中已经被修改</code></li>
+<li><strong>外存地址</strong>：用于指出该页在外存上的地址，供调入该页时使用。</li>
+</ol>
+<h4 id="缺页中断机构-Page-Fault-Interrupt"><a href="#缺页中断机构-Page-Fault-Interrupt" class="headerlink" title="缺页中断机构 Page Fault Interrupt"></a>缺页中断机构 Page Fault Interrupt</h4><p>由上述页表机制知道，状态位记录了访问页面是否在内存。在地址映射过程中，在页表中发现所要访问的页不在内存，则产生缺页中断，也称为缺页故障。OS 接到此中断信号后，就调出缺页中断处理程序，根据页表中给出的外存地址，将该页调入内存，使作业继续运行下去。<br>缺页中断是一种特殊的中断，与一般中断相比，主要表现为：</p>
+<ul>
+<li>在指令执行期间产生和处理中断信号。通常，CPU 只能在指令之间接受中断；然而，一个缺页中断要求在指令执行中间得到服务，即发现所要访问的指令或数据不在内存时产生缺页中断并处理。</li>
+<li>再则，一条指令可能引起多次不同的页面故障。<br>例如<code>COPY A,B</code>,指令本身跨了两个页面,数据 A 和 B 各自跨了两个页面,这条指令的执行需要访问六个不同的页面，对它们的访问都可能引起缺页中断,最多可能引起 6 次缺页中断(每个页面都不在内存中)</li>
+</ul>
+<p>由于缺页中断的独特性，系统中需要提供硬件寄存器或其它机构，在出现页面故障时，保存部分完成的指令的状态。此外，还需要使用一条特殊的返回指令，确保在出现缺页中断处恢复该指令的处理。</p>
+<p><strong>缺页中断处理过程</strong></p>
+<ol>
+<li>操作系统接收到进程产生的缺页中断信号，启动中断处理例程，保留处理机现场；</li>
+<li>操作系统通知处理机从外存读取指定的页面；</li>
+<li>处理机激活 I&#x2F;O 设备；</li>
+<li>检查内存有无足够的空闲空间装入该页面？若有，转（6），否则，执行（5）；</li>
+<li>利用页面置换算法，选择内存中的某个页面，换出内存；</li>
+<li>将指定页面从外存装入内存；</li>
+<li>更新该进程的页表；</li>
+<li>更新快表；</li>
+<li>计算物理地址。</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-12-21-24-35.png" style="zoom:90%;">
+
+<h4 id="地址变换机构-Address-Translation"><a href="#地址变换机构-Address-Translation" class="headerlink" title="地址变换机构 Address Translation"></a>地址变换机构 Address Translation</h4><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-12-21-30-38.png" style="zoom:100%;">
+
+<h3 id="内存分配策略和分配算法"><a href="#内存分配策略和分配算法" class="headerlink" title="内存分配策略和分配算法"></a>内存分配策略和分配算法</h3><p>在为进程分配物理块时，又将涉及到这样三个问题：</p>
+<ul>
+<li>确定进程能正常运行所需的最少物理块数；</li>
+<li>为每个进程分配的物理块，其数目是固定的还是可变的；</li>
+<li>对各进程所分配的物理块数，是采取平均分配算法还是根据进程的大小按比例予以分配等。</li>
+</ul>
+<p><strong>最小物理块数的确定</strong><br>显然，给每个进程所分配物理块数目越少，则进程执行中的缺页率越高，进程的执行速度也减慢。为使进程能有效地工作，应为它分配一定数目的物理块。<br>最小物理块数：是指能保证进程正常运行所需的最少物理块数。若系统为某进程所分配的物理块数少于此值时，进程将无法运行。<br>进程应获得的最少物理块数与计算机的硬件结构有关，取决于指令的格式、功能和寻址方式。</p>
+<p>例：对于某些简单的机器，若是单地址指令且采用直接寻址方式，则所需的最少物理块数为 2。如果该机器允许间接寻址时，则至少要求有物理块数为 3。对于前面所介绍的在缺页中断机构中要发生 6 次中断的情况，至少要为每个进程分配 6 个物理块，以装入 6 个页面。</p>
+<p><strong>物理块的分配策略</strong></p>
+<ol>
+<li>固定分配局部置换 Fixed Allocation，Local Replacement</li>
+<li>可变分配全局置换 Variable Allocation，Global Replacement</li>
+<li>可变分配局部置换 Variable Allocation， Local Replacement</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-12-21-35-58.png" style="zoom:50%;">
+
+<ol>
+<li>固定分配局部置换<br>为每个进程分配一定数目的物理块，在整个运行期间都不再改变。<br>实现这种策略的困难在于：应为每个进程分配多少个物理块难以确定。<br>若太少，会频繁地出现缺页中断，降低了系统的吞吐量；<br>若太多，又必然使内存中驻留的进程数目减少，进而可能造成 CPU 空闲或其它资源空闲的情况，而且在实现进程对换时，会花费更多的时间。</li>
+<li>可变分配全局置换 （常用方式）<br>在采用这种策略时，先为系统中的每个进程分配一定数目的物理块，而 OS 自身也保持一个空闲物理块队列。<br>当某进程发现缺页时，由系统从空闲物理块队列中，取出一个物理块分配给该进程，并将欲调入的（缺）页装入其中。<br>这样，凡产生缺页（中断）的进程，都将获得新的物理块；<br>仅当空闲物理块队列中的物理块用完时，OS 才能从内存中选择一页调出，该页可能是系统中任一进程的页，这样，自然又会使那个进程的物理块减少，进而使其缺页率增加。</li>
+<li>可变分配局部置换<br>为每个进程分配一定数目的物理块，但当某进程发现缺页时，只允许从该进程在内存的页面中选出一页换出，这样就不会影响其它进程的运行。<br>在进程运行过程中统计进程的缺页率，如果缺页率高，则为其增加一定的内存页，否则适当减少其内存的页面数。<br>当需要置换时只从本进程的内存页中选择，但此方式实现复杂，对进程的缺页情况的统计需要额外的开销。</li>
+</ol>
+<hr>
+<p><strong>物理块的分配算法</strong></p>
+<p>在采用固定分配策略时，如何将系统中可供分配的所有物理块分配给各个进程，可采取下述几种方法。</p>
+<ol>
+<li>平均分配算法<br>将系统中所有可供分配的物理块，平均分配给各个进程。<br>例：当系统中有 100 个物理块，有 5 个进程在运行时，每个进程可分得 20 个物理块。如有一个进程其大小为 200 页，只分配给它 20 个块，这样，它必然会有很高的缺页率；而另一个进程只有 10 页，却有 10 个物理块闲置未用。<br>这种方式貌似公平，但实际上是不公平的。因为，它并未考虑到各进程本身的大小。</li>
+<li>按比例分配算法<br>根据进程的大小按比例分配物理块的算法。<br>例：系统中共有 n 个进程，每个进程的页面数为$S_i$，则系统中各进程页面数的总和为：<br>$S &#x3D; \sum_{i&#x3D;1}^{n} S_i$<br>又假定系统中可用的物理块总数为 m，则每个进程所能分到的物理块数为$b_i$，将有：<br>$b_i &#x3D; \frac{S_i}{S} \times m$<br>b 应该向上取整，它必须大于最小物理块数。</li>
+<li>考虑优先权的分配算法<br>通常采取的方法是把内存中可供分配的所有物理块分成两部分：<br>一部分按比例地分配给各进程；<br>另一部分则根据各进程的优先权，适当地增加其相应份额后，分配给各进程。<br>在有的系统中，如重要的实时控制系统，则可能是完全按优先权来为各进程分配物理块。</li>
+</ol>
+<h3 id="调页策略"><a href="#调页策略" class="headerlink" title="调页策略"></a>调页策略</h3><p>解决的问题：</p>
+<ul>
+<li>系统应当在何时把一个页面装入内存？</li>
+<li>从何处调入页面？</li>
+<li>页面调入过程？</li>
+<li>页面置换算法？</li>
+</ul>
+<h4 id="装入时机"><a href="#装入时机" class="headerlink" title="装入时机"></a>装入时机</h4><p><strong>系统应当在何时把一个页面装入内存</strong>？</p>
+<ul>
+<li>预调页 (Prepaging)</li>
+<li>请求调页 (Demand Paging)</li>
+</ul>
+<p>可采用一种以预测为基础的<strong>预调页</strong>策略，将那些预计在不久之后便会被访问的页面，预先调入内存。<br>处理过程：</p>
+<ul>
+<li>当进程创建时，预先为进程装入多个页面。</li>
+<li>缺页中断时，系统为进程装入指定的页面以及与之相临的多个页面。</li>
+<li>若局部性很差，预先装入的很多页面不会很快被引用，并会占用大量的内存空间，反而降低系统的效率。预调页的成功率仅约 50％。</li>
+</ul>
+<p><strong>请求调页</strong>：仅当进程执行过程中，通过检查页表发现相应页面不在内存时，才装入该页面。<br>当进程刚开始执行时，由于预先未装入进程的页面，故需要频繁地申请装入页面。执行一段时间以后，进程的缺页率将下降。<br>采用请求调页方式，磁盘 I&#x2F;O 的启动频率较高，系统的开销较大。</p>
+<h4 id="从何处调入页面"><a href="#从何处调入页面" class="headerlink" title="从何处调入页面"></a>从何处调入页面</h4><p>在请求分页系统中的外存分为两部分:用于存放文件的文件区和用于存放对换页面的对换区。<br>通常，由于对换区是采用连续分配方式，而文件区是采用离散分配方式，故对换区的磁盘 I&#x2F;O 速度比文件区的高。<br>这样，每当发生缺页请求时，系统应从何处将缺页调入内存，可分成如下三种情况。</p>
+<ol>
+<li>系统拥有足够的对换区空间，这时可以全部从对换区调入所需页面，以提高调页的速度。</li>
+<li>系统缺少足够的对换区空间，这时凡是不会被修改的文件，都直接从文件区调入；<ul>
+<li>而当换出这些页面时，由于它们未被修改而不必再将它们换出到对换区，以后再调入时，仍从文件区直接调入。</li>
+<li>但对于那些可能被修改的部分，在将它们换出时，便须调到对换区，以后需要时，再从对换区调入。</li>
+</ul>
+</li>
+<li>UNIX 方式。由于与进程有关的文件都放在文件区，应从文件区调入。故凡是未运行过的页面，都应从文件区调入。而对于曾经运行过但又被换出的页面，由于是被放在对换区，因此在下次调入时，应从对换区调入。</li>
+</ol>
+<h4 id="页面调入过程"><a href="#页面调入过程" class="headerlink" title="页面调入过程"></a>页面调入过程</h4><ol>
+<li>每当程序所要访问的页面未在内存时，便向 CPU 发出一缺页中断。</li>
+<li>中断处理程序首先保留 CPU 环境，分析中断原因后，转入缺页中断处理程序。</li>
+<li>如果内存已满，则须先按照某种置换算法从内存中选出一页准备换出；如果此页已被修改，则必须将它写回磁盘。</li>
+<li>然后再把所缺的页调入内存，并修改页表中的相应表项，置其存在位为“1”，并将此页表项写入快表中。</li>
+<li>形成所要访问数据的物理地址，再去访问内存数据。</li>
+</ol>
+<p>整个页面的调入过程对用户是透明的。</p>
+<h4 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法"></a>页面置换算法</h4><p>页面置换算法的选择，是虚拟存储器管理系统的核心问题。<br>它的实质是，为系统提供一种方法，当从主存中需要换出页面时，应避免选择那些不久将再次要求访问的页面。<br>置换算法的选择在一定程度上取决于可用的硬件设施。</p>
+<h5 id="最优置换算法-Optimal-Replacement-Algorithm"><a href="#最优置换算法-Optimal-Replacement-Algorithm" class="headerlink" title="最优置换算法 Optimal Replacement Algorithm"></a>最优置换算法 Optimal Replacement Algorithm</h5><p>最理想的页面置换策略是：从主存中移出永远不再需要的页面；如无这样的页面存在，则应选择最长时间不需要访问的页面。<br>最佳置换策略首先是由 Belady 于 1966 年提出的。<br>最佳置换策略本身不是一种实际的方法，因为页面访问的未来顺序是不知道的，但是，可将其它的实用方法与之比较来评价这些方法的优劣。所以，这种最佳策略具有理论上的意义。</p>
+<blockquote>
+<p>例 设页面请求次序 7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1<br>存储块为 3(驻留集为 3)，假定最初存储块为空，采用 OPT。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-17-43-04.png" style="zoom:80%;"><br>第一行为要请求访问的页面，第二行为存储块(内存)中存储的页，第三行为被移出内存的页。<br>从上面的演示知，利用 OPT，发生了 6 次页面置换,发生了 9 次缺页中断(前 3 次没有置换,但内存中未装入页面,发生中断)<br>缺页率&#x3D;缺页次数&#x2F;访问次数&#x3D;9&#x2F;20&#x3D;0.45</p>
+</blockquote>
+<h5 id="先进先出页面置换算法-FIFO"><a href="#先进先出页面置换算法-FIFO" class="headerlink" title="先进先出页面置换算法 FIFO"></a>先进先出页面置换算法 FIFO</h5><p>该算法的实质是：总是选择作业中驻留时间最长的一页淘汰。即先进入主存的页面先退出主存。<br>算法实现比较容易，如分配给一个作业的存储块数为 m，只需建立一个 m 个元素的队列表 Q(0)、Q(1)、…、Q(m-1)和一个替换指针。该队列是按页面调入主存的先后顺序排列的，而指针始终指向最早调入主存的一页。</p>
 <blockquote>
 <img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-17-51-10.png" style="zoom:80%;">
 发生了12次页面置换,发生了15次缺页中断，缺页率=缺页次数/访问次数=15/20=0.75
 </blockquote>
-<h4 id="最近最久未使用置换算法-LRU"><a href="#最近最久未使用置换算法-LRU" class="headerlink" title="最近最久未使用置换算法 LRU"></a>最近最久未使用置换算法 LRU</h4><p>LRU(least Recently Used)算法的基本思想是，利用局部性原理，根据一个作业在执行过程中过去的页面访问踪迹来推测未来的行为。它认为过去一段时间里不曾被访问过的页面，在最近的将来可能也不会再被访问。<br>算法的实质是：当需要置换一页面时，选择在最近一段时间内最久不用的页面予以淘汰。<br>实现这种技术，是通过周期性地对“页面访问”位进行检查，并利用它来记录一个页面自上次访问以来所经历的时间t，并选择 t 为最大的页予以淘汰。</p>
+<h5 id="二次机会页面置换算法-SCR，Second-Chance-Replacement-Policy"><a href="#二次机会页面置换算法-SCR，Second-Chance-Replacement-Policy" class="headerlink" title="二次机会页面置换算法 SCR，Second Chance Replacement Policy"></a>二次机会页面置换算法 SCR，Second Chance Replacement Policy</h5><p>二次机会算法是 FIFO 算法的升级版，而 clock 算法可以认为是二次机会算法的升级版本<br>该算法仍然使用标准的 FIFO 队列。</p>
+<p>每个帧(frame)有一个 second chance 位，也叫做引用位。<br>当一个 frame 被引用到，它的 second chance 位设置为 1。这表示该 frame 后面还有可能会被引用到，所以下次置换先跳过这个 frame，也就是再给它一次机会留在内存中。这样可以减少 frame 置换，提高页面操作效率。<br>当一个新的页面被读到内存中时，它的 second chance 被设置为 0。<br>当你需要替换内存中的一个页面时，使用轮询的方式来查找可以被替换的页面：</p>
+<ul>
+<li>如果页面的 second chance 是 1，那么置为 0，继续查找；</li>
+<li>如果页面的 second chance 是 0，那么将这个页面置换出去。</li>
+</ul>
+<h5 id="最近最久未使用置换算法-LRU"><a href="#最近最久未使用置换算法-LRU" class="headerlink" title="最近最久未使用置换算法 LRU"></a>最近最久未使用置换算法 LRU</h5><p>LRU(least Recently Used)算法的基本思想是，利用局部性原理，根据一个作业在执行过程中过去的页面访问踪迹来推测未来的行为。它认为过去一段时间里不曾被访问过的页面，在最近的将来可能也不会再被访问。<br>算法的实质是：当需要置换一页面时，选择在最近一段时间内<strong>最久未使用</strong>的页面予以淘汰。<br>实现这种技术，是通过周期性地对“页面访问”位进行检查，并利用它来记录一个页面自上次访问以来所经历的时间 t，并选择 t 为最大的页予以淘汰。</p>
 <blockquote>
 <img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2StorageManagement-2024-05-07-18-00-02.png" style="zoom:100%;">        
 发生了9次页面置换,发生了12次缺页中断，缺页率=缺页次数/访问次数=12/20=0.60
 </blockquote>
-<h4 id="Clock-置换算法"><a href="#Clock-置换算法" class="headerlink" title="Clock 置换算法"></a>Clock 置换算法</h4><p>简单的Clock置换算法（NRU）当采用简单clock算法时，为每页设置一位访问位，再将内存中的所有页面都通过链接指针链接成一个循环队列。</p>
-<p>某页被访问时，其访问位被置1。<br>置换程序从上次停止位置开始检查页面的访问位。<br>如果是0，就选择该页换出；<br>若为1，则重新将它置0，暂不换出，而给该页第二次驻留内存的机会。<br>由于该算法是循环地检查各页面的使用情况，故称为clock算法。置换时是将未使用过的页面换出去，故又把该算法称为最近未用算法NRU。</p>
-<h4 id="改进型-Clock-置换算法"><a href="#改进型-Clock-置换算法" class="headerlink" title="改进型 Clock 置换算法"></a>改进型 Clock 置换算法</h4><p>系统把一个页面移出内存时，如果该页面驻留内存期间没有被修改过，那么不必把它写回辅存，否则系统必须把它写回辅存。这表明，换出未修改过的页面比换出被修改过的页面开销小。<br>显然，我们可以依据上述结论改进CLOCK算法。改进后的CLOCK算法将在置换范围内首选符合下面条件的作为被置换页面</p>
+<p><strong>LRU 算法的硬件支持</strong><br>LRU 算法作为页面置换算法是比较好的，因为它适用于各种类型的程序。但是，实现起来比较困难，因为要对先前的访问历史时时加以记录和更新。如果这种连续的修改完全由软件来做，系统开销太大；如由硬件执行，则需要解决：</p>
+<ul>
+<li>一个进程在内存中的各个页面各有多久未被进程访问？</li>
+<li>如何快速地知道哪一页是最近最久未使用的页面？</li>
+</ul>
+<p>为此，需要以下两类硬件的支持：</p>
+<ul>
+<li>寄存器。用于记录某进程在内存中各页使用情况。</li>
+<li>栈。用于保存当前进程使用的各个页面的页面号。</li>
+</ul>
+<p><strong>移位寄存器</strong>：<br>为了记录某进程在内存中各页的使用情况，须为每个在内存中的页面配置一个移位寄存器可表示为：<br>$R &#x3D; R_{n-1}R_{n-2}R_{n-3}…R_2R_1R_0$</p>
+<p>当进程访问某物理块时，要将相应寄存器的最高位$R_{n-1}$位置成 1。表示这个页面最近被访问过。系统每隔一定时间（例如 100 ms）将寄存器右移一位，这意味着如果一个页面在一段时间内没有被访问，它的寄存器值将逐渐变小。<br>如果我们把 n 位寄存器的数看作是一个整数，那么，具有最小数值的寄存器所对应的页面，就是最近最久未使用的页面。<br>例如，假设我们有三个页面，其寄存器值分别为 100（4）、010（2）和 001（1）。在这种情况下，第三个页面的寄存器值最小，因此它是最近最久未使用的页面，应该被换出。<br><strong>栈</strong><br>操作系统维护一个栈，其中每个元素代表一个页面。栈顶的元素代表最近被访问的页面，而栈底的元素代表最近最久未使用的页面。</p>
+<h5 id="最少使用置换算法-LFU"><a href="#最少使用置换算法-LFU" class="headerlink" title="最少使用置换算法 LFU"></a>最少使用置换算法 LFU</h5><p>最少使用置换算法(Least Frequently Used)选择到当前时间为止被访问次数最少的页面被置换。<br>1、基本方法：<br>记录每个页面的访问次数，最少访问的页面首先考虑淘汰<br>2、实际采取方法<br>为页面设置移位寄存器。统计 1 的个数,1 的个数越少，表示访问次数越少，越容易被淘汰。<br>与 LRU 的区别：<br>R1&#x3D;10000000<br>R2&#x3D;01110100<br>LRU———-淘汰 R2<br>LFU———-淘汰 R1</p>
+<h5 id="Clock-置换算法"><a href="#Clock-置换算法" class="headerlink" title="Clock 置换算法"></a>Clock 置换算法</h5><p>简单的 Clock 置换算法（NRU）当采用简单 clock 算法时，为每页设置一位访问位，再将内存中的所有页面都通过链接指针链接成一个循环队列。</p>
+<ul>
+<li>某页被访问时，其访问位被置 1。</li>
+<li>置换程序从上次停止位置开始检查页面的访问位。<ul>
+<li>如果是 0，就选择该页换出；</li>
+<li>若为 1，则重新将它置 0，暂不换出，而给该页第二次驻留内存的机会。</li>
+</ul>
+</li>
+<li>由于该算法是循环地检查各页面的使用情况，故称为 clock 算法。置换时是将未使用过的页面换出去，故又把该算法称为最近未用算法 NRU。</li>
+</ul>
+<h5 id="改进型-Clock-置换算法"><a href="#改进型-Clock-置换算法" class="headerlink" title="改进型 Clock 置换算法"></a>改进型 Clock 置换算法</h5><p>系统把一个页面移出内存时，如果该页面驻留内存期间没有被修改过，那么不必把它写回辅存，否则系统必须把它写回辅存。这表明，换出未修改过的页面比换出被修改过的页面开销小。<br>显然，我们可以依据上述结论改进 CLOCK 算法。改进后的 CLOCK 算法将在置换范围内首选符合下面条件的作为被置换页面</p>
 <ol>
 <li>在最近没有被使用过；</li>
 <li>在驻留内存期间没有被修改过的页面</li>
 </ol>
-<p>由访问位A(Access)和修改位M(Modify)可以组合成下面四种类型的页面：<br>1类（A&#x3D;0，M&#x3D;0）：表示该页最近既未彼访问，又未被修改，是最佳淘汰页。<br>2类（A&#x3D;0，M&#x3D;1）：表示该页最近未被访问，但已被修改，并不是很好的淘汰页。<br>3类（A&#x3D;1，M&#x3D;0）：最近已被访问，但未被修改：该页有可能再被访问。<br>4类（A&#x3D;1，M&#x3D;1）：最近已被访问且被修改，该页可能再被访问。 </p>
-<p>执行过程可分成以下三步：<br>（1）从指针所指示的当前位置开始，扫描循环队列，寻找A&#x3D;0且M&#x3D;0的第一类页面，将所遇到的第一个页面作为所选中的淘汰页。在第一次扫描期间不改变访问位A。<br>（2）如果第一步失败，即查找一周后未遇到第一类页面，则开始第二轮扫描，寻找A&#x3D;0且M＝1的第二类页面，将所遇到的第一个这类页面作为淘汰页。在第二轮扫描期间，将所有扫描过的页面的访问位A都置0。<br>（3）如果第二步也失败，亦即未找到第二类页面，则将指针返回到开始的位置，并将所有的访问位复0。然后重复第一步，如果仍失败，必要时再重复第二步，此时就一定能找到被淘汰的页 .</p>
-<h4 id="其它置换算法"><a href="#其它置换算法" class="headerlink" title="其它置换算法"></a>其它置换算法</h4></div><div class="article-licensing box"><div class="licensing-title"><p>Storage Management PartⅢ</p><p><a href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/">https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-05-03</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-05-09</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/OS/">OS</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/OS/Ch4-2StorageManagement/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Storage Management PartⅡ</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tech/DataBase/Ch6-DbPrograming/"><span class="level-item">The Database Application Programming</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+<p>由访问位 A(Access)和修改位 M(Modify)可以组合成下面四种类型的页面,淘汰优先级依次下降：<br>1 类（A&#x3D;0，M&#x3D;0）：表示该页最近既未彼访问，又未被修改，是最佳淘汰页。<br>2 类（A&#x3D;0，M&#x3D;1）：表示该页最近未被访问，但已被修改，并不是很好的淘汰页。<br>3 类（A&#x3D;1，M&#x3D;0）：最近已被访问，但未被修改：该页有可能再被访问。<br>4 类（A&#x3D;1，M&#x3D;1）：最近已被访问且被修改，该页可能再被访问。</p>
+<p>执行过程可分成以下三步：<br>（1）从指针所指示的当前位置开始，扫描循环队列，寻找 A&#x3D;0 且 M&#x3D;0 的第一类页面，将所遇到的第一个页面作为所选中的淘汰页。在第一次扫描期间不改变访问位 A。<br>（2）如果第一步失败，即查找一周后未遇到第一类页面，则开始第二轮扫描，寻找 A&#x3D;0 且 M ＝ 1 的第二类页面，将所遇到的第一个这类页面作为淘汰页。在第二轮扫描期间，将所有扫描过的页面的访问位 A 都置 0。<br>（3）如果第二步也失败，亦即未找到第二类页面，则将指针返回到开始的位置，并将所有的访问位复 0。然后重复第一步，如果仍失败，必要时再重复第二步，此时就一定能找到被淘汰的页 .</p>
+<h5 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h5><p>Q：存储块越多，缺页中断率越小吗？<br>A:<br>一般来说，对于任何一个页的访问顺序(或序列)和任何一种换页算法，如果分给的物理块数增加，则缺页(所访问页不在主存)的频率应该减少。但这个结论并不普遍成立，对于某些页面访问序列，FIFO 有随着分给的页架数增加，缺页频率也增加的异常现象。<br>例如某程序在内存中分配 m 页初始为空，页面走向为<br>1，2，3，4，1，2，5，1，2，3，4，5<br>当 m&#x3D;3，m&#x3D;4 时缺页中断分别为多少？用 FIFO 算法<br>m&#x3D;3 时，缺页中断 9 次<br>m&#x3D;4 时，缺页中断 10 次</p>
+<h2 id="抖动与工作集-Thrashing-and-Working-Set"><a href="#抖动与工作集-Thrashing-and-Working-Set" class="headerlink" title="抖动与工作集 Thrashing and Working Set"></a>抖动与工作集 Thrashing and Working Set</h2><h3 id="缺页率对有效访问时间的影响"><a href="#缺页率对有效访问时间的影响" class="headerlink" title="缺页率对有效访问时间的影响"></a>缺页率对有效访问时间的影响</h3><p>有效访问时间是指访问存储器所需时间的平均值。<br>假设使用了快表，则 CPU 访问内存时有以下三种情况(设内存读写周期为 t，查找快表时间为 λ，缺页中断处理时间为 ɛ)：</p>
+<ul>
+<li>页面在内存且页表项在快表中：只需一次访问内存<br>EAT&#x3D; λ + t</li>
+<li>页面在内存但页表项不在快表中：需两次访问内存，一次读取页表，一次读取数据，另外还需更新快表。<br>EAT&#x3D; λ + t + t + λ&#x3D;2(λ + t)</li>
+<li>页面不在内存：考虑查找快表时间、查找页表时间、缺页中断处理时间、更新快表时间、访问实际物理地址时间<br>EAT&#x3D; λ + t +ɛ + λ + t &#x3D; 2(λ + t) + ɛ</li>
+</ul>
+<p>引入快表命中率为 α，缺页中断率为 f，则有效访问内存时间为：<br>EAT&#x3D; α(λ + t) + (1-α)[2(λ + t) + f(2(λ + t) + ɛ)]</p>
+<h3 id="抖动"><a href="#抖动" class="headerlink" title="抖动"></a>抖动</h3><p>系统内进程增多–&gt;每个进程的缺页率增大–&gt;缺页率增大到一定程度，进程总等待调页完成–&gt;CPU 利用率降低–&gt;进程进一步增多，缺页率更大 …<br>此时: 进程调入一页，需将一页淘汰出去，刚淘汰出去的页马上要需要调入;称这一现象为抖动或颠簸(thrashing)显然，防止的根本手段给进程分配足够多的帧</p>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-13-37-50.png" style="zoom:100%;">
+
+<p><strong>抖动</strong>：如果运行进程的大部分时间都用于页面的换入&#x2F;换出，而几乎不能完成任何有效的工作，则称此进程处于抖动状态。抖动又称为颠簸。</p>
+<p>抖动分为：</p>
+<ul>
+<li>局部抖动</li>
+<li>全局抖动</li>
+</ul>
+<p>抖动产生的原因有：</p>
+<ul>
+<li>进程分配的物理块太少</li>
+<li>置换算法选择不当</li>
+<li>全局置换使抖动传播</li>
+</ul>
+<h3 id="工作集模型"><a href="#工作集模型" class="headerlink" title="工作集模型"></a>工作集模型</h3><p>在工作集模型中，工作集的定义是在最近的一段连续执行时间（称为工作集窗口，通常用 T 表示）内，进程实际引用过的页面集合。换句话说，工作集是进程当前正在使用或可能马上就要使用的页面的集合。</p>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-13-42-08.png" style="zoom:100%;">
+只要分配的块空间能覆盖整个局部就不会出现太多的缺页;工作集模型就用来计算一个局部的宽度(块数)
+
+<h3 id="抖动的预防"><a href="#抖动的预防" class="headerlink" title="抖动的预防"></a>抖动的预防</h3><ul>
+<li>抖动发生前会出现一些征兆，可利用这些征兆发现抖动并加以防范。这些技术有：</li>
+<li>采取局部置换策略</li>
+<li>引入工作集的算法</li>
+<li>L&#x3D;S 准则<ul>
+<li>L 缺页之间的平均时间，S 平均缺页服务时间</li>
+</ul>
+</li>
+<li>选择暂停的进程</li>
+</ul>
+<h2 id="请求分段存储管理方式-Demand-Segmentation"><a href="#请求分段存储管理方式-Demand-Segmentation" class="headerlink" title="请求分段存储管理方式 Demand Segmentation"></a>请求分段存储管理方式 Demand Segmentation</h2><p>工作原理：请求分段系统中，程序运行之前，只需先调入若干个分段（不必调入所有的分段），便可启动运行。当所访问的段不在内存中时，可请求 OS 将所缺的段调入内存。</p>
+<p>为了实现请求调段、分段置换两大功能，系统必须提供如下的硬件支持：</p>
+<ul>
+<li>请求分段的段表机制</li>
+<li>缺段中断机构</li>
+<li>地址变换机构</li>
+</ul>
+<h3 id="原理及实现-1"><a href="#原理及实现-1" class="headerlink" title="原理及实现"></a>原理及实现</h3><h4 id="请求分段的段表机制"><a href="#请求分段的段表机制" class="headerlink" title="请求分段的段表机制"></a>请求分段的段表机制</h4><p>在虚拟存储系统中的所有段表，其段描述子增加五个信息标识位。</p>
+<table>
+<thead>
+<tr>
+<th>段名</th>
+<th>段长</th>
+<th>段的机制</th>
+<th>存取方式</th>
+<th>状态位 P</th>
+<th>访问位 A</th>
+<th>修改位 M</th>
+<th>增补位外存地址</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>状态位</strong>(存在位)P：用于说明该段是否已调入内存，供程序访问时参考；P&#x3D;0，该段不在内存;P&#x3D;1，该段在内存</li>
+<li><strong>访问位</strong> A：用于记录本段在一段时间内被访问的次数，提供给置换算法选择换出段时参考。A&#x3D;0，该段未被访问;A&#x3D;1，该段被访问</li>
+<li><strong>修改位</strong> M：用于表示该段在调入内存后是否被修改过，也是提供给置换算法在换出段时是否将该段写回外存作参考。M&#x3D;0，该段在内存中未被修改;M&#x3D;1，该段在内存中已经被修改</li>
+<li><strong>外存地址</strong>：用于指出该段在外存上的地址，供调入该页时使用。</li>
+<li><strong>增补位</strong>：说明该分段是否允许扩展，此外如该段已被增补，则在写回辅存时，需另选择辅存空间；</li>
+</ol>
+<h4 id="缺段中断机构-Demand-Segment-Fault"><a href="#缺段中断机构-Demand-Segment-Fault" class="headerlink" title="缺段中断机构 Demand Segment Fault"></a>缺段中断机构 Demand Segment Fault</h4><p>由上述段表机制知道，状态位记录了访问段是否在内存。在地址映射过程中，在段表中发现所要访问的段不在内存，则产生缺段中断。OS 接到此中断信号后，就调出缺段中断处理程序，根据段表中给出的外存地址，将该段调入内存，使作业继续运行下去。缺段中断与缺页中断类似，主要表现为：<br>① 一个缺段中断要求在指令执行中间得到服务，即发现所要访问的指令或数据不在内存时产生缺段中断并处理。<br>② 一条指令可能引起多次不同的缺段中断。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-14-49-15.png" style="zoom:100%;"></p>
+<h4 id="地址变换机构-Address-Translation-1"><a href="#地址变换机构-Address-Translation-1" class="headerlink" title="地址变换机构 Address Translation"></a>地址变换机构 Address Translation</h4><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-14-50-32.png" style="zoom:100%;">
+
+<h3 id="分段的共享与保护"><a href="#分段的共享与保护" class="headerlink" title="分段的共享与保护"></a>分段的共享与保护</h3><h4 id="共享段表"><a href="#共享段表" class="headerlink" title="共享段表"></a>共享段表</h4><p>为了实现分段共享，可在系统中配置一张共享段表，所有共享段都在共享段表中占有一个表项。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-14-54-16.png" style="zoom:100%;"></p>
+<ul>
+<li>共享进程计数：记录有多少进程共享该段。</li>
+<li>存取控制字段：对同一共享段，不同进程有不同的操作权限。</li>
+<li>段号：共享段在不同进程中有不同的段号。</li>
+</ul>
+<h4 id="共享段的分配与回收"><a href="#共享段的分配与回收" class="headerlink" title="共享段的分配与回收"></a>共享段的分配与回收</h4><p><strong>共享段的分配</strong></p>
+<p>在为共享段分配内存时，对第一个请求使用该共享段的进程，由系统为该共享段分配一物理区，再把共享段调入该区，同时将该区的始址填入请求进程的段表的相应项中，还须在<strong>共享段表</strong>中增加一表项，填写有关数据，把 count 置为 1；</p>
+<p>之后，当又有其它进程需要调用该共享段时，由于该共享段已被调入内存，故此时无须再为该段分配内存，而只需在<strong>调用进程的段表</strong>中，增加一表项，填写该共享段的物理地址；在<strong>共享段表</strong>中，填上调用进程的进程名、存取控制等，再执行<code>count+=1</code>操作，以表明有两个进程共享该段。</p>
+<p><strong>共享段的回收</strong><br>当共享此段的某进程不再需要该段时，应将该段释放， 包括撤消该进程段表中共享段所对应的表项，以及执行 <code>count-=1</code> 操作。<br>若 count 结果为 0，则须由系统回收该共享段的物理内存，以及取消在共享段表中该段所对应的表项，表明此时已没有进程使用该段；否则，则只是取消调用者进程在共享段表中的有关记录。</p>
+<h4 id="分段的保护"><a href="#分段的保护" class="headerlink" title="分段的保护"></a>分段的保护</h4><ol>
+<li>越界检查 Bounds Check<br>寄存器中放有段表长度信息，将逻辑地址空间的段号与段表长度进行比较 ，如果段号等于或大于段表长度，将发出地址越界中断信号。保证每个进程只能在自己的地址空间内运行。</li>
+<li>存取控制检查 Access Control Check<br>Read-Only、Read-Write、Execute-Only、Execute-Read-Write etc</li>
+<li>环保护机构 Ring Protection<br>低编号的环具有高优先权。OS 核心处于 0 环内；某些重要的实用程序和操作系统服务，占居中间环；而一般的应用程序在外环上。</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-15-00-23.png" style="zoom:100%;" alt="Pentium中的环形保护结构">
+
+<p>环保护的基本原则是：<br>一个程序可以<strong>访问</strong>驻留在相同环或较低特权环中的数据；<br>一个程序可以<strong>调用</strong>驻留在相同环或较高特权环中的服务。</p>
+<p>环保护的基本思想是将操作系统内的操作和资源划分为不同的”环”，每个环都有其特定的权限。通常，环的编号越小，权限越高。例如，在一个典型的四环模型中：</p>
+<ul>
+<li>环 0（Ring 0）：拥有全部权限，通常用于运行操作系统内核，可以访问所有硬件和内存资源。</li>
+<li>环 1（Ring 1）和环 2（Ring 2）：通常用于运行操作系统服务，有一些特定的硬件和内存访问权限，但不如环 0 全面。</li>
+<li>环 3（Ring 3）：权限最低，通常用于运行用户级的应用程序，只能访问有限的硬件和内存资源，对系统资源的访问需要通过系统调用。<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-3StorageManagement-2024-05-13-15-09-55.png" style="zoom:100%;"></li>
+</ul>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wingsless/p/12295246.html">Clock置换算法</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Storage Management PartⅢ</p><p><a href="https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/">https://efterklang.github.io/UESTC/OS/Ch4-3StorageManagement/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-05-13</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-05-14</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/OS/">OS</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ComputerNetworking/Ch4-1NetworkLayer/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">网络层数据平面 Network Layer:Data Plane</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/OS/Ch4-2StorageManagement/"><span class="level-item">Storage Management PartⅡ</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
       envId: 'https://efterklang-twikoo.hf.space',
       onCommentLoaded: function () {
         var commentContents = document.getElementsByClassName('tk-content');
@@ -84,7 +408,7 @@
           }
         }
       }
-    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#虚拟存储器的基本概念"><span class="level-left"><span class="level-item">1</span><span class="level-item">虚拟存储器的基本概念</span></span></a></li><li><a class="level is-mobile" href="#请求分页存储管理方式"><span class="level-left"><span class="level-item">2</span><span class="level-item">请求分页存储管理方式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#3-调页策略"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">3 调页策略</span></span></a></li><li><a class="level is-mobile" href="#4-页面置换算法"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">4 页面置换算法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#最优置换算法-Optimal-Replacement-Algorithm"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">最优置换算法 Optimal Replacement Algorithm</span></span></a></li><li><a class="level is-mobile" href="#先进先出页面置换算法-FIFO"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">先进先出页面置换算法 FIFO</span></span></a></li><li><a class="level is-mobile" href="#最近最久未使用置换算法-LRU"><span class="level-left"><span class="level-item">2.2.3</span><span class="level-item">最近最久未使用置换算法 LRU</span></span></a></li><li><a class="level is-mobile" href="#Clock-置换算法"><span class="level-left"><span class="level-item">2.2.4</span><span class="level-item">Clock 置换算法</span></span></a></li><li><a class="level is-mobile" href="#改进型-Clock-置换算法"><span class="level-left"><span class="level-item">2.2.5</span><span class="level-item">改进型 Clock 置换算法</span></span></a></li><li><a class="level is-mobile" href="#其它置换算法"><span class="level-left"><span class="level-item">2.2.6</span><span class="level-item">其它置换算法</span></span></a></li></ul></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">23</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#虚拟存储器-Virtual-Memory"><span class="level-left"><span class="level-item">1</span><span class="level-item">虚拟存储器 Virtual Memory</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#虚拟存储器的引入"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">虚拟存储器的引入</span></span></a></li><li><a class="level is-mobile" href="#局部性原理-Principle-of-Locality"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">局部性原理 Principle of Locality</span></span></a></li><li><a class="level is-mobile" href="#虚拟存储器概述"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">虚拟存储器概述</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#定义"><span class="level-left"><span class="level-item">1.3.1</span><span class="level-item">定义</span></span></a></li><li><a class="level is-mobile" href="#虚拟存储器的基本工作情况"><span class="level-left"><span class="level-item">1.3.2</span><span class="level-item">虚拟存储器的基本工作情况</span></span></a></li><li><a class="level is-mobile" href="#虚存容量"><span class="level-left"><span class="level-item">1.3.3</span><span class="level-item">虚存容量</span></span></a></li><li><a class="level is-mobile" href="#虚拟存储器的特征"><span class="level-left"><span class="level-item">1.3.4</span><span class="level-item">虚拟存储器的特征</span></span></a></li></ul></li><li><a class="level is-mobile" href="#虚拟存储管理与对换技术的区别"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">虚拟存储管理与对换技术的区别</span></span></a></li><li><a class="level is-mobile" href="#虚拟存储器的实现方法"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">虚拟存储器的实现方法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#请求分页系统"><span class="level-left"><span class="level-item">1.5.1</span><span class="level-item">请求分页系统</span></span></a></li><li><a class="level is-mobile" href="#请求分段系统"><span class="level-left"><span class="level-item">1.5.2</span><span class="level-item">请求分段系统</span></span></a></li><li><a class="level is-mobile" href="#段页式虚拟系统"><span class="level-left"><span class="level-item">1.5.3</span><span class="level-item">段页式虚拟系统</span></span></a></li></ul></li><li><a class="level is-mobile" href="#抖动-Thrashing"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">抖动 Thrashing</span></span></a></li></ul></li><li><a class="level is-mobile" href="#请求分页存储管理方式-Demand-Paging"><span class="level-left"><span class="level-item">2</span><span class="level-item">请求分页存储管理方式 Demand Paging</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#原理及实现"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">原理及实现</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#工作原理"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">工作原理</span></span></a></li><li><a class="level is-mobile" href="#页表机制-Page-Table"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">页表机制 Page Table</span></span></a></li><li><a class="level is-mobile" href="#缺页中断机构-Page-Fault-Interrupt"><span class="level-left"><span class="level-item">2.1.3</span><span class="level-item">缺页中断机构 Page Fault Interrupt</span></span></a></li><li><a class="level is-mobile" href="#地址变换机构-Address-Translation"><span class="level-left"><span class="level-item">2.1.4</span><span class="level-item">地址变换机构 Address Translation</span></span></a></li></ul></li><li><a class="level is-mobile" href="#内存分配策略和分配算法"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">内存分配策略和分配算法</span></span></a></li><li><a class="level is-mobile" href="#调页策略"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">调页策略</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#装入时机"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">装入时机</span></span></a></li><li><a class="level is-mobile" href="#从何处调入页面"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">从何处调入页面</span></span></a></li><li><a class="level is-mobile" href="#页面调入过程"><span class="level-left"><span class="level-item">2.3.3</span><span class="level-item">页面调入过程</span></span></a></li><li><a class="level is-mobile" href="#页面置换算法"><span class="level-left"><span class="level-item">2.3.4</span><span class="level-item">页面置换算法</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#抖动与工作集-Thrashing-and-Working-Set"><span class="level-left"><span class="level-item">3</span><span class="level-item">抖动与工作集 Thrashing and Working Set</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#缺页率对有效访问时间的影响"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">缺页率对有效访问时间的影响</span></span></a></li><li><a class="level is-mobile" href="#抖动"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">抖动</span></span></a></li><li><a class="level is-mobile" href="#工作集模型"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">工作集模型</span></span></a></li><li><a class="level is-mobile" href="#抖动的预防"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">抖动的预防</span></span></a></li></ul></li><li><a class="level is-mobile" href="#请求分段存储管理方式-Demand-Segmentation"><span class="level-left"><span class="level-item">4</span><span class="level-item">请求分段存储管理方式 Demand Segmentation</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#原理及实现-1"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">原理及实现</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#请求分段的段表机制"><span class="level-left"><span class="level-item">4.1.1</span><span class="level-item">请求分段的段表机制</span></span></a></li><li><a class="level is-mobile" href="#缺段中断机构-Demand-Segment-Fault"><span class="level-left"><span class="level-item">4.1.2</span><span class="level-item">缺段中断机构 Demand Segment Fault</span></span></a></li><li><a class="level is-mobile" href="#地址变换机构-Address-Translation-1"><span class="level-left"><span class="level-item">4.1.3</span><span class="level-item">地址变换机构 Address Translation</span></span></a></li></ul></li><li><a class="level is-mobile" href="#分段的共享与保护"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">分段的共享与保护</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#共享段表"><span class="level-left"><span class="level-item">4.2.1</span><span class="level-item">共享段表</span></span></a></li><li><a class="level is-mobile" href="#共享段的分配与回收"><span class="level-left"><span class="level-item">4.2.2</span><span class="level-item">共享段的分配与回收</span></span></a></li><li><a class="level is-mobile" href="#分段的保护"><span class="level-left"><span class="level-item">4.2.3</span><span class="level-item">分段的保护</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#Ref"><span class="level-left"><span class="level-item">5</span><span class="level-item">Ref</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Reading/"><span class="level-start"><span class="level-item">Reading</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Reading/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Tech/"><span class="level-start"><span class="level-item">Tech</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul><li><a class="level is-mobile" href="/categories/Tech/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Tech/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">34</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM-Processor/"><span class="level-start"><span class="level-item">ARM-Processor</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">22</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">December 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,
