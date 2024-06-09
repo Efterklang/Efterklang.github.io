@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>网络层控制平面 Network Layer:Control Plane - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍网络层的控制平面，包括路由算法的分类，较为详细介绍了Dijkstra算法以及Distance-Vector Routing Algorithms"><meta property="og:type" content="article"><meta property="og:title" content="网络层控制平面 Network Layer:Control Plane"><meta property="og:url" content="https://efterklang.github.io/UESTC/ComputerNetworking/Ch4-2NetworkLayer/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍网络层的控制平面，包括路由算法的分类，较为详细介绍了Dijkstra算法以及Distance-Vector Routing Algorithms"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/Networks/network_layer2.jpg"><meta property="article:published_time" content="2024-04-27T12:34:19.000Z"><meta property="article:modified_time" content="2024-06-08T12:26:50.044Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="ComputerNetworking"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/Networks/network_layer2.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"网络层控制平面 Network Layer:Control Plane","image":["https://efterklang.github.io/img/thumbnails/Networks/network_layer2.jpg"],"datePublished":"2024-04-27T12:34:19.000Z","dateModified":"2024-06-08T12:26:50.044Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍网络层的控制平面，包括路由算法的分类，较为详细介绍了Dijkstra算法以及Distance-Vector Routing Algorithms"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch4-2NetworkLayer/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-HKYTDLW5FP');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/Networks/network_layer2.jpg" alt="网络层控制平面 Network Layer:Control Plane" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-27T12:34:19.000Z" title="4/27/2024, 8:34:19 PM">2024-04-27</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/Computer-Networking/">Computer Networking</a></span><span class="level-item">27 minutes read (About 4093 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ComputerNetworking/Ch4-2NetworkLayer/" data-flag-title="网络层控制平面 Network Layer:Control Plane"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">网络层控制平面 Network Layer:Control Plane</h1><div class="content"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>路由算法确定了通过网络的端到端路径，转发表确定了在路由器上的本地转发，转发表是链接数据平面与控制平面的主要元素，本篇将介绍其是如何计算、维护的</p>
+<ul>
+<li><strong>每个路由器控制 Per-router control</strong>：每台路由器有一个路由选择组件，用于与其他路由器中的路由选择组件通信，以计算其转发表的值。<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-11-17-28.png" style="zoom:50%;"></li>
+<li><strong>逻辑集中式控制 Logically centralized control</strong>：逻辑集中式控制器计算并分发转发表以供每台路由器使用，如下图所示：<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-11-17-38.png" style="zoom:50%;"></li>
+</ul>
+<h2 id="Routing-Algorithms"><a href="#Routing-Algorithms" class="headerlink" title="Routing Algorithms"></a>Routing Algorithms</h2><p><strong>路由的基本概念</strong></p>
+<ul>
+<li>默认路由器：与主机直接相连的路由器，又叫第一跳路由器。每当主机发送一个分组时，都先传送给它的默认路由器。<ul>
+<li>源路由器：源主机的默认路由器。</li>
+<li>目的路由器：目的主机的默认路由器。</li>
+<li>从源主机到目的主机的选路归结为从源路由器到目的路由器的选路。</li>
+</ul>
+</li>
+<li>路由算法：是确定一个分组从源路由器到目的路由器所经路径的算法</li>
+<li>路由算法的关键：在给定的一组路由器以及连接路由器的链路中，找到一条从源路由器到目的路由器的“好”路径。</li>
+</ul>
+<p><strong>网络的抽象图模型</strong></p>
+<p>图$G &#x3D; (N，E)$表示 N 个节点和 E 条边的集合，每条边是来自 N 的一对节点。<br>Node 节点：表示路由器(做出分组转发判决的点)。如 $u，v，w，x，y，z$<br>Edge 边：连接节点的线段，表示路由器之间的物理链路。如$(u，v)、 (u，x) 、(u，w)、…$<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-13-50-15.png" style="zoom:70%;"></p>
+<p>Cost 可以表示对应链路的物理长度、或链路速度、或与链路相关的费用。<br>定义：$c(x，y)$ 表示从节点 x 到节点 y 的链路费用,规定若节点 x 与节点 y 不直接相连则$c(x,y)&#x3D;\infty$</p>
+<h3 id="Routing-Algorithms-Classification"><a href="#Routing-Algorithms-Classification" class="headerlink" title="Routing Algorithms Classification"></a>Routing Algorithms Classification</h3><ul>
+<li><strong>集中式路由选择算法 Centralized Routing Algorithm</strong>：用完整、全局性的网络知识计算出从源到目的地之间的最低开销路径。具有全局状态信息的算法常被称作<strong>链路状态(Link State，LS)算法</strong>，因为该算法必须知道网络中每条链路的开销。</li>
+<li><strong>分布式路由算法 Decentralized Routing Algorithm</strong>：路由器以迭代、分布式计算的方式计算出最低开销路径。没有节点拥有关于网络链路开销的完整信息。一个分散式路由选择算法为<strong>距离向量(Distance-Vector，DV)算法</strong>，每个节点维护到网络中所有其他节点的开销估计的向量。</li>
+</ul>
+<hr>
+<ul>
+<li><strong>静态路由算法</strong>：路由确定后基本不再变化。只有人工干预调整时，可能有一些变化。</li>
+<li><strong>动态路由算法</strong>：当网络的流量负载或拓扑发生变化时，路径可能发生改变。可以周期性地或直接地响应拓扑或链路费用的变化。易受选路循环、路由振荡之类问题的影响。</li>
+</ul>
+<h3 id="Link-State-Routing-Algorithms"><a href="#Link-State-Routing-Algorithms" class="headerlink" title="Link State Routing Algorithms"></a>Link State Routing Algorithms</h3><p><strong>链路状态选路算法</strong></p>
+<p>在实践中，这经常由链路状态广播（link state broadcast）算法完成。下面给出的链路状态路由选择算法是 Dijkstra’s algorithm</p>
+<p><strong>Dijkstra’s Alogorithm</strong></p>
+<ul>
+<li>所有节点知道网络拓扑，以及每条链路的费用信息<ul>
+<li>通过链路状态广播来实现</li>
+<li>所有节点拥有相同的信息</li>
+</ul>
+</li>
+<li>计算任意一个节点（源节点）到所有其他节点的最低费用路径<ul>
+<li>给出该节点的转发表</li>
+</ul>
+</li>
+<li>迭代：通过 k 次迭代后可以知道到达 k 个目的节点的最低费用路径</li>
+<li>基本思想：以源节点为起点，每次找出一个到源节点的费用最低的节点，直到把所有的目的节点都找到为止。</li>
+</ul>
+<p>定义以下符号</p>
+<ul>
+<li><code>c(x,y)</code>: 表示从节点 x 到节点 y 的链路费用,规定若节点 x 与节点 y 不直接相连则<code>c(x,y)=∞</code></li>
+<li><code>D(v)</code>：到算法的本次迭代，从源节点到目的节点 v 的最低开销；</li>
+<li><code>p(v)</code>：从源到 v 沿着当前最小开销路径的前一个节点（v 的邻居）；</li>
+<li><code>N&#39;</code>：节点子集；如果从源到 v 的最低开销路径已经确定，v 在<code>N&#39;</code>中</li>
+<li><code>u</code> 源节点</li>
+</ul>
+<h4 id="Link-State-LS-Algorithm-for-Source-Node-u"><a href="#Link-State-LS-Algorithm-for-Source-Node-u" class="headerlink" title="Link-State (LS) Algorithm for Source Node u"></a>Link-State (LS) Algorithm for Source Node u</h4><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Initialization:</span><br><span class="line">  N&#x27; = &#123;u&#125;</span><br><span class="line">  for all nodes v</span><br><span class="line">    if v is a neighbor of u:</span><br><span class="line">      then D(v) = c(u,v)</span><br><span class="line">    else  D(v) = ∞</span><br><span class="line"></span><br><span class="line">while N&#x27; != N:</span><br><span class="line">  # 从N&#x27;的补集中找一个到源节点费用最低的节点</span><br><span class="line">  find w not in N&#x27; such that D(w) is a minimum</span><br><span class="line">    add w to N&#x27;</span><br><span class="line">    update D(v) for each neighbor v of w and not in N&#x27;:</span><br><span class="line">      D(v) = min(D(v),D(w)+c(w,v))</span><br></pre></td></tr></table></figure>
+
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-13-50-15.png" style="zoom:70%;">
+以上图为例,计算从u到所有可能目的节点的最低费用路径。算法迭代如下
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-15-30-57.png" style="zoom:70%;">
+
+<p>构建从源节点到所有目的节点的路径</p>
+<ul>
+<li>对于每个节点，都得到从源节点沿着它的最低费用路径的前驱节点；</li>
+<li>每个前驱节点，又可得到它的前驱节点；以此继续，可以得到到所有目的节点的完整路径。<br>如节点 z 的前驱节点依次为：<code>p(z)=y,z-&gt;y;p(y)=x,z-&gt;y-&gt;x;p(x)=u,z-&gt;y-&gt;x-&gt;u</code></li>
+<li>得出从源节点 u 到节点 z 的最低费用路径为：uxyz，费用为 4。</li>
+<li>根据目的节点找出顺序和其费用以及前驱节点，可以画出源节点 u 到所有目的节点的最低费用路径树。<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-15-44-55.png" style="zoom:70%;"></li>
+<li>根据得到的所有目的节点的完整路径，或最低费用路径树，可以生成源节点的转发表。<strong>转发表</strong>存放从源节点到每个目的节点的最低费用路径上的下一跳节点。即指出对于发往某个目的节点的分组，从该节点发出后的下一个节点。</li>
+</ul>
+<blockquote>
+<p>默认路由 <code>*</code> ：表示所有具有相同“下一跳”的表项。即将“下一跳”相同的项合并为一项，目的节点用<code>*</code>表示。优先级最低，转发分组时，当找不到对应表项时，才使用默认路由。</p>
+</blockquote>
+<p><strong>Dijkstra’s Algorithm 复杂度</strong><br>设 n 个节点(除源节点)，最坏情况下要经多少次计算才能找到从源节点到所有目的节点的最低费用路径?<br>第一次迭代：搜索所有的 n 个节点以确定最低费用节点<br>第二次迭代：检查 n-1 个节点；<br>第三次：检查 n-2 个节点；<br>依次类推。<br>所有迭代中需要搜寻的节点总数为 $\frac{n(n+1)}{2}$<br>算法复杂性为 $O(n^2)$</p>
+<p>且路线上的流量变化和拥塞会使 LS 算法产生<strong>路由震荡 Routing Oscillations</strong></p>
+<h3 id="The-Distance-Vector（DV）Routing-Algorithm"><a href="#The-Distance-Vector（DV）Routing-Algorithm" class="headerlink" title="The Distance-Vector（DV）Routing Algorithm"></a>The Distance-Vector（DV）Routing Algorithm</h3><p>距离向量路由算法有以下特征</p>
+<ul>
+<li><strong>迭代 Iterative</strong>：计算过程一直持续到邻居之间无更多信息交换为止。</li>
+<li><strong>分布式 Distributed</strong>：每个节点都从其直接相连邻居接收信息，进行计算，再将计算结果分发给邻居。</li>
+<li><strong>异步 Asynchronous</strong>：不要求所有节点相互之间步伐一致地操作。</li>
+<li><strong>自我终结 Self-termination</strong>：算法能自行停止。</li>
+</ul>
+<p><strong>Bellman-Ford 方程</strong></p>
+<p>$$d_x(y)&#x3D;min_v{c(x,v)+d_v(y)}$$</p>
+<ul>
+<li>$d_x(y)$：节点 x 到节点 y 的最低开销路径的 cost。</li>
+<li>$v$: 节点 x 的邻居节点。</li>
+<li>$c(x,v)+ d_v(y)$：x 与某个邻居 v 之间的直接链路费用 c(x,v)加上邻居 v 到 y 的最小费用。即 x 经 v 到节点 y 的最小的路径费用。</li>
+<li>$min_v$ ：从所有经直接相连邻居节点到节点 y 的费用中选取的最小路径费用。</li>
+</ul>
+<h4 id="Distance-Vector-DV-Algorithm"><a href="#Distance-Vector-DV-Algorithm" class="headerlink" title="Distance-Vector (DV) Algorithm"></a>Distance-Vector (DV) Algorithm</h4><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-19-17-16.png" style="zoom:50%;">
+<br>
+
+<p>对每个节点 x:</p>
+<ol>
+<li>初始化</li>
+<li>等待 (收到本地链路代价变化或邻居来距离矢量更新)</li>
+<li>重新计算距离矢量,更新距离向量</li>
+<li>如果到任何目的节点的距离矢量发生变化, 通知邻居</li>
+<li>goto2</li>
+</ol>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-13-50-15.png" style="zoom:70%;">
+仍以该图为例,计算源节点u到目的节点z的最低费用路径。
+
+<ul>
+<li>邻居 v：$d_v(z) &#x3D; 5、c(u,v) &#x3D; 2$</li>
+<li>邻居 w：$d_w(z) &#x3D; 3、c(u,w) &#x3D; 5$</li>
+<li>邻居 x：$d_x(z) &#x3D; 3、c(u,x) &#x3D; 1$</li>
+</ul>
+<div>
+$$
+d_u(z) = min \{ c(u,v) + d_v(z), c(u,w) + d_w(z) , c(u,x) + d_x(z)\} \\
+= min\{2+5,5+3,1+3\} = 4
+$$
+</div>
+
+<p>即源节点 u 经相邻节点 x 到目的节点 z 的路径费用最低，为 4</p>
+<p><strong>节点的距离向量表</strong></p>
+<ul>
+<li>行：该节点的距离向量 Dx 和其邻居的距离向量 Dv</li>
+<li>列：所有目的节点。</li>
+</ul>
+<p>节点 x 的距离向量 $D_x$ ，即节点 x 到每个目的节点 y 的估计费用； $Dx &#x3D; [D_x(y) | y \in N ]$<br>节点 x 每个邻居的距离向量 $D_v$ ，即 x 的邻居 v 到每个目的节点 y 的估计费用，$Dv &#x3D; [D_v(y)：y \in N]$</p>
+<p>如何更新距离向量?</p>
+<ul>
+<li>每个节点不断向邻居发送其距离向量的 copy；</li>
+<li>当节点 x 收到一个邻居 v 的新距离向量，先保存，并用 B-F 公式更新自己的距离向量：<br>$D_x(y)&#x3D;min_v{c(x,v)+D_v(y)}$<br>从所有经邻居 v 到节点 y 的费用中选取最小路径费用</li>
+<li>若距离向量发生改变，将新的距离向量通知给邻居。</li>
+<li>当距离向量不再变化，算法终止，此时$D_x(y)$收敛到$d_x(y)$，即得到节点 x 到节点 y 的最低费用路径。</li>
+<li>多次重复从邻居接收更新距离向量、重新计算选路表项、并向邻居发送更新通知的过程，直到没有更新报文</li>
+<li>算法进入静止状态，直到某个链路费用发生改变为止。</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-19-35-25.png" style="zoom:100%;">
+
+<hr>
+<h4 id="Distance-Vector-Algorithm-Link-Cost-Changes-and-Link-Failure"><a href="#Distance-Vector-Algorithm-Link-Cost-Changes-and-Link-Failure" class="headerlink" title="Distance-Vector Algorithm: Link-Cost Changes and Link Failure"></a>Distance-Vector Algorithm: Link-Cost Changes and Link Failure</h4><p>当一个节点检测到从它到邻居的链路费用发生变化时，就更新其距离向量，如果最低费用路径的费用发生变化，通知其邻居。</p>
+<ul>
+<li><p><strong>某链路费用减少时情况</strong><br>如图所示，当 y 到 x 的链路费用从 4 变为 1 的情况。</p>
+<ul>
+<li><p><code>t0</code>：y 检测到 x 的链路费用从 4 变为 1，更新其距离向量，并通知其邻居 z；</p>
+</li>
+<li><p><code>t1</code>：z 收到来自 y 的更新报文，并更新自己的距离表，此时到节点 x 的最低费用减为 2，并通知其邻居 y；</p>
+</li>
+<li><p><code>t2</code>：y 收到来自 z 的更新报文，并更新自己的距离表，此时到节点 x 的最低费用不变仍为 1。不发送更新报文，算法静止。<br>当 x 与 y 之间费用减少，DV 算法只需两次迭代到达静止状态。节点之间链路费用减少的“好消息”在网络中能迅速传播,即 <em>good news travels fast</em></p>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch4-2NetworkLayer-2024-06-08-19-44-30.png" style="zoom:50%;"></li>
+</ul>
+</li>
+<li><p><strong>某链路费用增加时情况</strong><br>假设 x 与 y 之间的链路费用从 4 增加到 60<br><strong>链路费用变化前</strong><br>$D_y(x)&#x3D;4 ，D_y(z)&#x3D;1， D_z(y)&#x3D;1，D_z(x)&#x3D;5$</p>
+<ul>
+<li><code>t0</code> ：y 检测到链路费用从 4 变为 60。更新到 x 的最低路径费用<br>$D_y(x)&#x3D;min{c(y,x)+ D_x(x), c(y,z)+ D_z(x)}&#x3D;min{60+0,1+5}&#x3D;6$<br>此时 $D_y(x)&#x3D;6 ，D_y(z)&#x3D;1， D_z(y)&#x3D;1，D_z(x)&#x3D;5$<br>经节点 z 到 x 费用最低，此新费用错误，发给节点 z。</li>
+<li><code>t1</code> ：z 收到新费用，更新其到 x 的最低路径费用<br>$D_z(x )&#x3D;min{ c(z,x)+ D_x(x), c(z,y)+ D_y(x)}&#x3D;min{50+0,1+6}&#x3D;7$<br>此时 $D_y(x)&#x3D;6 ，D_y(z)&#x3D;1， D_z(y)&#x3D;1，D_z(x)&#x3D;7$<br>经节点 y 到 x 费用最低，发给节点 y。</li>
+<li><code>t2</code>：y 收到新费用，更新到 x 的最低路径费用<br>$D_y(x )&#x3D;min{c(y,x)+ D_x(x), c(y,z)+ D_z(x)}&#x3D;min{60+0,1+7}&#x3D;8$<br>经节点 z 到 x 费用最低，发给节点 z。<br>……<br>节点 y 或 z 的最低费用不断更新。<br>产生<strong>选路回环</strong>(routing loop)：为到达 x， y 通过 z 选路，z 又通过 y 选路。即目的地为 x 的分组到达 y 或 z 后，将在这两个节点之间不停地来回反复，直到转发表发生改变为止。上述循环将持续 44 次迭代 (y 与 z 之间的报文交换)，直到 z 最终算出它经由 y 的路径费用大于 50 为止。并确定：z 到 x 的最低费用路径：zxy 到 x 的最低费用路径：yzx<br>说明：链路费用增加的“坏消息”传播很慢,即 <em>bad news travels slow</em><br>当链路费用增加很大，会出现<strong>无穷计数</strong>(count-to-infinity)问题。如链路费用 c(y，x)变为 10000，c(z，x)变为 9999 时。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Distance-Vector-Algorithm-Adding-Poisoned-Reverse"><a href="#Distance-Vector-Algorithm-Adding-Poisoned-Reverse" class="headerlink" title="Distance-Vector Algorithm: Adding Poisoned Reverse"></a>Distance-Vector Algorithm: Adding Poisoned Reverse</h4><p>针对上面的问题，引出<strong>毒性逆转（poisoned reverse）</strong>思想：如果 z 通过 y 路由选择目的地 x，则 z 将通告 y，它到 x 的距离是无穷大，也就是 z 将通告$D_z(x)&#x3D;\infin$。毒性逆转可以完全解决计数到无穷的问题吗？不能，如果三个以上节点的环路，则不能被毒性逆转技术检测</p>
+<h3 id="A-Comparison-of-LS-and-DV-Routing-Algorithms"><a href="#A-Comparison-of-LS-and-DV-Routing-Algorithms" class="headerlink" title="A Comparison of LS and DV Routing Algorithms"></a>A Comparison of LS and DV Routing Algorithms</h3><p><strong>消息复杂度</strong><br>LS 算法：知道网络每条链路的费用，需发送 $O(nE)$个报文；当一条链路的费用变化时，必须通知所有节点<br>DV 算法：迭代时，仅在两个直接相连邻居之间交换报文；当链路费用改变时，只有该链路相连的节点的最低费用路径发生改变时，才传播已改变的链路费用<br><strong>收敛速度</strong><br>LS 算法：需要 $O(nE)$个报文和 $O(n^2)$的搜寻，可能会振荡<br>DV 算法：收敛较慢。可能会遇到选路回环，或计数到无穷的问题。<br><strong>健壮性</strong><br>当一台路由器发生故障、操作错误或受到破坏时，会发生什么情况?<br>LS 算法：路由器向其连接的一条链路广播不正确费用，路由计算基本独立（仅计算自己的转发表），有一定健壮性。<br>DV 算法：一个节点可向任意或所有目的节点发布其不正确的最低费用路径，一个节点的计算值会传递给它的邻居，并间接地传递给邻居的邻居。一个不正确的计算值会扩散到整个网络。</p>
+<h2 id="Intra-AS-Routing-in-the-Internet-OSPF"><a href="#Intra-AS-Routing-in-the-Internet-OSPF" class="headerlink" title="Intra-AS Routing in the Internet: OSPF"></a>Intra-AS Routing in the Internet: OSPF</h2><p>迄今为止，我们的路由研究都是理想化的： 所有路由器一样的 网络是 “平面的” 实际中并不是这样的。互联网在规模上具有 20 亿个节点，路由表中不可能存储所有的节点而路由表的信息交换也将淹没数据链路</p>
+<p>随着路由器规模增大和管理自治的要求，可以通过将路由器组织进<strong>自治系统（Autonomous System，AS）</strong>来解决。在一个自治系统内运行的路由算法叫做<strong>自治系统内部路由选择协议（intra-autonomous system routing protocol）</strong>，不同自治系统内的路由器可以运行不同的区域内路由协议</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>网络层控制平面 Network Layer:Control Plane</p><p><a href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch4-2NetworkLayer/">https://efterklang.github.io/UESTC/ComputerNetworking/Ch4-2NetworkLayer/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-04-27</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-06-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ComputerNetworking/">ComputerNetworking</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/DataBase/Ch6-DbPrograming/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ChⅥ 数据库应用编程</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Dev/Git/rebase-and-quash/"><span class="level-item">Using Git Rebase to Manage Commit History</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Introduction"><span class="level-left"><span class="level-item">1</span><span class="level-item">Introduction</span></span></a></li><li><a class="level is-mobile" href="#Routing-Algorithms"><span class="level-left"><span class="level-item">2</span><span class="level-item">Routing Algorithms</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Routing-Algorithms-Classification"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">Routing Algorithms Classification</span></span></a></li><li><a class="level is-mobile" href="#Link-State-Routing-Algorithms"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">Link State Routing Algorithms</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Link-State-LS-Algorithm-for-Source-Node-u"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">Link-State (LS) Algorithm for Source Node u</span></span></a></li></ul></li><li><a class="level is-mobile" href="#The-Distance-Vector（DV）Routing-Algorithm"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">The Distance-Vector（DV）Routing Algorithm</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Distance-Vector-DV-Algorithm"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">Distance-Vector (DV) Algorithm</span></span></a></li><li><a class="level is-mobile" href="#Distance-Vector-Algorithm-Link-Cost-Changes-and-Link-Failure"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">Distance-Vector Algorithm: Link-Cost Changes and Link Failure</span></span></a></li><li><a class="level is-mobile" href="#Distance-Vector-Algorithm-Adding-Poisoned-Reverse"><span class="level-left"><span class="level-item">2.3.3</span><span class="level-item">Distance-Vector Algorithm: Adding Poisoned Reverse</span></span></a></li></ul></li><li><a class="level is-mobile" href="#A-Comparison-of-LS-and-DV-Routing-Algorithms"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">A Comparison of LS and DV Routing Algorithms</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Intra-AS-Routing-in-the-Internet-OSPF"><span class="level-left"><span class="level-item">3</span><span class="level-item">Intra-AS Routing in the Internet: OSPF</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Eaasy/"><span class="level-start"><span class="level-item">Eaasy</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Eaasy/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">37</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">ARM处理器体系结构及应用</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/live2d-widget/autoload.js"></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>

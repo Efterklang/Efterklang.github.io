@@ -11927,7 +11927,8 @@ body.night {
   time: ,;
 }
 body.night .content code {
-  color: #cbba7d;
+  color: #f7768e;
+  background: rgba(255,255,255,0.1);
 }
 body.night #night-nav #night-icon:before {
   content: '\f0eb';
@@ -12233,7 +12234,8 @@ body.night .twikoo code {
     time: ,;
   }
   body:not(.light) .content code {
-    color: #cbba7d;
+    color: #f7768e;
+    background: rgba(255,255,255,0.1);
   }
   body:not(.light) #night-nav #night-icon:before {
     content: '\f0eb';

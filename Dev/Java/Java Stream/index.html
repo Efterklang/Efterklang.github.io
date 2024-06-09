@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Java Stream - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍 Java 8 引入的 Stream API"><meta property="og:type" content="article"><meta property="og:title" content="Java Stream"><meta property="og:url" content="https://efterklang.github.io/Dev/Java/Java%20Stream/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍 Java 8 引入的 Stream API"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/Dev/Java/Java_Stream.png"><meta property="article:published_time" content="2024-02-19T13:59:41.000Z"><meta property="article:modified_time" content="2024-06-08T13:10:07.023Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="Java"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/Dev/Java/Java_Stream.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"Java Stream","image":["https://efterklang.github.io/img/thumbnails/Dev/Java/Java_Stream.png"],"datePublished":"2024-02-19T13:59:41.000Z","dateModified":"2024-06-08T13:10:07.023Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍 Java 8 引入的 Stream API"}</script><link rel="canonical" href="https://efterklang.github.io/Dev/Java/Java%20Stream/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-HKYTDLW5FP');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/Dev/Java/Java_Stream.png" alt="Java Stream" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-02-19T13:59:41.000Z" title="2/19/2024, 9:59:41 PM">2024-02-19</time></span><span class="level-item"><a class="link-muted" href="/categories/Dev/">Dev</a><span> / </span><a class="link-muted" href="/categories/Dev/Java/">Java</a></span><span class="level-item">15 minutes read (About 2293 words)</span><span class="level-item leancloud_visitors" id="/Dev/Java/Java%20Stream/" data-flag-title="Java Stream"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Java Stream</h1><div class="content"><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>Java 8 引入用于操作<strong>集合</strong>(Collection)的 Stream API,它将元素集合抽象为<strong>流</strong>(stream),元素如同水流一样在管道(pipeline)中传输,我们可以方便地对流进行各种<strong>操作</strong>(Operation),最终得到我们想要的结果,我们将这种操作的方式称为<strong>流式处理</strong>(stream processing)</p>
+<h3 id="操作分类"><a href="#操作分类" class="headerlink" title="操作分类:"></a><strong>操作分类:</strong></h3><ul>
+<li>Intermediate operations: 返回一个新的 Stream,可进行链式操作</li>
+<li>Terminal operations: 返回一个 result 或 side-effect,只能放在最后</li>
+</ul>
+<p>如下是一个使用 Stream 对 Collection 进行操作的代码示例,其中<code>filter</code>为<strong>中间操作</strong>,<code>forEach</code>为<strong>终止操作</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    List&lt;String&gt; nameList = Arrays.asList(<span class="string">&quot;Valerie&quot;</span>, <span class="string">&quot;Jack&quot;</span>, <span class="string">&quot;John&quot;</span>, <span class="string">&quot;Jerry&quot;</span>, <span class="string">&quot;Jesus&quot;</span>);</span><br><span class="line">    nameList.stream()</span><br><span class="line">            .filter(name -&gt; name.startsWith(<span class="string">&quot;J&quot;</span>))</span><br><span class="line">            .filter(name -&gt; name.length() == <span class="number">4</span>)</span><br><span class="line">            .forEach(System.out::println);</span><br><span class="line">&#125;</span><br><span class="line">[OUTPUT]</span><br><span class="line">Jack</span><br><span class="line">John</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stream-特点"><a href="#Stream-特点" class="headerlink" title="Stream 特点:"></a><strong>Stream 特点:</strong></h3><ul>
+<li><strong>Lazy Evaluation</strong>: 中间操作<strong>不会立即执行</strong>,只有在遇到终止操作时流才开始真正的遍历,即一次遍历中执行多个操作(映射,过滤等),这种特性称为<strong>惰性求值</strong>(lazy evaluation),这种特性使得 Stream API 可以进行更高效的操作</li>
+<li><strong>Internal Iteration</strong>: 传统的集合操作是<strong>外部迭代</strong>(external iteration),即用户需要手动迭代集合中的每一个元素,而 Stream API 是<strong>内部迭代</strong>(internal iteration),用户只需要告诉 Stream API 需要对集合进行什么操作,而不需要关心具体的迭代过程</li>
+<li><strong>Immutability</strong>: Stream 不会改变原有的数据结构,它只是对原有的数据进行操作,并返回一个新的 Stream</li>
+<li><strong>Parallel Processing</strong> : JDK 源码注解中提到 <em>Stream pipelines may execute either sequentially or in parallel</em>, 即 Stream 既可被顺序处理,也可并行处理,从而充分利用多核处理器的优势</li>
+</ul>
+<center>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/JavaStream-2024-02-18-23-25-32.png" alt="Stream" style="zoom:50%;" />
+</center>
+
+<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h3><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>方法作用</th>
+<th>Operation 类别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>count</code></td>
+<td>计数</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>forEach</code></td>
+<td>迭代处理</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>reduce</code></td>
+<td>归约</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>collect</code></td>
+<td>收集</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>findAny</code></td>
+<td>查找</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>anyMatch</code></td>
+<td>匹配</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>过滤</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>sorted</code></td>
+<td>排序</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>distinct</code></td>
+<td>去重</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>取用前几个</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td>跳过前几个</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>映射</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td><code>concat</code></td>
+<td>拼接</td>
+<td>intermediate</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>To perform a computation, stream operations are composed into a stream pipeline. A stream pipeline consists of a <strong>source</strong> (which might be an array, a collection, a generator function, an I&#x2F;O channel, etc), zero or more <strong>intermediate operations</strong> (which transform a stream into another stream, such as filter(Predicate)), and a <strong>terminal operation</strong> (which produces a result or side-effect, such as count() or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed.</p>
+</blockquote>
+<h2 id="创建-Stream"><a href="#创建-Stream" class="headerlink" title="创建 Stream"></a>创建 Stream</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 Collection 的 stream()和 parallelStream()方法</span></span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">Stream&lt;Integer&gt; stream1 = list.stream();</span><br><span class="line">Stream&lt;Integer&gt; stream2 = list.parallelStream();</span><br><span class="line"><span class="comment">// 使用 Arrays 的 stream() 方法</span></span><br><span class="line">Stream&lt;Integer&gt; stream3 = Arrays.stream(<span class="keyword">new</span> <span class="title class_">Integer</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;);</span><br><span class="line"><span class="comment">// 使用 Stream 类的静态方法 of()、iterate()、generate()</span></span><br><span class="line">Stream&lt;Integer&gt; stream4 = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// of() 内部调用的是 Arrays.stream() method</span></span><br><span class="line">Stream&lt;Double&gt; stream5 = Stream.iterate(<span class="number">10.0</span>,num -&gt; num &gt; <span class="number">0.5</span>, num -&gt; num / <span class="number">2</span>);</span><br><span class="line">stream5.forEach(System.out::println);<span class="comment">// 10.0 5.0 2.5 1.25 0.625 0.3125</span></span><br><span class="line">Stream&lt;Double&gt; stream6 = Stream.generate(Math::random).limit(<span class="number">5</span>);</span><br><span class="line">stream6.forEach(System.out::println);<span class="comment">// 5 个随机小数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Methods-分析"><a href="#Methods-分析" class="headerlink" title="Methods 分析"></a>Methods 分析</h2><h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p><code>Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</code><br>Returns a stream consisting of the elements of this stream that match the given predicate.</p>
+<p>filter 方法接受一个 Predicate <strong>函数式接口实例</strong>[<a href="functionalInterface.md" title="Functional Interface">functionalInterface.md</a>],用于过滤流中的元素,返回一个新的 stream,其中包含符合条件的元素</p>
+<p>Predicate 是一个 Java 8 新增的函数式接口,它接受一个参数并返回一个布尔值,我们通常使用 Lambda 表达式来创建 Predicate 实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Commonly used methods in Predicate</span></span><br><span class="line">stream.filter(element -&gt; element.length() &gt; <span class="number">5</span>)</span><br><span class="line">stream.filter(element -&gt; element.startsWith(<span class="string">&quot;J&quot;</span>))</span><br><span class="line">stream.filter(element -&gt; element.endsWith(<span class="string">&quot;y&quot;</span>))</span><br><span class="line">stream.filter(element -&gt; element.equals(<span class="string">&quot;Jerry&quot;</span>))</span><br><span class="line">stream.filter(element -&gt; element.contains(<span class="string">&quot;e&quot;</span>))</span><br><span class="line">stream.filter(element -&gt; element.matches(<span class="string">&quot;.*[aeiou].*&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="forEach-find-match"><a href="#forEach-find-match" class="headerlink" title="forEach,find,match"></a>forEach,find,match</h3><p>Stream 支持类似于 Collection 的遍历以及查询的操作,需要注意的是,Stream 中的元素是以<code>Optional</code>类型存在的<br><strong>Traverse</strong></p>
+<ul>
+<li><code>void forEach(Consumer&lt;? super T&gt; action)</code><br>forEach 接受一个 Consumer <strong>函数式接口</strong>,用于遍历流中的每一个元素,并对其进行操作<br>Consumer 是一个 Java 8 新增的函数式接口,它接受一个参数,无返回值,例如<code>System.out::println;</code></li>
+</ul>
+<hr>
+<p><strong>Find</strong></p>
+<ul>
+<li><code>Optional&lt;T&gt; findFirst()</code><br>Returns an Optional describing the first element of this stream, or an empty Optional if the stream is empty. If the stream has no encounter order, then any element may be returned.</li>
+<li><code>Optional&lt;T&gt; findAny()</code><br>Returns an Optional describing the first element of this stream, or an empty Optional if the stream is empty. If the stream has no encounter order, then any element may be returned.</li>
+</ul>
+<hr>
+<p><strong>Match</strong></p>
+<ul>
+<li><code>boolean anyMatch(Predicate&lt;? super T&gt; predicate)</code><br>只要有一个元素匹配传入的条件，就返回 true</li>
+<li><code>boolean allMatch(Predicate&lt;? super T&gt; predicate)</code><br>所有元素都匹配传入的条件，才返回 true</li>
+<li><code>boolean noneMatch(Predicate&lt;? super T&gt; predicate)</code><br>所有元素都不匹配传入的条件，才返回 true</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//forEach</span></span><br><span class="line">list.stream().forEach(System.out::println);</span><br><span class="line"><span class="comment">// Find</span></span><br><span class="line">Optional&lt;String&gt; first = list.stream().findFirst();</span><br><span class="line">Optional&lt;String&gt; any = list.stream().findAny();</span><br><span class="line"><span class="comment">// Match</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">isExist</span> <span class="operator">=</span> list.stream().anyMatch(element -&gt; element.length() &gt; <span class="number">5</span>);</span><br><span class="line"><span class="type">boolean</span> <span class="variable">isAllMatch</span> <span class="operator">=</span> list.stream().allMatch(element -&gt; element.startsWith(<span class="string">&quot;J&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map,flatMap"></a>map,flatMap</h3><p>map 意为映射,可将一个 Stream 中的元素映射成另一个 Stream,如下代码将一个 String 类型的 Stream 映射成一个 Integer 类型的 Stream</p>
+<ul>
+<li><p><code>&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T,? extends R&gt; mapper)</code><br>Returns a stream consisting of the results of applying the given function to the elements of this stream.</p>
+</li>
+<li><p><code>&lt;R&gt; Stream&lt;R&gt; flatMap(Function&lt;? super T,? extends Stream&lt;? extends R&gt;&gt; mapper)</code><br>Returns a stream consisting of the results of replacing each element of this stream with the contents of a mapped stream produced by applying the provided mapping function to each element. Each mapped stream is closed after its contents have been placed into this stream. (If a mapped stream is null an empty stream is used, instead.)</p>
+</li>
+<li><p><code>map</code>方法接受一个<strong>函数式接口实例</strong>mapper,根据 mapper 将流中的<strong>元素映射成新的元素</strong>,返回一个新的<strong>stream</strong>,其中包含映射后的元素</p>
+</li>
+<li><p><code>flatMap</code>方法接受一个<strong>函数式接口实例</strong>mapper ,用于将流中的<strong>元素映射成流</strong>,并将映射后的流扁平化,即将多个流连接成一个流,返回<strong>拼接后的 stream</strong></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// map</span></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;String&gt; nameList = Arrays.asList(<span class="string">&quot;Valerie&quot;</span>, <span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        nameList.stream()</span><br><span class="line">            .map(String::toUpperCase)</span><br><span class="line">            .map(name -&gt; <span class="string">&quot;Hello, &quot;</span> + name)</span><br><span class="line">            .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line">        nameList.stream()</span><br><span class="line">            .map(String::toUpperCase)</span><br><span class="line">            .flatMap((String name) -&gt; Arrays.stream(name.split(<span class="string">&quot;&quot;</span>)))</span><br><span class="line">            .forEach(System.out::println);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">[OUTPUT]</span><br><span class="line">Hello, VALERIE</span><br><span class="line">Hello, JACK</span><br><span class="line">Hello, JOHN</span><br><span class="line">Hello, TOM</span><br><span class="line">Hello, JERRY</span><br><span class="line">Hello, JESUS</span><br><span class="line"><span class="comment">// flatMap</span></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		    <span class="comment">// 给定两个数字列表 获取所有的数对</span></span><br><span class="line">        List&lt;Integer&gt; numbers1 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        <span class="comment">// numbers2.stream().map(y -&gt; new int[] &#123; x, y &#125;)返回Stream&lt;int[]&gt;,flatMap将每个x对应的Stream&lt;int[]&gt;连接</span></span><br><span class="line">        List&lt;<span class="type">int</span>[]&gt; pairs = numbers1.stream().flatMap(x -&gt; numbers2.stream().map(y -&gt; <span class="keyword">new</span> <span class="title class_">int</span>[] &#123; x, y &#125;))</span><br><span class="line">                .collect(Collectors.toList());</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>[] pair : pairs) &#123;</span><br><span class="line">            System.out.print(Arrays.toString(pair));</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">[OUTPUT]</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>][<span class="number">1</span>, <span class="number">4</span>][<span class="number">2</span>, <span class="number">3</span>][<span class="number">2</span>, <span class="number">4</span>][<span class="number">3</span>, <span class="number">3</span>][<span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><p><code>reduce</code> 意为归约,顾名思义，是把一个流缩减成一个值，能实现对集合求和、求乘积和求最值操作。</p>
+<ul>
+<li><p><code>Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)</code><br>无初始值，返回一个 Optional,参数为一个 BinaryOperator <strong>函数式接口实例</strong>,用于将流中的元素两两结合<br>Performs a reduction on the elements of this stream, using an associative accumulation function, and returns an Optional describing the reduced value, if any.<br><strong>Parameters:</strong></p>
+<ul>
+<li>accumulator - an associative, non-interfering, stateless function for combining two values</li>
+</ul>
+<p><strong>Returns:</strong><br>an Optional describing the result of the reduction</p>
+</li>
+<li><p><code>T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)</code><br>有初始值，返回类型与初始值的类型一致,参数为初始值和一个 BinaryOperator <strong>函数式接口实例</strong></p>
+</li>
+<li><p><code>&lt;U&gt; U reduce(U identity, BiFunction&lt;U,? super T,U&gt; accumulator, BinaryOperator&lt;U&gt; combiner)</code></p>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>identity</code> the identity value for the combiner function</li>
+<li><code>accumulator</code> an associative, non-interfering, stateless function for incorporating an additional element into a result</li>
+<li><code>combiner</code> an associative, non-interfering, stateless function for combining two values, which must be compatible with the accumulator function</li>
+</ul>
+<p><strong>Returns</strong>:<br>the result of the reduction</p>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>Associative（可结合的）：这意味着累积器函数在处理多个值时，其操作的顺序不影响最终结果。即无论值是如何组合的，累积器函数总是产生相同的结果。例如，加法和乘法都是可结合的操作。<br>Non-interfering（不干扰的）：累积器函数在处理值时不会改变这些值的状态。它只是简单地将值组合起来，而不影响原始值。<br>Stateless（无状态的）：累积器函数不依赖于或修改任何外部状态。它只根据传入的参数来计算结果，不涉及任何外部的、可变的或全局的状态。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求所有员工的工资之和、最高工资</span></span><br><span class="line"><span class="comment">// 求工资之和方法1：Stream&lt;Person&gt; -&gt; Stream&lt;Integer&gt; -&gt; Optional&lt;Integer&gt;</span></span><br><span class="line">Optional&lt;Integer&gt; sumSalary =</span><br><span class="line">                personList.stream().map(Person::getSalary).reduce(Integer::sum);</span><br><span class="line"><span class="comment">// 求工资之和方法2：</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">sumSalary2</span> <span class="operator">=</span> personList.stream().reduce(<span class="number">0</span>, (sum, p) -&gt; sum += p.getSalary(),</span><br><span class="line">                Integer::sum);</span><br><span class="line"><span class="comment">// 求最高工资方法1：Stream&lt;Person&gt; -&gt; Stream&lt;Integer&gt; -&gt; Integer</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">maxSalary1</span> <span class="operator">=</span></span><br><span class="line">                personList.stream().map(Person::getSalary).reduce(Integer::max).get();</span><br><span class="line"><span class="comment">// 求最高工资方法2：</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">maxSalary2</span> <span class="operator">=</span> personList.stream().reduce(<span class="number">0</span>,</span><br><span class="line">                (max, p) -&gt; max &gt; p.getSalary() ? max : p.getSalary(),</span><br><span class="line">                (max1, max2) -&gt; max1 &gt; max2 ? max1 : max2);</span><br><span class="line"><span class="comment">// 求最高工资方法3：</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">maxSalary3</span> <span class="operator">=</span> personList.stream().reduce(<span class="number">0</span>,</span><br><span class="line">                                (max, p) -&gt; max &gt; p.getSalary() ? max : p.getSalary(),</span><br><span class="line">                                Integer::max);</span><br></pre></td></tr></table></figure>
+
+<h3 id="collect"><a href="#collect" class="headerlink" title="collect"></a>collect</h3><p><code>stream()</code>方法可以将集合,数组转换为 Stream,而<code>collect()</code>方法则可以将 Stream 转换为集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strArr = list.stream().toArray(String[]::<span class="keyword">new</span>);</span><br><span class="line">List&lt;Integer&gt; strLengthList = list.stream().map(String::length).collect(Collectors.toList());</span><br><span class="line">List&lt;String&gt; strList = list.stream().collect(Collectors.toCollection(ArrayList::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="count-max-min"><a href="#count-max-min" class="headerlink" title="count,max,min"></a>count,max,min</h3><p>如下方法均为 terminal operation</p>
+<ul>
+<li><code>long count()</code><br>Returns the count of elements in this stream.</li>
+<li><code>Optional&lt;T&gt; max(Comparator&lt;? super T&gt; comparator)</code><br>Returns the maximum element of this stream according to the provided Comparator.</li>
+<li><code>Optional&lt;T&gt; min(Comparator&lt;? super T&gt; comparator)</code><br>Returns the minimum element of this stream according to the provided Comparator.</li>
+</ul>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/stream-iteratetpredicateunaryoperator-method-in-java-with-examples/">Stream iterate</a><br><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">oracle docs</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2140067">Java8 新特性之 Stream 流（含具体案例）</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/87274197">由浅入深体验 Stream 流（附带教程）</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7216209996526452797">Java 8 Stream 和 Optional: 实践指南</a><br><a target="_blank" rel="noopener" href="https://dev.java/learn/api/streams/reducing/">Reducing a Stream</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Java Stream</p><p><a href="https://efterklang.github.io/Dev/Java/Java Stream/">https://efterklang.github.io/Dev/Java/Java Stream/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-02-19</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-06-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Java/">Java</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ComputerNetworking/Ch3-1DataLinkLayer/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">数据链路层 Datalink Layer Ⅰ</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/ComputerNetworking/Ch2-PhysicalLayer/"><span class="level-item">物理层 Physical Layer</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Overview"><span class="level-left"><span class="level-item">1</span><span class="level-item">Overview</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#操作分类"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">操作分类:</span></span></a></li><li><a class="level is-mobile" href="#Stream-特点"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">Stream 特点:</span></span></a></li><li><a class="level is-mobile" href="#Methods"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">Methods</span></span></a></li></ul></li><li><a class="level is-mobile" href="#创建-Stream"><span class="level-left"><span class="level-item">2</span><span class="level-item">创建 Stream</span></span></a></li><li><a class="level is-mobile" href="#Methods-分析"><span class="level-left"><span class="level-item">3</span><span class="level-item">Methods 分析</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#filter"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">filter</span></span></a></li><li><a class="level is-mobile" href="#forEach-find-match"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">forEach,find,match</span></span></a></li><li><a class="level is-mobile" href="#map-flatMap"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">map,flatMap</span></span></a></li><li><a class="level is-mobile" href="#reduce"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">reduce</span></span></a></li><li><a class="level is-mobile" href="#collect"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">collect</span></span></a></li><li><a class="level is-mobile" href="#count-max-min"><span class="level-left"><span class="level-item">3.6</span><span class="level-item">count,max,min</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Ref"><span class="level-left"><span class="level-item">4</span><span class="level-item">Ref</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Eaasy/"><span class="level-start"><span class="level-item">Eaasy</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Eaasy/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">37</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">ARM处理器体系结构及应用</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/live2d-widget/autoload.js"></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>

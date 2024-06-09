@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>ARM伪指令及编程基础 - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="ARM四类伪指令的概述,以及与C的混合编程"><meta property="og:type" content="article"><meta property="og:title" content="ARM伪指令及编程基础"><meta property="og:url" content="https://efterklang.github.io/UESTC/ARM-Processor/Ch4-1ARM%E4%BC%AA%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="ARM四类伪指令的概述,以及与C的混合编程"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/ARM-Processor/ARM4-1.jpg"><meta property="article:published_time" content="2024-04-07T11:28:39.000Z"><meta property="article:modified_time" content="2024-06-06T05:13:47.999Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="ARM"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/ARM-Processor/ARM4-1.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"ARM伪指令及编程基础","image":["https://efterklang.github.io/img/thumbnails/ARM-Processor/ARM4-1.jpg"],"datePublished":"2024-04-07T11:28:39.000Z","dateModified":"2024-06-06T05:13:47.999Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"ARM四类伪指令的概述,以及与C的混合编程"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ARM-Processor/Ch4-1ARM%E4%BC%AA%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-HKYTDLW5FP');</script><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/ARM-Processor/ARM4-1.jpg" alt="ARM伪指令及编程基础" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-04-07T11:28:39.000Z" title="4/7/2024, 7:28:39 PM">2024-04-07</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/">ARM处理器体系结构及应用</a></span><span class="level-item">29 minutes read (About 4298 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ARM-Processor/Ch4-1ARM%E4%BC%AA%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" data-flag-title="ARM伪指令及编程基础"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">ARM伪指令及编程基础</h1><div class="content"><h2 id="伪指令概述"><a href="#伪指令概述" class="headerlink" title="伪指令概述"></a>伪指令概述</h2><p><strong>伪指令</strong>:人们设计了一些专门用于指导汇编器进行汇编工作的指令，由于这些指令不形成机器码指令，它们只是在汇编器进行汇编工作的过程中起作用，所以被叫做伪指令<br>伪指令具有的两个特征:伪指令是一条指令;伪指令没有指令代码。</p>
+<p><strong>伪指令的作用</strong></p>
+<ul>
+<li>程序定位的作用;</li>
+<li>为非指令代码进行定义;</li>
+<li>为程序完整性做标注;</li>
+<li>有条件的引导程序段。</li>
+</ul>
+<h2 id="通用伪指令"><a href="#通用伪指令" class="headerlink" title="通用伪指令"></a>通用伪指令</h2><p>在 ARM 汇编程序语言中，有如下几种伪指令：</p>
+<ul>
+<li>符号定义（Symbol Definition）伪指令</li>
+<li>数据定义（Data Definition）伪指令</li>
+<li>汇编控制（Assembly Control）伪指令</li>
+<li>其它（Miscellaneous）伪指令</li>
+</ul>
+<h3 id="为变量定义或赋值的伪指令"><a href="#为变量定义或赋值的伪指令" class="headerlink" title="为变量定义或赋值的伪指令"></a>为变量定义或赋值的伪指令</h3><p>符号的命名由编程者决定，但必须遵循以下约定：</p>
+<ul>
+<li>符号区分大小写，同名的大、小写符号会被编译器认为是两个不同的符号;</li>
+<li>符号在其作用范围内必须唯一;</li>
+<li>自定义的符号不能与系统保留字相同;</li>
+<li>符号不应与指令或伪指令同名。</li>
+</ul>
+<h4 id="声明全局变量伪指令-GBLA、GBLL-和-GBLS"><a href="#声明全局变量伪指令-GBLA、GBLL-和-GBLS" class="headerlink" title="声明全局变量伪指令 GBLA、GBLL 和 GBLS"></a>声明全局变量伪指令 GBLA、GBLL 和 GBLS</h4><p>GBLA、GBLL 和 GBLS 伪指令用于定义一个 ARM 程序中的全局变量，并将其初始化。全局变量的变量名在整个程序范围内必须具有唯一性<br>指令格式：<code>GBLA(GBLL和GBLS)  &lt;variable_name&gt;</code><br>GBLA 定义一个 全局数字变量，其默认初值为 0 ;<br>GBLL 定义一个 全局逻辑变量 ，其默认初值为 FALSE;<br>GBLS 定义一个 全局字符串变量，其默认初值为 空 ;</p>
+<h4 id="声明局部变量伪指令-LCLA、LCLL-和-LCLS"><a href="#声明局部变量伪指令-LCLA、LCLL-和-LCLS" class="headerlink" title="声明局部变量伪指令 LCLA、LCLL 和 LCLS"></a>声明局部变量伪指令 LCLA、LCLL 和 LCLS</h4><p>LCLA、LCLL 和 LCLS 伪指令用于定义一个 ARM 程序中的局部变量，并将其初始化。<br>格式：<code>LCLA(LCLL 和 LCLS) &lt;variable_name&gt;</code><br>LCLA 定义一个局部数字变量，其默认初值为 0;<br>LCLL 定义一个局部逻辑变量，其默认初值为 FALSE;<br>LCLS 定义一个局部字符串变量，其默认初值为 空。</p>
+<h4 id="变量赋值伪指令-SETA、SETL-和-SETS"><a href="#变量赋值伪指令-SETA、SETL-和-SETS" class="headerlink" title="变量赋值伪指令 SETA、SETL 和 SETS"></a>变量赋值伪指令 SETA、SETL 和 SETS</h4><p>伪指令 SETA、SETL 和 SETS 用于给一个已经定义的全局变量或局部变量进行赋值。 注：要顶格写</p>
+<p>指令格式：<code>变量名 SETA（SETL 或 SETS）表达式</code><br>SETA 伪指令用于给一个数字变量赋值;<br>SETL 伪指令用于给一个逻辑变量赋值;<br>SETS 伪指令用于给一个字符串变量赋值;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Test1  SETA  <span class="number">0xAA</span> 		;将Test1变量赋值为<span class="number">0xAA</span>。</span><br><span class="line">Test2  SETL  &#123;TRUE&#125;  	;将Test2 变量赋值为真;</span><br><span class="line">Test3 SETS <span class="string">&quot;Testing&quot;</span>    ;将Test3变量赋值为Testing</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义寄存器列表伪指令"><a href="#定义寄存器列表伪指令" class="headerlink" title="定义寄存器列表伪指令"></a>定义寄存器列表伪指令</h4><p>指令 LDM&#x2F;STM 需要使用一个比较长的寄存器列表，使用伪指令 RLIST 可对一个列表定义一个统一的名称。<br>格式：<code>&lt;name&gt; RLIST &lt;&#123;list&#125;&gt;</code><br>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LoReg RLIST &#123;R0-R7&#125; ;定义寄存器列表&#123;R0-R7&#125;的名称为 LoReg</span><br><span class="line">STMFD SP!, LoReg ;堆栈操作使用寄存器列表</span><br><span class="line">RegList RLIST &#123;R0-R5,R8,R10&#125; ;将寄存器列表名称定义为 RegList，可在 ARM 指令 LDM/STM 中通过该名称访问寄存器列表</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据定义伪指令"><a href="#数据定义伪指令" class="headerlink" title="数据定义伪指令"></a>数据定义伪指令</h3><h4 id="LTORG"><a href="#LTORG" class="headerlink" title="LTORG"></a>LTORG</h4><p>用于声明一个数据缓冲池（文字池）的开始。<br>格式：<code>LTORG</code><br>伪指令 LTORG 用来说明某个存储区域为一个用来暂存数据的数据缓冲区，也叫文字池或数据缓冲池。大的代码段也可以使用多个数据缓冲池。<br>其目的是，防止在程序中使用 LDR 之类的指令访问时，可能产生的越界。<br>通常把数据缓冲池放在代码段的最后面，或放在无条件转移指令或子程序返回指令之后，这样处理器就不会错误地将数据缓冲池中的数据当作指令来执行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">         AREA example, CODE, READONLY</span><br><span class="line">Start  	 BL  Func1</span><br><span class="line">             …</span><br><span class="line">Func1    LDR R1,=<span class="number">0x800</span></span><br><span class="line">         MOV PC,LR</span><br><span class="line">         LTORG  ;定义数据缓冲池的开始位置，</span><br><span class="line">             ;系统会自动设置数据缓冲池的大小</span><br><span class="line">         …</span><br><span class="line">         END</span><br></pre></td></tr></table></figure>
+
+<h4 id="MAP-和-FIELD"><a href="#MAP-和-FIELD" class="headerlink" title="MAP 和 FIELD"></a>MAP 和 FIELD</h4><p>MAP 用于定义一个结构化的内存表的首地址。MAP 可以用<code>^</code> 代替。<br>格式：<code>MAP &lt;expr&gt; &#123;,&lt;base_register&gt;&#125;</code></p>
+<p>expr 是数字表达式或程序中的标号。当指令中没有 base_register 时，expr 即为结构化内存表的首地址，可以为 标号 或 数字表达式;<br>base_register 为基址寄存器（可选项）。当指令中包含这一项时，结构化内存表的首地址为 expr 与 base_register 寄存器值的和;<br><code>MAP fun ;</code> fun 就是内存表的首地址<br><code>MAP 0x100,R9</code> ;内存表的首地址为 R9+0X100</p>
+<p>MAP 通常和 FIELD 伪指令相配合来定义一个结构化的内存表。<br>FIELD 伪指令用于定义一个结构化内存表中的数据域。<br>格式：<code>&#123;label&#125; FIELD expr</code></p>
+<p>Label 为域标号，要顶格写;<br>Expr 表示本数据域在内存表中所占用的字节数;<br>功能：FIELD 用于定义一个结构化内存表中的数据域，<code>#</code>与 FIELD 同义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    MAP <span class="number">0X100</span> ;定义结构化内存表首地址为 <span class="number">0X100</span></span><br><span class="line">A 	FIELD <span class="number">16</span> ;定义A的长度为<span class="number">16</span>字节，位置为 <span class="number">0X100</span></span><br><span class="line">B 	FIELD <span class="number">32</span> ;定义B的长度为<span class="number">32</span>字节，位置为 <span class="number">0X110</span></span><br><span class="line">S 	FIELD <span class="number">256</span> ;定义S的长度为<span class="number">256</span>字节，位置为 <span class="number">0X130</span></span><br><span class="line">注意：MAP 和 FIELD 伪指令仅用于定义数据结构，并不实际分配存储单元。 FIELD 也可用“#” 代替。</span><br></pre></td></tr></table></figure>
+
+<h4 id="SPACE-和-DCB"><a href="#SPACE-和-DCB" class="headerlink" title="SPACE 和 DCB"></a>SPACE 和 DCB</h4><p>SPACE 伪指令用于分配一片连续的存储区域并初始化为 0。<br>格式： <code>&#123;label&#125; SPACE expr</code><br>label 为内存块起始地址标号;<br>Expr 为所要分配的内存字节数;<br>SPACE 也可用“%” 代替。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    AREA DataRAM,DATA,READWRITE;声明一数据段，名为 DataRAM</span><br><span class="line">DataSpace SPACE <span class="number">100</span> ;分配连续的 <span class="number">100</span> 字节的存储单元,并初始化为 <span class="number">0</span>。</span><br></pre></td></tr></table></figure>
+
+<p>DCB 伪指令用于分配内存单元并初始化<br>格式：<code>&#123;label&#125;  DCB  expr&#123;，expr &#125;&#123;，expr &#125;…</code></p>
+<p>label 是存块起始地址标号;<br>expr 可以为 0 至 255 的数值或字符串，内存分配的字节数由 expr 个数决定;<br>功能：DCB 用于分配一段字节内存单元，并用伪指令中的 expr 初始化，一般可用来定义数据表格，或文字符串，<code>=</code>与 DCB 同义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DISPTAB 	DCB <span class="number">0x43</span>,<span class="number">0x33</span>,<span class="number">0x76</span>,<span class="number">0x12</span></span><br><span class="line">            DCB <span class="number">120</span>,<span class="number">20</span>,<span class="number">32</span>,<span class="number">44</span></span><br><span class="line">String  	DCB “send,data is error!”,<span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LDR 	R1, =DISPTAB   ;把DISPTAB的地址值送入R1</span><br><span class="line">        LDRB R2, [R1,#<span class="number">2</span>]	;获取地址为[R1+#<span class="number">2</span>]字节单元的值,R2=<span class="number">0x76</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="DCD-和-DCDU"><a href="#DCD-和-DCDU" class="headerlink" title="DCD 和 DCDU"></a>DCD 和 DCDU</h4><p>用于分配存储单元并初始化<br>格式：<br><code>&#123;label&#125; DCD expr&#123;，expr &#125;&#123;，expr &#125;…</code><br><code>&#123;label&#125; DCDU expr&#123;，expr &#125;&#123;，expr &#125;…</code><br>label 是内存块起始地址标号<br>expr 为常数表达式或程序中标号，内存分配字节数由 expr 个数决定<br>功能：<br>DCD 用于分配一段字内存单元，并用伪指令中的 expr 初始化，字对齐，可定义数据表格或其它常数。<code>&amp;</code>与 DCD 同义。<br>DCDU 用于分配一段字内存单元，并用伪指令中的 expr 初始化。DCDU 伪指令分配的内存不需要字对齐，可定义数据表格或其它常数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">        AREA blockcopy,CODE,READONLY</span><br><span class="line">        ……</span><br><span class="line">        LDR R1,=ftt</span><br><span class="line">        LDR R2,=ftt2</span><br><span class="line">        LDR R3,[R1] ; R3 = <span class="number">1</span></span><br><span class="line">        LDR R4,[R2] ; R4 = <span class="number">3</span></span><br><span class="line">        LDR R5,[R1, #<span class="number">4</span>]; R5 = <span class="number">2</span></span><br><span class="line">        LDR R6,[R2, #<span class="number">4</span>]; R6 = <span class="number">4</span></span><br><span class="line">        ……</span><br><span class="line">Src	    DCD <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,</span><br><span class="line"></span><br><span class="line">        MAP Src</span><br><span class="line">ftt	    FIELD <span class="number">8</span>; <span class="number">8</span> Byte = <span class="number">64</span> Bit = <span class="number">2</span> words, 即ftt为src数组的前两个元素</span><br><span class="line">ftt2	FIELD <span class="number">8</span></span><br><span class="line">        END</span><br></pre></td></tr></table></figure>
+
+<p>该例说明了,MAP 和 FIELD 伪指令不分配存储空间，只是给相关存储单元取个名称（标号）。便于程序以结构的方式访问对应的内存单元。</p>
+<h4 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h4><p>了解</p>
+<ul>
+<li>DCFD 和 DCFDU</li>
+<li>DCFS 和 DCFSU</li>
+<li>DCQ 和 DCQU</li>
+<li>DCW 和 DCWU</li>
+</ul>
+<h3 id="控制程序流向伪指令"><a href="#控制程序流向伪指令" class="headerlink" title="控制程序流向伪指令"></a>控制程序流向伪指令</h3><p>IF、ELSE 和 ENDIF 伪指令能根据条件的成立与否决定是否编译某个程序段。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IF condition</span><br><span class="line">    程序段<span class="number">1</span></span><br><span class="line">ELSE</span><br><span class="line">    程序段<span class="number">2</span></span><br><span class="line">ENDIF</span><br></pre></td></tr></table></figure>
+
+<p>WHILE 和 WEND 伪指令根据条件的成立与否决定是否重复汇编一个程序段。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WHILE condition</span><br><span class="line">    程序段</span><br><span class="line">WEND</span><br></pre></td></tr></table></figure>
+
+<p>若 WHILE 后面的逻辑表达式为真，则重复汇编该程序段，直到逻辑表达式为假。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    GBLA  NUM</span><br><span class="line">NUM	SETA  <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    AREA blockcopy,CODE,READONLY</span><br><span class="line">    ENTRY</span><br><span class="line">    WHILE NUM &lt; <span class="number">3</span></span><br><span class="line">    ...</span><br><span class="line">NUM	SETA  NUM+<span class="number">1</span></span><br><span class="line">    WEND</span><br><span class="line">    .........</span><br><span class="line">    END</span><br></pre></td></tr></table></figure>
+
+<h3 id="其它伪指令"><a href="#其它伪指令" class="headerlink" title="其它伪指令"></a>其它伪指令</h3><h4 id="定义对齐方式伪指令-ALIGN"><a href="#定义对齐方式伪指令-ALIGN" class="headerlink" title="定义对齐方式伪指令 ALIGN"></a>定义对齐方式伪指令 ALIGN</h4><p>格式：<code>ALIGN &#123;表达式，&#123;偏移量&#125;&#125;</code><br>ALIGN 是边界对齐伪指令，它可以通过添加填充字节的方式，使当前位置满足一定的对齐方式。其中表达式用于指定对齐方式在不同场合有不同的定义<br>例如 ALIGN 4 ;4 字节字对齐，ALIGN 后面不能有等号</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        AREA    OffsetExample, CODE</span><br><span class="line">        .........</span><br><span class="line">ss1  	DCB     <span class="number">1</span>    ;假设ss1在<span class="number">0x01000</span>字节</span><br><span class="line">        ALIGN   <span class="number">4</span>,<span class="number">3</span>  ; <span class="number">4</span>字节对齐+<span class="number">3</span>偏移量.</span><br><span class="line">ss2	    DCB     <span class="number">1</span></span><br><span class="line">                ;使用“ALIGN <span class="number">4</span>，<span class="number">3</span>”以后，</span><br><span class="line">                ;当前位置会转到<span class="number">0x01003</span>(<span class="number">0x01000</span>+<span class="number">3</span>)。</span><br><span class="line">                ;ss1和ss2之间会空<span class="number">2</span>个字节。</span><br></pre></td></tr></table></figure>
+
+<h4 id="段定义伪指令-AREA"><a href="#段定义伪指令-AREA" class="headerlink" title="段定义伪指令 AREA"></a>段定义伪指令 AREA</h4><p>AREA 用于定义一个代码段或数据段。一个汇编语言程序至少要有一个段。<br>格式：<code>AREA  sectionname &#123;,attr&#125; &#123;,attr&#125;…</code></p>
+<p>sectionname 是定义的代码段或数据段的名称。若该名称是以数据开头的，则该名称必须用“｜”括起来，如｜ 2_datasec ｜。还有一些代码段的名称是专有名称。<br>Attr 表示代码或数据段的属性，多个属性用短号分隔，常用的属性如下</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CODE</td>
+<td>代码段</td>
+<td>默认读&#x2F;写属性为 READONLY</td>
+</tr>
+<tr>
+<td>DATA</td>
+<td>数据段</td>
+<td>默认读&#x2F;写属性为 READWRITE</td>
+</tr>
+<tr>
+<td>NOINIT</td>
+<td>数据段</td>
+<td>指定此数据段仅仅保留了内存单元，而没有将各初始值写入内存单元。</td>
+</tr>
+<tr>
+<td>READONLY</td>
+<td>本段为只读</td>
+<td></td>
+</tr>
+<tr>
+<td>READWRITE</td>
+<td>本段为可读可写</td>
+<td></td>
+</tr>
+<tr>
+<td>ALIGN 表达式</td>
+<td></td>
+<td>ELF 的代码段和数据段为字对齐</td>
+</tr>
+<tr>
+<td>COMMON</td>
+<td>多源文件共享段</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="CODE16-和-CODE32"><a href="#CODE16-和-CODE32" class="headerlink" title="CODE16 和 CODE32"></a>CODE16 和 CODE32</h4><p>CODE16 告诉汇编编译器后面的指令序列为 16 位的 Thumb 指令。<br>CODE32 告诉汇编编译器后面的指令序列为 32 位的 ARM 指令。<br>注意：CODE16 和 CODE32 只是告诉编译器后面指令的类型，该伪操作本身不进行程序状态的切换</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AREA     ChangeState, CODE, READONLY</span><br><span class="line">         ENTRY</span><br><span class="line">         CODE32                   ;下面为<span class="number">32</span>位ARM指令</span><br><span class="line">         LDR   R0,=start+<span class="number">1</span>   ;将跳转地址放入寄存器R0</span><br><span class="line">         BX      R0		;程序跳转到新的位置执行</span><br><span class="line">             …… 		;并将处理器切换到Thumb工作状态</span><br><span class="line">         CODE16                 ;下面为<span class="number">16</span>位Thumb指令</span><br><span class="line">start  MOV   R1,#<span class="number">10</span></span><br><span class="line">           …….</span><br><span class="line">          END</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="ENTRY-END"><a href="#ENTRY-END" class="headerlink" title="ENTRY &amp; END"></a>ENTRY &amp; END</h4><p>ENTRY 定义程序入口点伪指令 ,指定程序的入口点。</p>
+<p>注意：一个程序（可包含多个源文件）中至少要有一个 ENTRY（可以有多个 ENTRY，当有多个 ENTRY 入口时，程序的真正入口点由链接器指定），但一个源文件中最多只能有一个 ENTRY（可以没有 ENTRY）</p>
+<p>END 伪指令用于通知编译器汇编工作到此结束，不再往下汇编了。每一个汇编源程序都必须包含 END 伪操作，以表明本源程序的结束。</p>
+<h4 id="EXPORT-IMPORT-EXTERN"><a href="#EXPORT-IMPORT-EXTERN" class="headerlink" title="EXPORT &amp; IMPORT &amp; EXTERN"></a>EXPORT &amp; IMPORT &amp; EXTERN</h4><p><strong>EXPORT</strong><br>外部可引用符号声明伪指令 EXPORT（或 GLOBAL）<br>声明一个源文件中的符号，使此符号可以被其他源文件引用。<br>格式：<code>EXPORT/GLOBAL symbol &#123;[weak]&#125;</code><br>symbol：声明的符号的名称。（区分大小写）<br>[weak]：声明其他同名符号优先于本符号被引用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        AREA example，CODE，READONLY</span><br><span class="line">        EXPORT  DoAdd;申明一个全局引用的标号 DoAdd</span><br><span class="line">DoAdd   ADD R0，R0，R1</span><br></pre></td></tr></table></figure>
+
+<p><strong>IMPORT</strong><br>当在一个源文件中需要使用另外一个源文件的外部可引用符号时，在被引用的符号前面，必须使用伪指令 IMPORT 对其进行声明：声明一个符号是在其他源文件中定义的。<br>格式：<code>IMPORT symbol&#123;[weak]&#125;</code><br>如果源文件声明了一个引用符号，则无论当前源文件中程序是否真正地使用了该符号，该符号均会被加入到当前源文件的符号表中。<br>symbol：声明的符号的名称。<br>[weak]：当没有指定此项时，如果 symbol 在所有的源文件中都没有被定义，则连接器会报告错误。<br>当指定此项时，如果 symbol 在所有的源文件中都没有被定义，则连接器不会报告错误，而是进行下面的操作。<br>如果该符号被 B 或者 BL 指令引用，则该符号被设置成下一条指令的地址，该 B 或 BL 指令相当于一条 NOP 指令。<br>其他情况下此符号被设置成 0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AREA Init, CODE, READONLY</span><br><span class="line">IMPORT  main</span><br><span class="line">  …</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+<p><strong>EXTERN</strong><br>EXTERN 伪指令与 IMPORT 伪指令的功能基本相同，但如果当前源文件中的程序实际并未使用该符号，则该符号不会加入到当前源文件的符号表中。<br>其它与 IMPORT 相同。</p>
+<h4 id="GET-INCLUDE"><a href="#GET-INCLUDE" class="headerlink" title="GET &amp; INCLUDE"></a>GET &amp; INCLUDE</h4><p>GET（或 INCLUDE）<br>GET 伪指令用于将一个源文件包含到当前的源文件中，并将被包含的源文件在当前位置进行汇编。<br>语法格式：GET 文件名<br>可以使用 INCLUDE 代替 GET。<br>GET 伪指令只能用于包含源文件，包含目标文件则需要使用 INCBIN 伪指令。</p>
+<h2 id="与-ARM-指令相关的宏指令"><a href="#与-ARM-指令相关的宏指令" class="headerlink" title="与 ARM 指令相关的宏指令"></a>与 ARM 指令相关的宏指令</h2><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><p>MACRO 和 MEND 伪指令可以为一个程序段定义一个名称。这样，在汇编语言应用程序中，就可以通过这个名称来使用它所代表的程序段，即当程序做汇编时，该名称将被替换为其所代表的程序段。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MACRO</span><br><span class="line">  $标号   宏名 $参数<span class="number">1</span>， $参数<span class="number">2</span>，…..</span><br><span class="line">  程序段（宏定义体）</span><br><span class="line">MEND</span><br></pre></td></tr></table></figure>
+
+<p>$标号：为主标号，宏内的所有其它标号必须由主标号组成;<br>宏名：宏名称，为宏在程序中的引用名;<br>$参数 1，$参数2：宏中可以使用的参数。宏中的所有标号必须在前面冠以符号“$”。<br>MACRO、 MEND 伪指令可以嵌套使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">            MACRO    ;宏定义指令</span><br><span class="line">$MDATA      MAXNUM $NUM1,$NUM2 ;主标号，宏名，参数</span><br><span class="line">            语句段</span><br><span class="line">$MDATA.WAY1  ;   宏内标号，必须写为“主标号.宏内标号”</span><br><span class="line">            语句段</span><br><span class="line">$MDATA.WAY2   ;  宏内标号</span><br><span class="line">            语句段</span><br><span class="line">    MEND  ; 宏结束指令</span><br></pre></td></tr></table></figure>
+
+<p>MEXIT 用于从宏定义中跳转出去</p>
+<h3 id="宏指令"><a href="#宏指令" class="headerlink" title="宏指令"></a>宏指令</h3><p>在 ARM 中，还有一种汇编器内置的无参数和标号的宏——宏指令。<br>在汇编时，这些宏指令被替换成一条或两条真正的 ARM 或 Thumb 指令。ARM 宏指令有四条，分别是：</p>
+<ul>
+<li>ADR：小范围的地址读取宏指令；</li>
+<li>ADRL：中等范围的地址读取宏指令；</li>
+<li>LDR：大范围的地址读取宏指令；</li>
+<li>NOP：空操作宏指令。</li>
+</ul>
+<p>ADR 指令用于将一个 近地址值 传递到一个寄存器中。<br>格式：<code>ADR&#123;cond&#125;  &lt;reg&gt;, &lt;expr&gt;</code><br>reg 为目标寄存器名称；<br>expr 为表达式。该表达式通常是程序中一个表示存储位置的 地址标号。<br>该宏指令的功能是把标号所表示的地址传递到目标寄存器中。<br>汇编器在汇编时，将把 ADR 宏指令替换成一条真正的 ADD 或 SUB 指令，以当前的 PC 值减去或加上 expr 与 PC 之间的偏移量得到标号的地址，并将其传递到目标寄存器。若不能用一条指令实现，则产生错误，编译失败。</p>
+<p>中等范围的地址读取宏指令 ADRL 类似于 ADR，但可以把更远的地址赋给目标寄存器。该指令只能在 ARM 状态下使用，在 Thumb 状态下不能使用。汇编时，ADRL 宏指令由汇编器替换成两条合适的指令。<br>大范围的地址读取宏指令LDR</p>
+<p>大范围的地址读取宏指令LDR<br>格式：<code>LDR&#123;cond&#125; reg,=&#123;expr | label - expr&#125;</code><br> reg：目标寄存器名称；<br> expr：32位常数；<br> label – expr：为地址表达式。<br>       程序经常用这条指令把一个地址传递到寄存器reg中。汇编器在对这种指令进行汇编时，会根据指令中expr的值的大小来把这条指令替换为合适的指令。<br>       与ARM指令的LDR的区别：伪指令LDR的参数有“&#x3D;”</p>
+<!-- ## ARM 工程
+
+## ARM 程序框架
+
+## ARM 汇编语言程序设计
+
+## C/C++语言和汇编语言的混合编程 -->
+
+<p>TODO…<br>Maybe never <em>(:з)∠)</em></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>ARM伪指令及编程基础</p><p><a href="https://efterklang.github.io/UESTC/ARM-Processor/Ch4-1ARM伪指令及编程基础/">https://efterklang.github.io/UESTC/ARM-Processor/Ch4-1ARM伪指令及编程基础/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-04-07</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-06-06</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ARM/">ARM</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/DataBase/Ch5-DbManagement/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ChⅤ 数据库系统管理</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/DataBase/Ch4-DbDesign/"><span class="level-item">ChⅣ-数据库设计与实现</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+      envId: 'https://efterklang-twikoo.hf.space',
+      onCommentLoaded: function () {
+        var commentContents = document.getElementsByClassName('tk-content');
+        for (var i = 0; i < commentContents.length; i++) {
+          var commentItem = commentContents[i];
+          var imgEls = commentItem.getElementsByTagName('img');
+          if (imgEls.length > 0) {
+            for (var j = 0; j < imgEls.length; j++) {
+              var imgEl = imgEls[j];
+              var aEl = document.createElement('a');
+              aEl.setAttribute('class', 'tk-lg-link');
+              aEl.setAttribute('href', imgEl.getAttribute('src'));
+              aEl.setAttribute('data-src', imgEl.getAttribute('src'));
+              aEl.appendChild(imgEl.cloneNode(false));
+              imgEl.parentNode.insertBefore(aEl, imgEl.nextSibling);
+              imgEl.remove();
+            }
+            if (typeof $.fn.lightGallery === 'function') {
+              $(commentItem).lightGallery({
+                selector: '.tk-lg-link'
+              });
+            }
+          }
+        }
+      }
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#伪指令概述"><span class="level-left"><span class="level-item">1</span><span class="level-item">伪指令概述</span></span></a></li><li><a class="level is-mobile" href="#通用伪指令"><span class="level-left"><span class="level-item">2</span><span class="level-item">通用伪指令</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#为变量定义或赋值的伪指令"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">为变量定义或赋值的伪指令</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#声明全局变量伪指令-GBLA、GBLL-和-GBLS"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">声明全局变量伪指令 GBLA、GBLL 和 GBLS</span></span></a></li><li><a class="level is-mobile" href="#声明局部变量伪指令-LCLA、LCLL-和-LCLS"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">声明局部变量伪指令 LCLA、LCLL 和 LCLS</span></span></a></li><li><a class="level is-mobile" href="#变量赋值伪指令-SETA、SETL-和-SETS"><span class="level-left"><span class="level-item">2.1.3</span><span class="level-item">变量赋值伪指令 SETA、SETL 和 SETS</span></span></a></li><li><a class="level is-mobile" href="#定义寄存器列表伪指令"><span class="level-left"><span class="level-item">2.1.4</span><span class="level-item">定义寄存器列表伪指令</span></span></a></li></ul></li><li><a class="level is-mobile" href="#数据定义伪指令"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">数据定义伪指令</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#LTORG"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">LTORG</span></span></a></li><li><a class="level is-mobile" href="#MAP-和-FIELD"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">MAP 和 FIELD</span></span></a></li><li><a class="level is-mobile" href="#SPACE-和-DCB"><span class="level-left"><span class="level-item">2.2.3</span><span class="level-item">SPACE 和 DCB</span></span></a></li><li><a class="level is-mobile" href="#DCD-和-DCDU"><span class="level-left"><span class="level-item">2.2.4</span><span class="level-item">DCD 和 DCDU</span></span></a></li><li><a class="level is-mobile" href="#MISC"><span class="level-left"><span class="level-item">2.2.5</span><span class="level-item">MISC</span></span></a></li></ul></li><li><a class="level is-mobile" href="#控制程序流向伪指令"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">控制程序流向伪指令</span></span></a></li><li><a class="level is-mobile" href="#其它伪指令"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">其它伪指令</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#定义对齐方式伪指令-ALIGN"><span class="level-left"><span class="level-item">2.4.1</span><span class="level-item">定义对齐方式伪指令 ALIGN</span></span></a></li><li><a class="level is-mobile" href="#段定义伪指令-AREA"><span class="level-left"><span class="level-item">2.4.2</span><span class="level-item">段定义伪指令 AREA</span></span></a></li><li><a class="level is-mobile" href="#CODE16-和-CODE32"><span class="level-left"><span class="level-item">2.4.3</span><span class="level-item">CODE16 和 CODE32</span></span></a></li><li><a class="level is-mobile" href="#ENTRY-END"><span class="level-left"><span class="level-item">2.4.4</span><span class="level-item">ENTRY &amp; END</span></span></a></li><li><a class="level is-mobile" href="#EXPORT-IMPORT-EXTERN"><span class="level-left"><span class="level-item">2.4.5</span><span class="level-item">EXPORT &amp; IMPORT &amp; EXTERN</span></span></a></li><li><a class="level is-mobile" href="#GET-INCLUDE"><span class="level-left"><span class="level-item">2.4.6</span><span class="level-item">GET &amp; INCLUDE</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#与-ARM-指令相关的宏指令"><span class="level-left"><span class="level-item">3</span><span class="level-item">与 ARM 指令相关的宏指令</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#宏"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">宏</span></span></a></li><li><a class="level is-mobile" href="#宏指令"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">宏指令</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">27</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Eaasy/"><span class="level-start"><span class="level-item">Eaasy</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Eaasy/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">37</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">ARM处理器体系结构及应用</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/Computer-Networking/"><span class="level-start"><span class="level-item">Computer Networking</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/OS/"><span class="level-start"><span class="level-item">OS</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/live2d-widget/autoload.js"></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><div class="searchbox-pinyin"><label class="checkbox"><input id="search-by-pinyin" type="checkbox" checked="checked"><span> 拼音检索</span></label></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/imaegoo/pinyin.js" defer></script><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script type="text/javascript" src="/js/imaegoo/imaegoo.js"></script><script type="text/javascript" src="/js/imaegoo/universe.js"></script></body></html>
