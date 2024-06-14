@@ -98,6 +98,7 @@ body:before {
 .article .content a img {
   margin: auto;
   display: block;
+  border-radius: 15px;
 }
 footer.footer {
   background-color: transparent;
