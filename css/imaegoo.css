@@ -98,7 +98,7 @@ body:before {
 .article .content a img {
   margin: auto;
   display: block;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 footer.footer {
   background-color: transparent;
@@ -224,4 +224,11 @@ article .title:hover a {
 .widget .tags .tag:last-child {
   background: $white-bis;
   color: $black-ter;
+}
+.heimu {
+  color: #000;
+  background-color: #000;
+}
+.heimu:hover {
+  color: #fff;
 }

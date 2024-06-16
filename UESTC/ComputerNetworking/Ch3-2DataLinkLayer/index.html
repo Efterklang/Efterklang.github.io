@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据链路层 Datalink Layer Ⅱ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍数据链路层的 PPP 协议和 MAC 协议"><meta property="og:type" content="article"><meta property="og:title" content="数据链路层 Datalink Layer Ⅱ"><meta property="og:url" content="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍数据链路层的 PPP 协议和 MAC 协议"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/Networks/datalinker2.jpeg"><meta property="article:published_time" content="2024-03-19T06:48:55.000Z"><meta property="article:modified_time" content="2024-06-12T09:55:22.427Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="计算机网络"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/Networks/datalinker2.jpeg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"数据链路层 Datalink Layer Ⅱ","image":[],"datePublished":"2024-03-19T06:48:55.000Z","dateModified":"2024-06-12T09:55:22.427Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍数据链路层的 PPP 协议和 MAC 协议"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据链路层 Datalink Layer Ⅱ - Efterklang</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Efterklang"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Efterklang"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="介绍数据链路层的 PPP 协议和 MAC 协议"><meta property="og:type" content="article"><meta property="og:title" content="数据链路层 Datalink Layer Ⅱ"><meta property="og:url" content="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/"><meta property="og:site_name" content="Efterklang"><meta property="og:description" content="介绍数据链路层的 PPP 协议和 MAC 协议"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://efterklang.github.io/img/thumbnails/Networks/datalinker2.jpeg"><meta property="article:published_time" content="2024-03-19T06:48:55.000Z"><meta property="article:modified_time" content="2024-06-15T04:54:32.230Z"><meta property="article:author" content="Efterklang"><meta property="article:tag" content="计算机网络"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://efterklang.github.io/img/thumbnails/Networks/datalinker2.jpeg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://efterklang.github.io/"},"headline":"数据链路层 Datalink Layer Ⅱ","image":[],"datePublished":"2024-03-19T06:48:55.000Z","dateModified":"2024-06-15T04:54:32.230Z","author":{"@type":"Person","name":"efterklang"},"publisher":{"@type":"Organization","name":"Efterklang","logo":{"@type":"ImageObject","url":{"light":"/img/sunflower.png","dark":"/img/sunflower.png"}}},"description":"介绍数据链路层的 PPP 协议和 MAC 协议"}</script><link rel="canonical" href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/tokyo-night-dark.css"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><meta name="msvalidate.01" content="039770FFD6F5D1B53B42B9D3271EA9B9"><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-HKYTDLW5FP" async></script><script>window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
     
@@ -34,7 +34,10 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Efterklang" type="application/atom+xml">
-</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/Networks/datalinker2.jpeg" alt="数据链路层 Datalink Layer Ⅱ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-03-19T06:48:55.000Z" title="3/19/2024, 2:48:55 PM">2024-03-19</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span><span class="level-item">27 minutes read (About 4036 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/" data-flag-title="数据链路层 Datalink Layer Ⅱ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">数据链路层 Datalink Layer Ⅱ</h1><div class="content"><h2 id="点对点协议-Point-to-Point-Protocol"><a href="#点对点协议-Point-to-Point-Protocol" class="headerlink" title="点对点协议 Point to Point Protocol"></a>点对点协议 Point to Point Protocol</h2><p>一般的用户接入互联网的方式: 连接到某个因特网服务提供者 ISP(中国电信,中国移动.etc),用户计算机获取到 ISP 所分配的合法 IP 地址后,才能成为因特网的一员;PPPoE(PPP over Ethernet)协议在家庭和小型企业中被广泛用于连接到互联网服务提供商</p>
+</head><body class="is-2-column"><script type="text/javascript" src="/js/imaegoo/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/gallery">Gallery</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/onedrive">Onedrive</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i><span>  目录</span></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="github" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/img/thumbnails/Networks/datalinker2.jpeg" alt="数据链路层 Datalink Layer Ⅱ" referrerpolicy="no-referrer"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-03-19T06:48:55.000Z" title="3/19/2024, 2:48:55 PM">2024-03-19</time></span><span class="level-item"><a class="link-muted" href="/categories/UESTC/">UESTC</a><span> / </span><a class="link-muted" href="/categories/UESTC/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span><span class="level-item">an hour read (About 9282 words)</span><span class="level-item leancloud_visitors" id="/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/" data-flag-title="数据链路层 Datalink Layer Ⅱ"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="twikoo_visitors"><i class="fa fa-spinner fa-spin"></i></span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">数据链路层 Datalink Layer Ⅱ</h1><div class="content"><h2 id="Point-to-Point-Protocol"><a href="#Point-to-Point-Protocol" class="headerlink" title="Point to Point Protocol"></a>Point to Point Protocol</h2><p>点对点协议 PPP（Point-to-Point Protocol）是目前使用最广泛的点对点数据链路层协议</p>
+<p>PPP 协议是因特网工程任务组 IEIF 在 1992 年制定的。经过 1993 年和 1994 年的修订，现在的 PPP 协议已成为因特网的正式标准[RFC1661，RFC1662]</p>
+<p>数据链路层使用的一种协议，它的特点是：简单；只检测差错，而不是纠正错；不使用序号，也不进行流量控制；可同时支持多种网络层协议</p>
+<p>一般的用户接入互联网的方式: 连接到某个因特网服务提供者 ISP(中国电信,中国移动.etc),用户计算机获取到 ISP 所分配的合法 IP 地址后,才能成为因特网的一员;PPPoE(PPP over Ethernet)协议在家庭和小型企业中被广泛用于连接到互联网服务提供商</p>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-12-15-55-21.png"></p>
 <p>PPP（Point-to-Point Protocol）是一种网络协议,通常用于在两点之间建立直接连接,例如计算机和互联网服务提供商（ISP）的连接。PPP 可以在各种类型的物理网络上运行,包括串行线、电话线、同轴电缆、全双工光纤传输线路或无线连接等。</p>
 <h3 id="Components-of-PPP"><a href="#Components-of-PPP" class="headerlink" title="Components of PPP"></a>Components of PPP</h3><p><strong>The Link Control Protocol (LCP)</strong>: responsible for establishing, configuring, and testing the link between the two devices. It negotiates link parameters like the maximum frame size and compression type while monitoring the link for errors and drops<br><strong>The Authentication Protocol (AP)</strong>: responsible for verifying the identities of the two devices using a range of authentication methods, including passwords, digital certificates, and biometrics<br><strong>The Network Control Protocol (NCP)</strong>: responsible for negotiating the network layer protocol used to transmit data over the connection, supporting a variety of network layer protocols such as IP, IPX, and AppleTalk!<br><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-18-55-25.png"></a></p>
@@ -51,12 +54,7 @@
 <h3 id="PPP-透明传输"><a href="#PPP-透明传输" class="headerlink" title="PPP 透明传输"></a>PPP 透明传输</h3><p>面向字节的异步链路：字节填充法(插入转义字符)<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-15-34-56.png"><br>面向比特的同步链路：比特填充法(插入比特 0)<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-15-37-14.png"></p>
 <h3 id="差错检测"><a href="#差错检测" class="headerlink" title="差错检测"></a>差错检测</h3><p>能够对接收端收到的帧进行检测,并立即丢弃有差错的帧。因此 PPP 向上层提供的是不可靠传输服务</p>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-15-51-31.png"></p>
-<h3 id="工作状态"><a href="#工作状态" class="headerlink" title="工作状态"></a>工作状态</h3><center>
-
-<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-18-43-26.png"></p>
-</center>
-
-<blockquote>
+<h3 id="工作状态"><a href="#工作状态" class="headerlink" title="工作状态"></a>工作状态</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-18-18-43-26.png"></p>
 <ul>
 <li>Bob initiates a connection by dialing his ISP’s phone number</li>
 <li>Bob’s modem establishes a physical connection with the ISP’s modem over a phone line</li>
@@ -67,9 +65,8 @@
 <li>Once authentication is complete, the two modems exchange NCP packets. So, they determine which network layer protocol will be used to transmit data over the connection</li>
 <li>They agree to use the TCP&#x2F;IP protocol suite</li>
 <li>With the NCP negotiation complete, we can transmit the data between Bob’s computer and the internet using the TCP&#x2F;IP protocol suite through encapsulated frames transmitted over the PPP connection</li>
-<li>Finally, when Bob finishes using the internet, he can terminate the PPP connection by disconnecting the modem or logging off the ISP’s **server<br>*PPP 协议已不是纯粹的数据链路层的协议,它还包含了物理层和网络层的内容*</li>
+<li>Finally, when Bob finishes using the internet, he can terminate the PPP connection by disconnecting the modem or logging off the ISP’s server<br><em>PPP 协议已不是纯粹的数据链路层的协议,它还包含了物理层和网络层的内容</em></li>
 </ul>
-</blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-19-10-51-14.png"></p>
 <h2 id="Multiple-Access-Links-and-Protocols"><a href="#Multiple-Access-Links-and-Protocols" class="headerlink" title="Multiple Access Links and Protocols"></a>Multiple Access Links and Protocols</h2><h3 id="MAC-引入"><a href="#MAC-引入" class="headerlink" title="MAC 引入"></a>MAC 引入</h3><p><strong>局域网的数据链路层</strong></p>
 <ul>
@@ -90,18 +87,20 @@
 <li><strong>逻辑链路控制</strong> LLC (Logical Link Control)子层；</li>
 <li><strong>媒体接入控制</strong> MAC (Medium Access Control)子层。</li>
 </ul>
-<p>与接入到传输媒体有关的内容都放在 MAC 子层,而 LLC 子层则与传输媒体无关。<strong>不管采用何种协议的局域网,对 LLC 子层来说都是透明的。</strong><br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-19-15-39-34.png"></p>
-<p>为什么要媒体接入控制（介质访问控制）？<br><strong>共享信道带来的问题</strong><br>若多个设备在共享信道上同时发送数据,则会造成彼此干扰,导致发送失败。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-22-22-20-50.png" alt="DataLinkLayerPart2-2024-03-22-22-20-50"></p>
-<p><strong>媒体接入控制(MAC)可分为</strong></p>
-<p><strong>1. 静态信道划分 Static Channel Allocation</strong><br>静态信道划分（Static Channel Allocation）是一种通信网络中的资源分配策略,它将可用的频谱资源事先固定地分配给各个用户或者信道。这种方式下,即使某个用户或信道当前没有数据需要传输,其分配的资源也不能被其他用户或信道使用,因此可能导致资源的浪费。谨常在无线网络的物理层中使用</p>
+<p>与接入到传输媒体有关的内容都放在 MAC 子层,而 LLC 子层则与传输媒体无关。<strong>不管采用何种协议的局域网,对 LLC 子层来说都是透明的。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-19-15-39-34.png"></p>
+<p>为什么要媒体接入控制（介质访问控制）？<br><strong>共享信道带来的问题</strong><br>若多个设备在共享信道上同时发送数据,则会造成彼此干扰,导致发送失败。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-22-22-20-50.png"></p>
+<h4 id="信道划分协议"><a href="#信道划分协议" class="headerlink" title="信道划分协议"></a>信道划分协议</h4><p><strong>静态信道划分 Static Channel Allocation</strong><br>静态信道划分（Static Channel Allocation）是一种通信网络中的资源分配策略,它将可用的频谱资源事先固定地分配给各个用户或者信道。这种方式下,即使某个用户或信道当前没有数据需要传输,其分配的资源也不能被其他用户或信道使用,因此可能导致资源的浪费。谨常在无线网络的物理层中使用</p>
 <p>SCA 有三种主要的技术,在这些技术中,每个用户或信道都被分配到一个特定的频率带宽、时间槽或编码。</p>
-<ul>
-<li>频分多址 FDMA,Frequency Division Multiple Access</li>
-<li>时分多址 TDMA,Time Division Multiple Access</li>
-<li>码分多址 CDMA,Code Division Multiple Access</li>
-</ul>
-<p><strong>2. 动态接入控制 Dynamic Access Control</strong></p>
-<p>动态接入控制（Dynamic Access Control）是一种网络通信中的资源分配策略,它根据网络的实时需求动态地分配资源。与静态信道划分（如 FDMA、TDMA、CDMA）相比,动态接入控制可以更有效地利用可用资源。在动态接入控制中,如果一个用户没有数据需要传输,其分配的资源可以被其他用户使用,从而避免了资源的浪费。这种方式需要一个接入控制协议来确定哪些用户可以在哪个时刻使用网络资源。</p>
+<p><strong>频分多址</strong> FDMA,Frequency Division Multiple Access</p>
+<p>将总信道带宽 R b&#x2F;s 划分为 N 个较小信道（频段，带宽为 R&#x2F;N），分别分配给 N 个节点<br>避免冲突、公平：N 个节点公平划分带宽；<br>节点<strong>带宽有限</strong>、效率不高：节点带宽为 R&#x2F;N。</p>
+<p><strong>时分多址</strong> TDMA,Time Division Multiple Access</p>
+<p>其基本思想是将时间划分为时间帧，每个时间帧再划分为 N 个时隙（长度保证发送一个分组），分别分配给 N 个节点。每个节点只在固定分配的时隙中传输</p>
+<p>首先，它能避免冲突，将链路资源进行公平分配，每个节点专用速率 R&#x2F;N b&#x2F;s。<br>其次，节点<strong>速率有限</strong>：R&#x2F;N b&#x2F;s，当其他节点没有数据要传输时，需要发送数据的节点也不能充分利用链路资源；<br>因此，TDMA 的效率不高，节点必须等待它的传输时隙才能发送数据。</p>
+<p><strong>码分多址</strong> CDMA,Code Division Multiple Access</p>
+<p>每个节点分配一个唯一的编码<br>每个节点用它唯一的编码来对它发送的数据进行编码<br>允许多个节点“共存” ，信号可叠加，即可以同时传输数据而无冲突 (如果编码 是“正交化”的)</p>
+<h4 id="动态接入控制-Dynamic-Access-Control"><a href="#动态接入控制-Dynamic-Access-Control" class="headerlink" title="动态接入控制 Dynamic Access Control"></a>动态接入控制 Dynamic Access Control</h4><p>动态接入控制（Dynamic Access Control）是一种网络通信中的资源分配策略,它根据网络的实时需求动态地分配资源。与静态信道划分（如 FDMA、TDMA、CDMA）相比,动态接入控制可以更有效地利用可用资源。在动态接入控制中,如果一个用户没有数据需要传输,其分配的资源可以被其他用户使用,从而避免了资源的浪费。这种方式需要一个接入控制协议来确定哪些用户可以在哪个时刻使用网络资源。</p>
 <ul>
 <li>受控接入 Controlled Access(已经被淘汰)<ul>
 <li>集中控制 Centralized Control</li>
@@ -119,19 +118,19 @@
 <p>The medium access control – commonly referred to as the MAC protocol – is, effectively, a sublayer or MAC sublayer that controls hardware responsible for the communication with a wired, wireless or optical transmission medium.</p>
 <p>The MAC sublayer is part of the two sublayers scheme: data link layer. The other part of the data link layer is the logical link control (LLC) sublayer. The LLC sublayer offers multiplexing and flow control for the logical link, and the MAC sublayer acts as the interface between the LLC sublayer and the physical layer within a transmission medium.<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/DataLinkLayerPart2-2024-03-19-15-02-02.png"></p>
 <p><strong>媒体访问控制（MAC）</strong>是数据通信协议中一种子层,它是数据链路层的一部分。MAC 子层的主要职责是控制设备如何访问网络介质（例如以太网,Wi-Fi）,以便进行有效的信息传输。<br>MAC 地址是一个设备网络接口的唯一标识符。它通常由六组两位十六进制数字组成,例如：<code>00:0A:95:9D:68:16</code>。每个网络设备的 MAC 地址都是全球唯一的,由设备制造商在生产时分配。<br>MAC 地址在网络通信中起着关键作用。当一个设备需要发送数据包到另一个设备时,它会使用目标设备的 MAC 地址来定位它。这是在同一局域网（LAN）内进行通信的基础。</p>
-<h3 id="静态划分信道-Static-Channel-Allocation"><a href="#静态划分信道-Static-Channel-Allocation" class="headerlink" title="静态划分信道 Static Channel Allocation"></a>静态划分信道 Static Channel Allocation</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-25-18-53-09.png"></p>
+<h3 id="Static-Channel-Allocation"><a href="#Static-Channel-Allocation" class="headerlink" title="Static Channel Allocation"></a>Static Channel Allocation</h3><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-25-18-53-09.png"></p>
 <p><strong>复用 (Multiplexing)</strong> 是通信技术中的一个重要概念。复用就是通过一条物理线路同时传输多路用户的信号。当网络中传输媒体的传输容量大于多条单一信道传输的总通信量时,可利用复用技术在一条物理线路上建立多条通信信道来充分利用传输媒体的带宽。</p>
-<h5 id="频分复用-FDM-Frequency-Division-Multiplexing"><a href="#频分复用-FDM-Frequency-Division-Multiplexing" class="headerlink" title="频分复用 FDM (Frequency Division Multiplexing)"></a>频分复用 FDM (Frequency Division Multiplexing)</h5><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-09-41-34.png"></p>
+<h4 id="频分复用-FDM-Frequency-Division-Multiplexing"><a href="#频分复用-FDM-Frequency-Division-Multiplexing" class="headerlink" title="频分复用 FDM (Frequency Division Multiplexing)"></a>频分复用 FDM (Frequency Division Multiplexing)</h4><p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-09-41-34.png"></p>
 <p>将传输线路的频带资源划分成多个子频带,形成多个子信道,各子信道间需要留出隔离频带,以免造成子信道间的十扰。当多路信号输入一个多路复用器时,这个复用器将每一路信号调制到不同频率的载波上。接收端由相应的分用器通过滤波将各路信号分开,将合成的复用信号恢复成原始的多路信号。</p>
-<h5 id="时分复用-TDM-Time-Division-Multiplexing"><a href="#时分复用-TDM-Time-Division-Multiplexing" class="headerlink" title="时分复用 TDM (Time Division Multiplexing)"></a>时分复用 TDM (Time Division Multiplexing)</h5><ul>
+<h4 id="时分复用-TDM-Time-Division-Multiplexing"><a href="#时分复用-TDM-Time-Division-Multiplexing" class="headerlink" title="时分复用 TDM (Time Division Multiplexing)"></a>时分复用 TDM (Time Division Multiplexing)</h4><ul>
 <li><strong>时分复用</strong>则是将时间划分为一段段等长的时分复用帧（TDM 帧）。每一个时分复用的用户在每一个 TDM 帧中占用固定序号的时隙。</li>
 <li>每一个用户所占用的时隙是<strong>周期性地出现</strong>（其周期就是 TDM 帧的长度）的。</li>
 <li>TDM 信号也称为<strong>等时</strong> (isochronous) 信号。</li>
 <li>时分复用的所有用户在不同的时间占用同样的频带宽度。</li>
 </ul>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-09-42-39.png"></p>
-<h5 id="波分复用-WDM-Wavelength-Division-Multiplexing"><a href="#波分复用-WDM-Wavelength-Division-Multiplexing" class="headerlink" title="波分复用 WDM (Wavelength Division Multiplexing)"></a>波分复用 WDM (Wavelength Division Multiplexing)</h5><p>波分复用就是光的频分复用,使用一根光纤来同时传输多个光载波信号;光信号传输一段距离后会衰减,所以要用<strong>掺铒光纤放大器 EDFA(Erbium-Doped Fiber Amplifier)</strong> 放大光信号<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-10-07-39.png"></p>
-<h5 id="码分复用-CDM-Code-Division-Multiplexing"><a href="#码分复用-CDM-Code-Division-Multiplexing" class="headerlink" title="码分复用 CDM (Code Division Multiplexing)"></a>码分复用 CDM (Code Division Multiplexing)</h5><p><strong>码分复用 CDM</strong> 是另一种共享信道的方法。实际上,由于该技术主要用于多址接入,人们更常用的名词是<strong>码分多址 CDMA(Code Division MuItipIe Access)</strong> 同理,频分复用 FDM 和时分复用 TDM 同样可用于多址接入,相应的名词是频分多址 FDMA(Frequency Division Multiple Access) 和时分多址 TDMA(Time Division Multiple Access);与 FDM 和 TDM 不同,CDM 的每一个用户可以在同样的时间使用同样的频带进行通信。由于各用户使用经过特殊挑选的不同码型,因此各用户之间不会造成干扰。CDM 最初是用于军事通信的,因为这种系统所发送的信号有很强的抗干扰能力,其频谱类似于白噪声,不易被敌人发现。随着技术的进步,CDMA 设备的价格和体积都大幅度下降,因而现在已广泛用于民用的移动通信中</p>
+<h4 id="波分复用-WDM-Wavelength-Division-Multiplexing"><a href="#波分复用-WDM-Wavelength-Division-Multiplexing" class="headerlink" title="波分复用 WDM (Wavelength Division Multiplexing)"></a>波分复用 WDM (Wavelength Division Multiplexing)</h4><p>波分复用就是光的频分复用,使用一根光纤来同时传输多个光载波信号;光信号传输一段距离后会衰减,所以要用<strong>掺铒光纤放大器 EDFA(Erbium-Doped Fiber Amplifier)</strong> 放大光信号<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-10-07-39.png"></p>
+<h4 id="码分复用-CDM-Code-Division-Multiplexing"><a href="#码分复用-CDM-Code-Division-Multiplexing" class="headerlink" title="码分复用 CDM (Code Division Multiplexing)"></a>码分复用 CDM (Code Division Multiplexing)</h4><p><strong>码分复用 CDM</strong> 是另一种共享信道的方法。实际上,由于该技术主要用于多址接入,人们更常用的名词是<strong>码分多址 CDMA(Code Division MuItipIe Access)</strong> 同理,频分复用 FDM 和时分复用 TDM 同样可用于多址接入,相应的名词是频分多址 FDMA(Frequency Division Multiple Access) 和时分多址 TDMA(Time Division Multiple Access);与 FDM 和 TDM 不同,CDM 的每一个用户可以在同样的时间使用同样的频带进行通信。由于各用户使用经过特殊挑选的不同码型,因此各用户之间不会造成干扰。CDM 最初是用于军事通信的,因为这种系统所发送的信号有很强的抗干扰能力,其频谱类似于白噪声,不易被敌人发现。随着技术的进步,CDMA 设备的价格和体积都大幅度下降,因而现在已广泛用于民用的移动通信中</p>
 <blockquote>
 <p>复用与多址的概念。可简单理解如下：</p>
 <ul>
@@ -170,13 +169,110 @@ $$
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-15-44-04.png"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-15-47-32.png"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Network/LinkLayer/Ch3-2DataLinkLayer-2024-03-26-15-48-11.png"></p>
-<h3 id="动态接入控制-Dynamic-Access-Control"><a href="#动态接入控制-Dynamic-Access-Control" class="headerlink" title="动态接入控制 Dynamic Access Control"></a>动态接入控制 Dynamic Access Control</h3><h2 id="Switched-Local-Area-Networks"><a href="#Switched-Local-Area-Networks" class="headerlink" title="Switched Local Area Networks"></a>Switched Local Area Networks</h2><p><strong>局域网</strong>：Local Area Network ( LAN )<br>主要特点：网络为一个组织所拥有，且地理范围和站点数目均有限<br>局域网按拓扑结构进行分类：星形网、环形网、总线网、树形网和网状网</p>
+<h3 id="Random-Access-Protocols"><a href="#Random-Access-Protocols" class="headerlink" title="Random Access Protocols"></a>Random Access Protocols</h3><p>基本思想：<br>发送节点以信道全部速率（R b&#x2F;s）发送；发生冲突时，冲突的每个节点分别等待一个随机时间，再重发，直到帧(分组)发送成功。节点间没有协调者</p>
+<p>典型随机访问协议有：</p>
+<ul>
+<li>ALOHA 协议(纯 ALOHA，时隙 ALOHA)</li>
+<li>载波监听多路访问 CSMA 协议</li>
+<li>带冲突检测的载波监听多路访问 CSMA&#x2F;CD</li>
+<li>带冲突避免的载波监听多路访问 CSMA&#x2F;CA</li>
+</ul>
+<h4 id="ALOHA"><a href="#ALOHA" class="headerlink" title="ALOHA"></a>ALOHA</h4><p>ALOHA：夏威夷大学研制的一个无线电广播通信网（20 世纪 70 年代初），采用星型拓扑结构，使地理上分散的用户通过无线电来使用中心主机。<br>中心主机通过下行信道向二级主机广播分组；<br>二级主机通过上行信道向中心主机发送分组（可能会冲突，无线电信道是一个公用信道）。<br>ALOHA 有两种形式：时隙 ALOHA 和纯 ALOHA</p>
+<article class="message is-info">
+        
+        <div class="message-body">
+            <p>ALOHA <code>/ә&#39;lәuhә/</code><br>夏威夷语，指爱慕、恋慕、同情、怜悯、再见、你好</p>
+
+        </div>
+    </article>
+
+<h5 id="非时隙-Aloha"><a href="#非时隙-Aloha" class="headerlink" title="非时隙 Aloha"></a>非时隙 Aloha</h5><p>简单，不需同步</p>
+<ul>
+<li>帧一到达，立即传输;</li>
+<li>如果与其他帧产生冲突，在该冲突帧传完之后：<ul>
+<li>以概率 p 立即重传该帧；</li>
+<li>或等待一个帧的传输时间，再以概率 p 传输该帧，或者以概率 1-p 等待另一个帧的时间。</li>
+</ul>
+</li>
+<li>冲突概率:<br>在 t0 发送的帧，可能和在 [t0-1,t0+1]的发送的其它帧冲突<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-20-25-04.png" style="zoom:50%;"></li>
+</ul>
+<p><strong>纯 Aloha 效率</strong></p>
+<p>假设有 N 个节点，每个节点在时隙以概率 p 发送</p>
+<div>
+$$
+P(给定节点成功传送) \\
+                    = p \times P(没有其他节点在[t0-1,t0]内传送) \times P(没有其他节点在[t0,t0 +1]内传送)\\
+                    = p \times (1-p)^{N-1} \times (1-p)^{N-1}\\
+                    = p \times (1-p)^{2(N-1)}\\
+E(p) = Np(1-p)^{2(N-1)}
+$$
+</div>
+
+<h5 id="时隙-ALOHA"><a href="#时隙-ALOHA" class="headerlink" title="时隙 ALOHA"></a>时隙 ALOHA</h5><p>假设</p>
+<ul>
+<li>所有帧大小相同</li>
+<li>时间被划分为相同大小的时隙，一个时隙等于传送一帧的时间</li>
+<li>节点只能在一个时隙的开始才能传送</li>
+<li>节点需要同步</li>
+<li>如果一个时隙有多个节点同时传送，所有节点都能检测到冲突</li>
+</ul>
+<p>在每个节点中，时隙 ALOHA 的操作如下</p>
+<ul>
+<li>当节点要发送新帧，它等到下一时隙开始时传送</li>
+<li>如果没有碰撞，该节点成功地传输它的帧，从而不需要考虑重传该帧；</li>
+<li>如果有冲突，节点在随后的时隙以概率 p 重传该帧，直到成功为止。</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-20-50-37.png" style="zoom:80%;">
+
+<ul>
+<li>Pros<ul>
+<li>单个活跃节点可以持续以满速率传送帧</li>
+<li>具有高分散性: 只需节点的时隙同步</li>
+<li>简单</li>
+</ul>
+</li>
+<li>Cons<ul>
+<li>冲突，浪费时隙</li>
+<li>空闲时隙</li>
+<li>节点只有在传输数据包时才能检测到冲突</li>
+</ul>
+</li>
+</ul>
+<p><strong>时隙 Aloha 的效率</strong><br>假设有 N 个节点，每个节点在时隙以概率 p 发送<br>一个节点在一个时隙成功传送的概率 为$p(1-p)^{N-1}$<br>任一节点传送成功的概率 $Np(1-p)^{N-1}$</p>
+<h4 id="载波侦听多路访问-CSMA"><a href="#载波侦听多路访问-CSMA" class="headerlink" title="载波侦听多路访问 CSMA"></a>载波侦听多路访问 CSMA</h4><p><strong>载波侦听</strong>：某个节点在发送之前，先监听信道。</p>
+<ul>
+<li>信道忙：有其他节点正往信道发送帧，该节点随机等待（回退）一段时间，然后再侦听信道。</li>
+<li>信道空：该节点开始传输整个数据帧。</li>
+</ul>
+<p><strong>CSMA 的特点：</strong></p>
+<ul>
+<li>发前监听，可减少冲突。</li>
+<li>由于传播时延的存在，仍有可能出现冲突，并造成信道浪费,例如<ul>
+<li>时间 t0：节点 B 侦听到信道空，开始传输帧，沿着媒体传播比特。</li>
+<li>时间 t1（t1&gt;t0）：节点 D 有帧要发送。B 的传输信号未到 D，D 检测到信道空，开始传输。很快，B 的传输开始在 D 节点干扰 D 的传输。传播时延越长，节点不能侦听到另一个节点已经开始传输的可能性越大。</li>
+</ul>
+</li>
+</ul>
+<h4 id="带冲突检测的载波监听多路访问-CSMA-CD"><a href="#带冲突检测的载波监听多路访问-CSMA-CD" class="headerlink" title="带冲突检测的载波监听多路访问 CSMA&#x2F;CD"></a>带冲突检测的载波监听多路访问 CSMA&#x2F;CD</h4><ul>
+<li>增加“载波侦听”和“冲突检测”两个规则。</li>
+<li>基本原理： 传送前侦听<ul>
+<li>信道忙：延迟传送</li>
+<li>信道闲：传送整个帧</li>
+</ul>
+</li>
+<li>发送同时进行冲突检测：一旦检测到冲突就立即停止传输，尽快重发。</li>
+<li>目的：缩短无效传送时间，提高信道的利用率。</li>
+</ul>
+<h2 id="Switched-Local-Area-Networks"><a href="#Switched-Local-Area-Networks" class="headerlink" title="Switched Local Area Networks"></a>Switched Local Area Networks</h2><p><strong>局域网</strong>：Local Area Network ( LAN )<br>主要特点：网络为一个组织所拥有，且地理范围和站点数目均有限<br>局域网按拓扑结构进行分类：星形网、环形网、总线网、树形网和网状网</p>
 <ul>
 <li>多址访问协议广泛应用于局域网</li>
 <li>基于随机访问的 CSMA&#x2F;CD 广泛应用于局域网</li>
 <li>基于令牌传递技术的令牌环和 FDDI 在局域网技术中变得次要或被淘汰</li>
 <li>链路层技术的发展，使得局域网、城域网、广域网的概念变得越来越模糊和不重要</li>
 </ul>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-21-02-04.png" style="zoom:100%;">
+
+<p>计算机与局域网通过网络接口板进行连接，网络接口板又称通信适配器（Adapter）或网络接口卡 NIC（Network Interface Card），通常我们称为“网卡”。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-21-06-57.png" style="zoom:50%;"></p>
 <h3 id="Link-Layer-Addressing-and-ARP"><a href="#Link-Layer-Addressing-and-ARP" class="headerlink" title="Link-Layer Addressing and ARP"></a>Link-Layer Addressing and ARP</h3><p>每个节点有网络层地址和链路层地址。</p>
 <ul>
 <li>网络层地址：节点在网络中分配的一个唯一地址（IP 地址）。用于把分组送到目的 IP 网络。长度为 32 比特（IPv4）。</li>
@@ -189,7 +285,118 @@ $$
 </ul>
 </li>
 </ul>
-</div><div class="article-licensing box"><div class="licensing-title"><p>数据链路层 Datalink Layer Ⅱ</p><p><a href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/">https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-03-19</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-06-12</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E6%A6%82%E8%BF%B0/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ARM指令集概述</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/OS/Ch2-4Thread/"><span class="level-item">Thread</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
+<p><strong>MAC Address 分配</strong></p>
+<p>由专门机构 IEEE 管理物理地址空间，负责分配六个字节中的前三个字节（高 24 位，地址块）；后三个字节由制造商决定（低 24 位，地址序列）。</p>
+<ul>
+<li>MAC 地址是平面结构，带有同一网卡的节点，在任何网络中都有同样的 MAC 地址。</li>
+<li>IP 地址具有层次结构，当节点移动到不同网络时，节点的 IP 地址发生改变。</li>
+</ul>
+<p><strong>MAC Address 识别</strong></p>
+<p>广播信道的局域网中，一个节点发送的帧，在信道上广播传输，其他节点都可能收到该帧。<br>大多数情况，一个节点只向某个特定的节点发送。</p>
+<p>由“网卡”负责 MAC 地址的封装和识别。</p>
+<ul>
+<li>发送适配器：将目的 MAC 地址封装到帧中，并发送。所有其他适配器都会收到这个帧。</li>
+<li>接收适配器：检查帧的目的 MAC 地址是否与自己 MAC 地址相匹配：<ul>
+<li>匹配：接收该帧，取出数据报，并传递给上层。</li>
+<li>不匹配：丢弃该帧。</li>
+</ul>
+</li>
+</ul>
+<p>广播帧：发送给所有节点的帧 <code>FF-FF-FF-FF-FF-FF</code></p>
+<article class="message is-info">
+        
+        <div class="message-body">
+            <p><strong>地址之间的转换</strong><br>主机名 - IP 地址 - MAC 地址</p>
+<ul>
+<li>DNS 域名系统：将主机名解析到 IP 地址。<ul>
+<li>DNS 为在因特网中任何地方的主机解析主机名。</li>
+</ul>
+</li>
+<li>ARP 地址解析协议：将 IP 地址解析到 MAC 地址。<ul>
+<li>ARP 只为在同一个 LAN 上的节点解析 IP 地址。</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </article>
+
+<h3 id="Address-Resolution-Protocol-ARP"><a href="#Address-Resolution-Protocol-ARP" class="headerlink" title="Address Resolution Protocol (ARP)"></a>Address Resolution Protocol (ARP)</h3><p>局域网上的每个节点（主机，路由器）都会维护一个 <strong>ARP 表</strong>，这个表中会记录节点当前所知的 IP 地址到 MAC 地址的映射信息</p>
+<ul>
+<li>为某些局域网节点进行 IP&#x2F;MAC 地址映射：<code>&lt; IP address; MAC address; TTL&gt;</code></li>
+<li>TTL (存活时间): 地址映射将被删除的时间（通常为 20 分钟）</li>
+</ul>
+<h4 id="Sending-a-Datagram-in-Subnet"><a href="#Sending-a-Datagram-in-Subnet" class="headerlink" title="Sending a Datagram in Subnet"></a>Sending a Datagram in Subnet</h4><p>假设<strong>同一个局域网</strong>中主机 A 希望发送数据报给主机 B，</p>
+<ul>
+<li>主机 A 首先查找自己维护的 ARP 表，看是否存在 B 的 MAC 地址</li>
+<li>假设 B 的 MAC 地址不在 A 的 ARP 映射表中。则主机 A 首先广播 ARP 查询分组,其中包含 B 的 IP 地址，查询分组是个广播帧，即目的 MAC 地址是<code>FF-FF-FF-FF-FF-FF</code></li>
+<li>因此局域网中所有节点收到 ARP 查询分组，其余主机发现查询的不是本机的 MAC 地址，因此不进行回应。</li>
+<li>只有主机 B 收到 ARP 查询分组后，返回 B 的 MAC 地址给主机 A，包含有 B 的 MAC 地址的帧发送给主机 A(单播)。</li>
+<li>于是，主机 A 在自己的 ARP 表中缓存 B 主机的 IP 地址和 MAC 地址。</li>
+<li>这里需要说明的是，ARP 是即插即用的，即局域网中动态的增加或减少主机，不需要管理员进行额外的手工干预。</li>
+</ul>
+<h4 id="Sending-a-Datagram-off-the-Subnet"><a href="#Sending-a-Datagram-off-the-Subnet" class="headerlink" title="Sending a Datagram off the Subnet"></a>Sending a Datagram off the Subnet</h4><p>假设发送数据报到<strong>子网以外</strong></p>
+<p>在整个传输过程中，数据报的源 IP 地址和目的 IP 地址是不会发生改变的，改变的只是数据帧的源和目的 MAC 地址。</p>
+<ul>
+<li>主机 A 构建 IP 数据报，源地址是 A 的 IP 地址，目的地址是 B 的 IP 地址</li>
+<li>主机 A 构建链路层数据帧，目的 MAC 地址是自己下一跳（假设为 R）的 MAC 地址，源 MAC 地址是 A 的 MAC 地址</li>
+<li>数据帧从主机 A 发送到路由器 R,路由器 R 收到数据帧，抽取出数据报递交到 IP 层</li>
+<li>路由器 R 转发数据报，源地址为 A 的 IP 地址，目的地址为 B 的 IP 地址。源 MAC 为 R 的 MAC 地址，目的 MAC 为下一跳的 MAC 地址。路由器 R 将该数据报封装成链路层帧并发送</li>
+<li>直至数据报到达目的地址 B，B 接收到数据报，递交到 IP 层</li>
+</ul>
+<h3 id="Ethernet"><a href="#Ethernet" class="headerlink" title="Ethernet"></a>Ethernet</h3><p>最初的以太网是采用同轴电缆来连接各个设备的，如今则广泛使用双绞线、光纤等。如今的无线局域网 wifi 也使用了若干以太网的技术和规范</p>
+<p>以太网是目前为止，最为成功的一种有线局域网技术。<br>以太网成功的原因，主要包括如下三点：</p>
+<ul>
+<li>它是第一个广泛使用的局域网技术；</li>
+<li>以太网非常简单，而且相关设备也很便宜；</li>
+<li>以太网的版本不断更新，数据传输速率更高、成本更低。</li>
+</ul>
+<p>这是当年以太网设计者画的草图。</p>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-21-29-48.png" style="zoom:100%;" alt="Metcalfe’s Ethernet sketch">
+
+<p><strong>以太网的物理拓扑结构</strong></p>
+<ul>
+<li>bus:一直流行到 90 年代中期;所有节点都属于相同的冲突域</li>
+<li>star:中心是交换机;每个端口运行一个独立的以太网协议(节点相互之间不发生碰撞)</li>
+</ul>
+<h4 id="Ethernet-Frame-Structure"><a href="#Ethernet-Frame-Structure" class="headerlink" title="Ethernet Frame Structure"></a>Ethernet Frame Structure</h4><p>以太网的帧结构，如图所示，包括了前同步码、目的 MAC 地址、源 MAC 地址、类型、数据和 CRC 校验码。<br>注意这里 CRC 检验的数据只包含目的 MAC 地址、源 MAC 地址、类型、数据四部分。</p>
+<img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-21-38-19.png" style="zoom:100%;">
+
+<p>发送方：发送适配器将 IP 数据报封装成以太网帧，并传递到物理层。<br>接收方：接收适配器从物理层收到该帧，取出 IP 数据报，并传递给网络层。</p>
+<p><strong>前同步码 Preamble</strong><br>前 7 字节是“10101010”，最后一个字节是“10101011”。<br>使接收方和发送方的时钟同步，接收方一旦收到连续的 8 字节前同步码，可确定有帧传过来。<br>前同步码是“无效信号”，接收方收到后删除，不向上层传。<br>CRC 的校验范围不包括前同步码。</p>
+<p><strong>源、目的 MAC 地址</strong></p>
+<p>同一以太网 LAN 中两台主机通信。<br>主机 A 向主机 B 发送一个 IP 数据报。<br>主机 A 适配器的 MAC 地址：XX-XX-XX-XX-XX-XX<br>主机 B 适配器的 MAC 地址：YY-YY-YY-YY-YY-YY<br>适配器 B 只接收目的 MAC 地址与自己 MAC 地址匹配的数据帧或广播地址的数据帧，并将数据字段的内容传递给网络层。否则，丢弃该帧。</p>
+<p><strong>类型字段</strong></p>
+<p>以太网可以“多路复用”（支持）多种网络层协议。通过“类型”字段区分。绝大多数这里的类型是指 IP 协议。<br>发送方填入网络层协议“类型”编号；<br>接收适配器根据“类型”字段，将数据字段传递给相应的网络层协议。</p>
+<p><strong>数据字段(46 ～ 1500 字节)</strong></p>
+<p>携带网络层传来的 IP 数据报<br>以太网的最大传输单元 MTU 是 1500 字节：<br>若 IP 数据报超过 1500 字节，必须将该数据报分段。<br>最小长度是 46 字节：<br>如果 IP 数据报小于 46 字节，必须填充为 46 字节。接收方网络层去除填充内容。</p>
+<p><strong>循环冗余检测 CRC(4 字节)</strong></p>
+<p>检测数据帧中是否出现比特差错（翻转）。<br>发送主机计算 CRC：范围包括目的地址、源地址、类型、数据字段的比特，结果放入帧 CRC 字段。<br>接收主机进行 CRC 校验：接收主机对收到的帧进行同样计算，并校验结果是否和 CRC 字段的内容相等。若计算结果不等于 CRC 字段的值(CRC 校验失败)，该帧有差错。</p>
+<hr>
+<p><strong>以太网向网络层提供的服务</strong><br>无连接服务：通信时，发送方适配器不需要先和接收方适配器“握手”。<br>不可靠的服务：接收到的帧可能包含比特差错。<br>收到正确帧，不发确认帧；收到出错帧，丢弃该帧，不发否定帧。<br>发送适配器不会重发出错帧。<br>丢弃数据的恢复是通过终端传输层的可靠数据传输机制来实现的<br>以太网的 MAC 协议：以太网的 MAC 协议采用的是带二进制指数回退的 CSMA&#x2F;CD 协议</p>
+<h3 id="Link-Layer-Switches"><a href="#Link-Layer-Switches" class="headerlink" title="Link-Layer Switches"></a>Link-Layer Switches</h3><p>交换机是属于链路层的设备，其主要作用是存储转发数据帧，对于到达交换机的数据帧，交换机首先检查其目的 MAC 地址，然后根据 MAC 地址，有选择的将数据帧转发到一个或多个输出链路；<br>如果输出链路是一个共享网段，将使用 CSMA&#x2F;CD 来访问共享链路。<br><img src="https://cdn.jsdelivr.net/gh/Efterklang/imageBed@master/Ch3-2DataLinkLayer-2024-06-14-21-46-10.png" style="zoom:80%;"><br>在这幅图中 A、B、C 主机和交换机的端口 1 由集线器设备互连，因此这里，A、B、C 主机和交换机的端口 1 构成了一个共享网段，在共享链路发送数据帧，需要用到前面所说的以太网链路访问协议 CSMA&#x2F;CD。<br>链路层交换机的第二个特点是透明，这里的透明是指的当一个主机向另一个主机发送数据帧时，它并不会知道某个交换机会收到这个数据帧，并将其转发到另一个节点。<br>交换机的第三个特点是即插即用和自学习，也就是说交换机是不需要手工配置的，插上就可以用</p>
+<p>在组网时加入交换机后，可以支持多个节点同时传输数据帧。每个主机由单独的链路与交换机端口相连，因此交换机每个端口对应的链路和主机是一个独立的碰撞域。每个交换机有一个交换机转发表，其中每个条目格式为<code>(主机的MAC地址，到达主机的端口，时戳)</code>，通过自学习建立交换机转发表。</p>
+<p>交换机会学习通过哪些端口可以到达哪些主机</p>
+<ul>
+<li>当收到数据帧时，交换机“学习”发送主机的位置：进入的局域网网段(到达端口)</li>
+<li>在转发表中记录发送主机&#x2F;位置对</li>
+</ul>
+<p><strong>交换机收到数据帧后的操作</strong></p>
+<ul>
+<li>记录到达链路和发送主机的 MAC 地址</li>
+<li>使用数据帧的目的 MAC 地址，在转发表中检索</li>
+<li>如果在转发表条目中找到对应的 MAC 地址</li>
+<li>如果目的 MAC 地址对应的端口与数据帧的达到端口相同则丢弃该数据帧，否则转发该数据帧到条目指定的端口</li>
+<li>如果在转发表条目中未找到对应的 MAC 地址，向除到达端口之外的所有端口转发(flood)</li>
+</ul>
+<h4 id="Switch-vs-Router"><a href="#Switch-vs-Router" class="headerlink" title="Switch vs Router"></a>Switch vs Router</h4><p><strong>两者都是存储转发设备</strong><br>路由器: 网络层设备(检查网络层头部)<br>交换机：链路层设备(检查链路层头部)<br><strong>两者都有转发表</strong><br>路由器：使用路由算法计算转发表，基于 IP 地址转发<br>交换机：通过泛洪、自学习来学习转发表，基于 MAC 地址转发</p>
+<h3 id="Virtual-Local-Area-Networks-VLANs"><a href="#Virtual-Local-Area-Networks-VLANs" class="headerlink" title="Virtual Local Area Networks (VLANs)"></a>Virtual Local Area Networks (VLANs)</h3><p>VLAN（Virtual Local Area Network，虚拟局域网）是一种在网络工程中广泛采用的局域网组织方法，它允许在物理网络的基础上创建多个逻辑上的独立网络，即广播域。VLAN 技术通过将一个物理网络划分成多个逻辑上的子网段，增强了网络管理的灵活性、安全性和效率。</p>
+<p><strong>VLAN 的基本原理</strong><br>逻辑分隔：VLAN 使得网络管理者可以根据业务需求、应用需求或安全性要求，而非物理位置，来组织用户和资源。即便是在同一台交换机上连接的设备，也可以被分配到不同的 VLAN 中，彼此之间在数据链路层（第二层）是隔离的，无法直接通信。</p>
+<p>广播控制：每个 VLAN 构成一个独立的广播域，有效限制了广播流量的范围，减少了网络拥堵，提高了网络性能。</p>
+<p>灵活配置：VLAN 成员资格可以静态配置，即手动指定交换机端口属于哪个 VLAN；也可以动态配置，如基于 MAC 地址、IP 子网或用户身份自动分配 VLAN。</p>
+<p><strong>VLAN 间通信</strong>：为了使不同 VLAN 之间的设备能够通信，需要通过路由器、三层交换机或 VLAN 间路由技术（如 VLAN Trunking、802.1Q 标签、VLAN 间路由协议等）来实现。</p>
+<p><strong>VLAN 的类型：</strong><br>静态 VLAN：基于端口分配，网络管理员手动配置交换机端口所属的 VLAN。<br>动态 VLAN：根据设备的 MAC 地址、IP 子网或是用户认证信息自动分配 VLAN，包括基于 MAC 的 VLAN、基于 IP 子网的 VLAN 和基于用户的 VLAN。<br><strong>VLAN 的优势：</strong><br>增强网络安全性：通过隔离广播域减少安全风险。<br>提高网络效率：限制不必要的广播流量，优化带宽使用。<br>简化网络管理：逻辑上组织网络，便于调整网络布局而不影响物理布线。<br>增强网络灵活性：支持移动、添加和更改网络设备，而无需重新配置物理网络。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>数据链路层 Datalink Layer Ⅱ</p><p><a href="https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/">https://efterklang.github.io/UESTC/ComputerNetworking/Ch3-2DataLinkLayer/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Efterklang</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-03-19</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2024-06-15</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><!--!--></article></div><!--!--><div class="card"><nav class="post-navigation mt-4 level is-mobile card-content"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/UESTC/ARM-Processor/Ch3-1ARM%E6%8C%87%E4%BB%A4%E6%A6%82%E8%BF%B0/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ARM指令集概述</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/UESTC/OS/Ch2-4Thread/"><span class="level-item">Thread</span><i class="level-item fas fa-chevron-right"></i></a></div></nav></div><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content twikoo" id="twikoo"></div><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script>twikoo.init({
       envId: 'https://efterklang-twikoo.hf.space',
       onCommentLoaded: function () {
         var commentContents = document.getElementsByClassName('tk-content');
@@ -215,7 +422,7 @@ $$
           }
         }
       }
-    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#点对点协议-Point-to-Point-Protocol"><span class="level-left"><span class="level-item">1</span><span class="level-item">点对点协议 Point to Point Protocol</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Components-of-PPP"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">Components of PPP</span></span></a></li><li><a class="level is-mobile" href="#PPP-的主要特性和功能"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">PPP 的主要特性和功能</span></span></a></li><li><a class="level is-mobile" href="#PPP-帧格式"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">PPP 帧格式</span></span></a></li><li><a class="level is-mobile" href="#PPP-透明传输"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">PPP 透明传输</span></span></a></li><li><a class="level is-mobile" href="#差错检测"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">差错检测</span></span></a></li><li><a class="level is-mobile" href="#工作状态"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">工作状态</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Multiple-Access-Links-and-Protocols"><span class="level-left"><span class="level-item">2</span><span class="level-item">Multiple Access Links and Protocols</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#MAC-引入"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">MAC 引入</span></span></a></li><li><a class="level is-mobile" href="#MAC-定义"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">MAC 定义</span></span></a></li><li><a class="level is-mobile" href="#静态划分信道-Static-Channel-Allocation"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">静态划分信道 Static Channel Allocation</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#码分复用-CDM-Code-Division-Multiplexing"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">码分复用 CDM (Code Division Multiplexing)</span></span></a></li></ul></li><li><a class="level is-mobile" href="#动态接入控制-Dynamic-Access-Control"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">动态接入控制 Dynamic Access Control</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Switched-Local-Area-Networks"><span class="level-left"><span class="level-item">3</span><span class="level-item">Switched Local Area Networks</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Link-Layer-Addressing-and-ARP"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">Link-Layer Addressing and ARP</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">28</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Essay/"><span class="level-start"><span class="level-item">Essay</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/Essay/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Essay/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">37</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">ARM处理器体系结构及应用</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">操作系统</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">计算机网络</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+    });</script></div></div></div><style>.column.column-left,.column.column-right{display:none}</style><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Point-to-Point-Protocol"><span class="level-left"><span class="level-item">1</span><span class="level-item">Point to Point Protocol</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Components-of-PPP"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">Components of PPP</span></span></a></li><li><a class="level is-mobile" href="#PPP-的主要特性和功能"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">PPP 的主要特性和功能</span></span></a></li><li><a class="level is-mobile" href="#PPP-帧格式"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">PPP 帧格式</span></span></a></li><li><a class="level is-mobile" href="#PPP-透明传输"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">PPP 透明传输</span></span></a></li><li><a class="level is-mobile" href="#差错检测"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">差错检测</span></span></a></li><li><a class="level is-mobile" href="#工作状态"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">工作状态</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Multiple-Access-Links-and-Protocols"><span class="level-left"><span class="level-item">2</span><span class="level-item">Multiple Access Links and Protocols</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#MAC-引入"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">MAC 引入</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#信道划分协议"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">信道划分协议</span></span></a></li><li><a class="level is-mobile" href="#动态接入控制-Dynamic-Access-Control"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">动态接入控制 Dynamic Access Control</span></span></a></li></ul></li><li><a class="level is-mobile" href="#MAC-定义"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">MAC 定义</span></span></a></li><li><a class="level is-mobile" href="#Static-Channel-Allocation"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">Static Channel Allocation</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#频分复用-FDM-Frequency-Division-Multiplexing"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">频分复用 FDM (Frequency Division Multiplexing)</span></span></a></li><li><a class="level is-mobile" href="#时分复用-TDM-Time-Division-Multiplexing"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">时分复用 TDM (Time Division Multiplexing)</span></span></a></li><li><a class="level is-mobile" href="#波分复用-WDM-Wavelength-Division-Multiplexing"><span class="level-left"><span class="level-item">2.3.3</span><span class="level-item">波分复用 WDM (Wavelength Division Multiplexing)</span></span></a></li><li><a class="level is-mobile" href="#码分复用-CDM-Code-Division-Multiplexing"><span class="level-left"><span class="level-item">2.3.4</span><span class="level-item">码分复用 CDM (Code Division Multiplexing)</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Random-Access-Protocols"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">Random Access Protocols</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ALOHA"><span class="level-left"><span class="level-item">2.4.1</span><span class="level-item">ALOHA</span></span></a></li><li><a class="level is-mobile" href="#载波侦听多路访问-CSMA"><span class="level-left"><span class="level-item">2.4.2</span><span class="level-item">载波侦听多路访问 CSMA</span></span></a></li><li><a class="level is-mobile" href="#带冲突检测的载波监听多路访问-CSMA-CD"><span class="level-left"><span class="level-item">2.4.3</span><span class="level-item">带冲突检测的载波监听多路访问 CSMA/CD</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#Switched-Local-Area-Networks"><span class="level-left"><span class="level-item">3</span><span class="level-item">Switched Local Area Networks</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Link-Layer-Addressing-and-ARP"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">Link-Layer Addressing and ARP</span></span></a></li><li><a class="level is-mobile" href="#Address-Resolution-Protocol-ARP"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">Address Resolution Protocol (ARP)</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Sending-a-Datagram-in-Subnet"><span class="level-left"><span class="level-item">3.2.1</span><span class="level-item">Sending a Datagram in Subnet</span></span></a></li><li><a class="level is-mobile" href="#Sending-a-Datagram-off-the-Subnet"><span class="level-left"><span class="level-item">3.2.2</span><span class="level-item">Sending a Datagram off the Subnet</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Ethernet"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">Ethernet</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Ethernet-Frame-Structure"><span class="level-left"><span class="level-item">3.3.1</span><span class="level-item">Ethernet Frame Structure</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Link-Layer-Switches"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">Link-Layer Switches</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Switch-vs-Router"><span class="level-left"><span class="level-item">3.4.1</span><span class="level-item">Switch vs Router</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Virtual-Local-Area-Networks-VLANs"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">Virtual Local Area Networks (VLANs)</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Dev/"><span class="level-start"><span class="level-item">Dev</span></span><span class="level-end"><span class="level-item tag">28</span></span></a><ul><li><a class="level is-mobile" href="/categories/Dev/DataBase/"><span class="level-start"><span class="level-item">DataBase</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/FrontEnd/"><span class="level-start"><span class="level-item">FrontEnd</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Git/"><span class="level-start"><span class="level-item">Git</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/Others/"><span class="level-start"><span class="level-item">Others</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Dev/VSCode/"><span class="level-start"><span class="level-item">VSCode</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Essay/"><span class="level-start"><span class="level-item">Essay</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/Essay/Game/"><span class="level-start"><span class="level-item">Game</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Essay/Poems/"><span class="level-start"><span class="level-item">Poems</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/UESTC/"><span class="level-start"><span class="level-item">UESTC</span></span><span class="level-end"><span class="level-item tag">38</span></span></a><ul><li><a class="level is-mobile" href="/categories/UESTC/ARM%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">ARM处理器体系结构及应用</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">操作系统</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">数据库原理及应用</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/UESTC/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">计算机网络</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2024/06/"><span class="level-start"><span class="level-item">June 2024</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/05/"><span class="level-start"><span class="level-item">May 2024</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/03/"><span class="level-start"><span class="level-item">March 2024</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/02/"><span class="level-start"><span class="level-item">February 2024</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">January 2024</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></div></div></div></div><style>.column.column-left,.column.column-right{display:block}</style></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img class="logo-img" src="/img/sunflower.png" alt="Efterklang" height="28"><img class="logo-img-dark" src="/img/sunflower.png" alt="Efterklang" height="28"></a><p class="is-size-7"><span>&copy; 2024 Efterklang</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/imaegoo/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Efterklang"><i class="fab fa-github"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,
