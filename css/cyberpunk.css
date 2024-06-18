@@ -5214,33 +5214,33 @@ fieldset[disabled] .button {
 }
 .container.is-fluid {
   max-width: none;
-  padding-left: 62px;
-  padding-right: 62px;
+  padding-left: 12px;
+  padding-right: 12px;
   width: 100%;
 }
 @media screen and (min-width: 1088px) {
   .container {
-    max-width: 964px;
+    max-width: 1064px;
   }
 }
 @media screen and (max-width: 1279px) {
   .container.is-widescreen {
-    max-width: 1156px;
+    max-width: 1256px;
   }
 }
 @media screen and (max-width: 1471px) {
   .container.is-fullhd {
-    max-width: 1348px;
+    max-width: 1448px;
   }
 }
 @media screen and (min-width: 1280px) {
   .container {
-    max-width: 1156px;
+    max-width: 1256px;
   }
 }
 @media screen and (min-width: 1472px) {
   .container {
-    max-width: 1348px;
+    max-width: 1448px;
   }
 }
 .content li + li {
@@ -11655,18 +11655,18 @@ figure.highlight.foldable div.level-left {
 @media screen and (min-width: 1280px) {
   .is-1-column .container,
   .is-2-column .container {
-    max-width: 964px;
-    width: 964px;
+    max-width: 1064px;
+    width: 1064px;
   }
 }
 @media screen and (min-width: 1472px) {
   .is-2-column .container {
-    max-width: 1156px;
-    width: 1156px;
+    max-width: 1256px;
+    width: 1256px;
   }
   .is-1-column .container {
-    max-width: 964px;
-    width: 964px;
+    max-width: 1064px;
+    width: 1064px;
   }
 }
 @media screen and (min-width: 769px), print {
