@@ -10762,6 +10762,7 @@ body > .section {
 .card {
   overflow: visible;
   border-radius: 15px;
+  background-color: rgba(248,244,237,0.716);
 }
 .card + .card,
 .card + .column-right-shadow {
@@ -11932,6 +11933,102 @@ article .title:hover a {
 }
 body.night {
   background: #0e1225;
+/* Red */
+/*INFO: This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red */
+/*Orange */
+/*INFO: Number and Boolean constants, Language support constants */
+/*  Yellow */
+/* INFO:  	Function parameters, Regex character sets, Terminal Yellow */
+/* cyan */
+/* INFO: Language support functions, CSS HTML elements */
+/* light blue */
+/* INFO: Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords */
+/*Green*/
+/* INFO: Object literal keys, Markdown links, Terminal Green */
+/*Green(er) */
+/* INFO: Strings, CSS class names */
+/* Blue */
+/* INFO:  	Function names, CSS property names, Terminal Blue */
+/* Magenta */
+/*INFO: Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta */
+/* white*/
+/* INFO: Variables, Class names, Terminal White */
+}
+body.night .hljs-meta,
+body.night .hljs-comment {
+  color: #565f89;
+}
+body.night .hljs-tag,
+body.night .hljs-doctag,
+body.night .hljs-selector-id,
+body.night .hljs-selector-class,
+body.night .hljs-regexp,
+body.night .hljs-template-tag,
+body.night .hljs-selector-pseudo,
+body.night .hljs-selector-attr,
+body.night .hljs-variable.language_,
+body.night .hljs-deletion {
+  color: #f7768e;
+}
+body.night .hljs-variable,
+body.night .hljs-template-variable,
+body.night .hljs-number,
+body.night .hljs-literal,
+body.night .hljs-type,
+body.night .hljs-params,
+body.night .hljs-link {
+  color: #ff9e64;
+}
+body.night .hljs-built_in,
+body.night .hljs-attribute {
+  color: #e0af68;
+}
+body.night .hljs-selector-tag {
+  color: #2ac3de;
+}
+body.night .hljs-keyword,
+body.night .hljs-title.function_,
+body.night .hljs-title,
+body.night .hljs-title.class_,
+body.night .hljs-title.class_.inherited__,
+body.night .hljs-subst,
+body.night .hljs-property {
+  color: #7dcfff;
+}
+body.night .hljs-selector-tag {
+  color: #73daca;
+}
+body.night .hljs-quote,
+body.night .hljs-string,
+body.night .hljs-symbol,
+body.night .hljs-bullet,
+body.night .hljs-addition {
+  color: #9ece6a;
+}
+body.night .hljs-code,
+body.night .hljs-formula,
+body.night .hljs-section {
+  color: #7aa2f7;
+}
+body.night .hljs-name,
+body.night .hljs-keyword,
+body.night .hljs-operator,
+body.night .hljs-char.escape_,
+body.night .hljs-attr {
+  color: #bb9af7;
+}
+body.night .hljs-punctuation {
+  color: #c0caf5;
+}
+body.night .hljs {
+  background: #1a1b26;
+  color: #9aa5ce;
+}
+body.night .hljs-emphasis {
+  font-style: italic;
+}
+body.night .hljs-strong {
+  font-weight: bold;
 }
 body.night .content code {
   color: #f7768e;
@@ -12241,6 +12338,102 @@ body.night .twikoo code {
 @media (prefers-color-scheme: dark) {
   body:not(.light) {
     background: #0e1225;
+/* Red */
+/*INFO: This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red */
+/*Orange */
+/*INFO: Number and Boolean constants, Language support constants */
+/*  Yellow */
+/* INFO:  	Function parameters, Regex character sets, Terminal Yellow */
+/* cyan */
+/* INFO: Language support functions, CSS HTML elements */
+/* light blue */
+/* INFO: Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords */
+/*Green*/
+/* INFO: Object literal keys, Markdown links, Terminal Green */
+/*Green(er) */
+/* INFO: Strings, CSS class names */
+/* Blue */
+/* INFO:  	Function names, CSS property names, Terminal Blue */
+/* Magenta */
+/*INFO: Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta */
+/* white*/
+/* INFO: Variables, Class names, Terminal White */
+  }
+  body:not(.light) .hljs-meta,
+  body:not(.light) .hljs-comment {
+    color: #565f89;
+  }
+  body:not(.light) .hljs-tag,
+  body:not(.light) .hljs-doctag,
+  body:not(.light) .hljs-selector-id,
+  body:not(.light) .hljs-selector-class,
+  body:not(.light) .hljs-regexp,
+  body:not(.light) .hljs-template-tag,
+  body:not(.light) .hljs-selector-pseudo,
+  body:not(.light) .hljs-selector-attr,
+  body:not(.light) .hljs-variable.language_,
+  body:not(.light) .hljs-deletion {
+    color: #f7768e;
+  }
+  body:not(.light) .hljs-variable,
+  body:not(.light) .hljs-template-variable,
+  body:not(.light) .hljs-number,
+  body:not(.light) .hljs-literal,
+  body:not(.light) .hljs-type,
+  body:not(.light) .hljs-params,
+  body:not(.light) .hljs-link {
+    color: #ff9e64;
+  }
+  body:not(.light) .hljs-built_in,
+  body:not(.light) .hljs-attribute {
+    color: #e0af68;
+  }
+  body:not(.light) .hljs-selector-tag {
+    color: #2ac3de;
+  }
+  body:not(.light) .hljs-keyword,
+  body:not(.light) .hljs-title.function_,
+  body:not(.light) .hljs-title,
+  body:not(.light) .hljs-title.class_,
+  body:not(.light) .hljs-title.class_.inherited__,
+  body:not(.light) .hljs-subst,
+  body:not(.light) .hljs-property {
+    color: #7dcfff;
+  }
+  body:not(.light) .hljs-selector-tag {
+    color: #73daca;
+  }
+  body:not(.light) .hljs-quote,
+  body:not(.light) .hljs-string,
+  body:not(.light) .hljs-symbol,
+  body:not(.light) .hljs-bullet,
+  body:not(.light) .hljs-addition {
+    color: #9ece6a;
+  }
+  body:not(.light) .hljs-code,
+  body:not(.light) .hljs-formula,
+  body:not(.light) .hljs-section {
+    color: #7aa2f7;
+  }
+  body:not(.light) .hljs-name,
+  body:not(.light) .hljs-keyword,
+  body:not(.light) .hljs-operator,
+  body:not(.light) .hljs-char.escape_,
+  body:not(.light) .hljs-attr {
+    color: #bb9af7;
+  }
+  body:not(.light) .hljs-punctuation {
+    color: #c0caf5;
+  }
+  body:not(.light) .hljs {
+    background: #1a1b26;
+    color: #9aa5ce;
+  }
+  body:not(.light) .hljs-emphasis {
+    font-style: italic;
+  }
+  body:not(.light) .hljs-strong {
+    font-weight: bold;
   }
   body:not(.light) .content code {
     color: #f7768e;
